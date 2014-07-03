@@ -4,9 +4,13 @@
     xmlns:tx="http://www.springframework.org/schema/tx" xmlns:p="http://www.springframework.org/schema/p"
     xmlns:task="http://www.springframework.org/schema/task"
     xsi:schemaLocation="http://www.springframework.org/schema/beans
+<<<<<<< HEAD
         http://www.springframework.org/schema/beans/spring-beans-3.0.xsd
         http://www.springframework.org/schema/context
         http://www.springframework.org/schema/context/spring-context-3.0.xsd" >
+=======
+        http://www.springframework.org/schema/beans/spring-beans-3.0.xsd" >
+>>>>>>> cefff89027bf2a89316240f931bbffafaacb9471
 
     <bean id="dataSource" class="org.apache.commons.dbcp.BasicDataSource" destroy-method="close">
         <property name="driverClassName" value="com.mysql.jdbc.Driver" />
@@ -17,6 +21,7 @@
         <property name="poolPreparedStatements" value="true" />
     </bean>
 
+<<<<<<< HEAD
     <bean id="dataSourceImp" class="org.apache.commons.dbcp.BasicDataSource" destroy-method="close">
         <property name="driverClassName" value="com.sap.db.jdbc.Driver" />
         <property name="url" value="jdbc:sap://192.168.1.99:30015/MEDICAL?reconnect=true" />
@@ -32,6 +37,8 @@
 
     <context:annotation-config />
 
+=======
+>>>>>>> cefff89027bf2a89316240f931bbffafaacb9471
     <bean id="postProcessor" class="acme.me.spring.MyBeanPostProcessor"></bean>
 
     <bean id="bean2" class="acme.me.spring.Bean"></bean>
