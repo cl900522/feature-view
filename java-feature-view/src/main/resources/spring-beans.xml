@@ -15,4 +15,10 @@
         <property name="poolPreparedStatements" value="true" />
     </bean>
 
+    <bean id="postProcessor" class="acme.me.spring.MyBeanPostProcessor"></bean>
+
+    <bean id="bean2" class="acme.me.spring.Bean"></bean>
+
+    <bean id="bean1" class="acme.me.spring.Bean" init-method="init" />
+
 </beans>
