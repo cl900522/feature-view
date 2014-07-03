@@ -1,0 +1,99 @@
+<!doctype  html>
+<html>
+<head>
+<title>手机问病主页</title>
+<meta name="viewport"
+    content="
+         height = device-height ,
+         width = device-width ,
+         initial-scale = 1 ,
+         minimum-scale = 1 ,
+         maximum-scale = 1 ,
+         user-scalable = no ,
+         target-densitydpi = [dpi_value | device-dpi | high-dpi | medium-dpi | low-dpi]" />
+<link rel="stylesheet" href="css/mobile.css">
+<script src="js/jquery-1.10.1.min.js"></script>
+<script type="text/javascript">
+    $(function() {
+        setContainerSize();
+        window.onresize = setContainerSize;
+    });
+
+    function getViewSize() {
+        return {
+            "w" : window['innerWidth'] || document.documentElement.clientWidth,
+            "h" : window['innerHeight'] || document.documentElement.clientHeight
+        }
+    }
+
+    function getFullSize() {
+        var w = Math.max(document.documentElement.clientWidth, document.body.clientWidth) +
+
+        Math.max(document.documentElement.scrollLeft, document.body.scrollLeft);
+        var h = Math.max(document.documentElement.clientHeight, document.body.clientHeight) +
+
+        Math.max(document.documentElement.scrollTop, document.body.scrollTop);
+        w = Math.max(document.documentElement.scrollWidth, w);
+        h = Math.max(document.documentElement.scrollHeight, h);
+        return {
+            "w" : w,
+            "h" : h
+        };
+    }
+
+    function setContainerSize() {
+        size = getViewSize();
+        console.log(size);
+        document.getElementById("content").style.width = size["w"] + "px";
+        document.getElementById("content").style.height = size["h"] + "px";
+        document.getElementById("body").style.height = size["h"] - 90 + "px";
+    }
+</script>
+</head>
+<body>
+    <div id="content">
+        <div id="header">
+            <div>
+                <h1>主页</h1>
+            </div>
+        </div>
+        <div id="body">
+            <div id="sexSelectButton">
+                <h2 class="sexTitle">病人是?</h2>
+                <a href="http://askmobile.sipingsoft.com/medical/man"><img src="images/man.png" alt="男" /></a> <a href="http://askmobile.sipingsoft.com/medical/woman"><img src="images/woman.png" alt="女" /></a> <a href="http://askmobile.sipingsoft.com/medical/child"><img
+                    src="images/child.png" alt="童" /></a>
+            </div>
+            <div id="newsArea">
+                <h2 id="newsTitle">健康动态</h2>
+                <ul id="newsList">
+                    <li>Tody is Monday</li>
+                    <li>Tody is Monday</li>
+                    <li>Tody is Monday</li>
+                    <li>Tody is Monday</li>
+                    <li>Tody is Monday</li>
+                    <li>Tody is Monday</li>
+                    <li>Tody is Monday</li>
+                    <li>Tody is Monday</li>
+                    <li>Tody is Monday</li>
+                    <li>Tody is Monday</li>
+                    <li>Tody is Monday</li>
+                    <li>Tody is Monday</li>
+                    <li>Tody is Monday</li>
+                    <li>Tody is Monday</li>
+                    <li>Tody is Monday</li>
+                    <li>Tody is Monday</li>
+                    <li>Tody is Monday</li>
+                    <li>Tody is Monday</li>
+                    <li>Tody is Monday</li>
+                    <li>Tody is Monday</li>
+                </ul>
+            </div>
+        </div>
+        <div id="footer">
+            <div>
+                <img src="images/baidu.gif" alt="">
+            </div>
+        </div>
+    </div>
+</body>
+</html>
