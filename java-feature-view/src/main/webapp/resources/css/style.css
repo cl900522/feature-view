@@ -1,0 +1,45 @@
+body{
+	font: sans-serif;
+	font-size: 16px;
+}
+
+#content {
+	width: 960px;
+	margin:auto;
+	background-color: red;
+}
+#header{
+	background-color: orange;
+}
+#body{
+	background-color: green;
+}
+
+#menu ul{
+	margin: 0;
+}
+
+#menu li{
+	display: inline;
+	text-align: center;
+	width: 120px;
+	padding-left:20px;
+	float :left;
+}
+
+#menu li:hover{
+	color: blue;
+	font-weight: bold;
+	text-decoration: underline;
+}
+#body p{
+	text-indent: 20px;
+}
+
+form input:focus{
+	background-color:red;
+}
+
+form input:active{
+	background-color:black;
+}
