@@ -16,7 +16,7 @@
 
     <!-- 开发时设置的logger，全部输出到终端 -->
     <root>
-        <level value="DEBUG" />
+        <level value="INFO" />
         <appender-ref ref="TerminalConsole" />
     </root>
 

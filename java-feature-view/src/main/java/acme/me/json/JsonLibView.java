@@ -26,12 +26,12 @@ public class JsonLibView {
 
     /********************************************************/
 
-    private static Object jsonString2Object(String jsonString, Class beanClass) {
+    private static Object jsonString2Object(String jsonString, Class<?> beanClass) {
         JSONObject tempObject = JSONObject.fromObject(jsonString);
         return JSONObject.toBean(tempObject, beanClass);
     }
 
-    private static Object jsonString2ObjectArray(String jsonString, Class beanClass) {
+    private static Object jsonString2ObjectArray(String jsonString, Class<?> beanClass) {
         JSONArray tempObject = JSONArray.fromObject(jsonString);
         return JSONArray.toArray(tempObject, beanClass);
     }
