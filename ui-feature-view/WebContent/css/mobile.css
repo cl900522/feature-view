@@ -2,11 +2,11 @@ body {
     margin:0px;
     padding:0px;
     border:0px;
-    background-color:#CCCCCC;
+    background-color:#FFFFFF;
 }
 
 #content {
-    background-color:#CCCCCC;
+    background-color:#ffffff;
 }
 
 #header{
@@ -43,7 +43,7 @@ body {
     bottom:0px;
     height: 48px;
     width: 100%;
-    background-color: #7f7c7c;
+    background-color: #c0c0c0;
     overflow:hidden;
     z-index: 99;
 }
