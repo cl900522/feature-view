@@ -6,7 +6,7 @@ body{
 #content {
     width: 960px;
     margin:auto;
-    background-color: red;
+    background-color: transparent;
 }
 #header{
     background-color: orange;
@@ -42,4 +42,11 @@ form input:focus{
 
 form input:active{
     background-color:black;
+}
+form input{
+    border:0px;
+    border-color: transparent;
+    margin:0px;
+    background-color:transparent;
+    padding:0px;
 }
