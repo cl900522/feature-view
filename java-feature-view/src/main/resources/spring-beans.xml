@@ -32,6 +32,8 @@
 
     <context:annotation-config />
 
+    <bean id="factoryPostProcessor" class="acme.me.spring.MyBeanFactoryPostProcessor"></bean>
+
     <bean id="postProcessor" class="acme.me.spring.MyBeanPostProcessor"></bean>
 
     <bean id="bean2" class="acme.me.spring.Bean"></bean>
