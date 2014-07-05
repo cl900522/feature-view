@@ -2,7 +2,7 @@ package acme.me.collection;
 
 import java.util.*;
 
-public class Collection {
+public class CollectionView {
     /**
      * 根据数据量的大小，可以设置初始化时候，collection的size
      */
