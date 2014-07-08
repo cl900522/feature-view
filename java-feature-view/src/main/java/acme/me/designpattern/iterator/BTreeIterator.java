@@ -1,9 +1,11 @@
 package acme.me.designpattern.iterator;
 
+import java.util.Stack;
+
 public class BTreeIterator<T extends Comparable<T>> implements Iterator<T> {
     private BTree<T> tree;
-    private TreeNode<T> parentItem;
     private TreeNode<T> currItem;
+    private Stack<TreeNode<T>> stack = new Stack<TreeNode<T>>();
 
     public BTreeIterator(BTree<T> tree) {
         this.tree = tree;
@@ -13,60 +15,34 @@ public class BTreeIterator<T extends Comparable<T>> implements Iterator<T> {
         return tree;
     }
 
-    public void setTree(BTree<T> tree) {
-        this.tree = tree;
-    }
-
     public void first() {
+        stack.empty();
         currItem = tree.getRoot();
-        parentItem = currItem;
-        while (currItem.getLeft()!=null) {
-            parentItem = currItem;
+        while (currItem != null) {
+            stack.push(currItem);
             currItem = currItem.getLeft();
         }
+        next();
     }
 
     public void next() {
-        if(parentItem.getLeft() == currItem){
-            currItem = parentItem;
-            return;
-        }
-        if(parentItem == currItem){
-            currItem = parentItem.getRight();
-            return;
-        }
-        if(parentItem.getRight() == currItem){
-            TreeNode<T> temp = tree.getRoot();
-            TreeNode<T> parent = temp;
-
-            while (temp != parentItem) {
-                parent = temp;
-                if (temp.getValue().compareTo(currItem.getValue()) > 0) {
+        if (stack.isEmpty()) {
+            currItem = null;
+        }else{
+            TreeNode<T> top = stack.pop();
+            if (top.getRight() != null) {
+                TreeNode<T> temp = top.getRight();
+                while (temp != null) {
+                    stack.push(temp);
                     temp = temp.getLeft();
-                } else {
-                    temp = temp.getRight();
                 }
             }
-            currItem = parentItem;
-            parentItem = parent;
-            return;
+            currItem = top;
         }
     }
 
     public boolean isDone() {
-        TreeNode<T> temp = tree.getRoot();
-        TreeNode<T> parent = temp;
-
-        while (temp != parentItem) {
-            parent = temp;
-            if (temp.getValue().compareTo(currItem.getValue()) > 0) {
-                temp = temp.getLeft();
-            } else {
-                temp = temp.getRight();
-            }
-        }
-
-        return (currItem.getLeft()==null && currItem.getRight()==null && parent==null);
+        return (currItem == null);
     }
 
     public T currentItem() {

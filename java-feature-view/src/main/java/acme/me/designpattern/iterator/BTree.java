@@ -1,6 +1,6 @@
 package acme.me.designpattern.iterator;
 
-public class BTree<T extends Comparable<T>> {
+public class BTree<T extends Comparable<T>> implements Aggregrate<T>{
     private TreeNode<T> root;
 
     public TreeNode<T> getRoot() {
@@ -10,10 +10,12 @@ public class BTree<T extends Comparable<T>> {
     public BTree(T value) {
         this.root = new TreeNode<T>(value);
     }
-
+    /**
+     * 非递归地增加节点
+     * @param value
+     */
     public void add(T value) {
-        TreeNode<T> temp = root;
-        TreeNode<T> parent = null;
+        TreeNode<T> temp = root, parent = temp;
 
         while (temp != null) {
             parent = temp;
@@ -26,8 +28,30 @@ public class BTree<T extends Comparable<T>> {
 
         if (parent.getValue().compareTo(value) > 0) {
             parent.setLeft(new TreeNode<T>(value));
+            parent.getLeft().setParent(parent);
         } else {
             parent.setRight(new TreeNode<T>(value));
+            parent.getRight().setParent(parent);
+        }
+    }
+
+    /**
+     * 递归地增加节点
+     * @param value
+     */
+    public void add(TreeNode<T> node, T value) {
+        if(node.getValue().compareTo(value)>0){
+            if(node.getLeft()!=null){
+                add(node.getLeft(),value);
+            }else{
+                node.setLeft(new TreeNode<T>(value));
+            }
+        }else{
+            if(node.getRight() != null){
+                add(node.getRight(),value);
+            }else{
+                node.setRight(new TreeNode<T>(value));
+            }
         }
     }
 

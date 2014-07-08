@@ -1,13 +1,13 @@
 package acme.me.designpattern.iterator;
 
 public class Weight implements Comparable<Weight>{
-    private float weght;
-    private String unit;
+    private float weight;
+    private String unit = "kg";
     public float getWeght() {
-        return weght;
+        return weight;
     }
     public void setWeght(float weght) {
-        this.weght = weght;
+        this.weight = weght;
     }
     public String getUnit() {
         return unit;
@@ -16,10 +16,12 @@ public class Weight implements Comparable<Weight>{
         this.unit = unit;
     }
     public int compareTo(Weight another) {
-        if(this.weght >= another.getWeght())
+        if(this.weight >= another.getWeght())
             return 1;
         else
             return -1;
     }
-
+    public String toString(){
+        return weight+unit;
+    }
 }

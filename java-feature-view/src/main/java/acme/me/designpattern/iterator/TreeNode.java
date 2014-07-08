@@ -9,6 +9,10 @@ public class TreeNode<T extends Comparable<T>> {
      */
     private T node;
     /**
+     * 父节点
+     */
+    private TreeNode<T> parent;
+    /**
      * 做节点
      */
     private TreeNode<T> left;
@@ -16,6 +20,14 @@ public class TreeNode<T extends Comparable<T>> {
      * 右节点
      */
     private TreeNode<T> right;
+
+    public TreeNode<T> getParent() {
+        return parent;
+    }
+
+    public void setParent(TreeNode<T> parent) {
+        this.parent = parent;
+    }
 
     public T getValue() {
         return node;
