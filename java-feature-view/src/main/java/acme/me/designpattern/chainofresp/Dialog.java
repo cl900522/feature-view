@@ -4,11 +4,8 @@ public class Dialog extends Widget {
     protected Dialog(Widget parent, Topic topic) {
         super(parent, topic);
     }
-    public void HandleHelp(){
-        if(hasHelp()){
-            
-        }else{
-            super.handleHelp();
-        }
+
+    public void doHelp() {
+        System.out.println("I am a ##DIALOG## and handling help!");
     }
 }
