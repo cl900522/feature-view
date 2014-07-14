@@ -13,6 +13,8 @@ public class ChainView {
         System.out.println("3.*********************************");
         button.handleHelp(Topic.BUTTON_HELP_TOPIC);
         System.out.println("4.*********************************");
+        button.handleHelp(Topic.DIALOG_HELP_TOPIC);
+        button.handleHelp(Topic.BUTTON_HELP_TOPIC);
         button.handleHelp(Topic.FRAME_HELP_TOPIC);
     }
 }
