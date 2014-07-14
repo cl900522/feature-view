@@ -6,9 +6,14 @@ public class ChainView {
         Widget frame = new Frame(null, Topic.FRAME_HELP_TOPIC);
         Widget dialog = new Dialog(frame, Topic.DIALOG_HELP_TOPIC);
         Widget button = new Button(dialog, Topic.BUTTON_HELP_TOPIC);
-        System.out.println("*********************************");
+        Widget button = new Button(dialog, Topic.BUTTON_HELP_TOPIC);
+        System.out.println("1.*********************************");
         button.handleHelp();
-        System.out.println("*********************************");
+        System.out.println("2.*********************************");
+        button.handleHelp(Topic.DIALOG_HELP_TOPIC);
+        System.out.println("3.*********************************");
+        button.handleHelp(Topic.BUTTON_HELP_TOPIC);
+        System.out.println("4.*********************************");
         button.handleHelp(Topic.DIALOG_HELP_TOPIC);
         button.handleHelp(Topic.BUTTON_HELP_TOPIC);
         button.handleHelp(Topic.FRAME_HELP_TOPIC);
