@@ -18,7 +18,7 @@ public class ThreadView {
         logger.info("define th1.###########################");
         ExtThread m = new ExtThread();
         logger.info("define th2.###########################");
-        Thread n = new Thread(new ImpThread());
+        Thread n = new Thread(new ImpRunable());
         m.start();
         n.start();
     }
