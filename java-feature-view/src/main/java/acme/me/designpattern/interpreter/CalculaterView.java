@@ -88,7 +88,7 @@ public class CalculaterView {
     }
 
     public static void main(String[] args) {
-        String infix = "( C + 9 ) / 5 + 32";
+        String infix = "5 + 12 * 32";
         String postfix = convert_to_postfix(infix);
         System.out.println("Infix:   " + infix);
         System.out.println("Postfix: " + postfix);

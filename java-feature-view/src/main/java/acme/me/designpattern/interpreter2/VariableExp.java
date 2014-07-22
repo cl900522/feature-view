@@ -2,13 +2,15 @@ package acme.me.designpattern.interpreter2;
 
 public class VariableExp implements CalculateExp {
     private String str;
-
-    public Double evaluate() {
+    public VariableExp(String str){
+        this.str = str;
+    }
+    public Double evaluate(Context<Double> c) {
         try {
             return Double.parseDouble(str);
         } catch (Exception e) {
-            e.printStackTrace();
-            return 0.0;
+            //System.out.println(str + " can not be parsed to double!");
+            return c.lookup(str);
         }
     }
 

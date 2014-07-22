@@ -1,6 +1,6 @@
 package acme.me.designpattern.interpreter2;
 
-public class MinusExp implements CalculateExp{
+public class MinusExp implements CalculateExp {
     private CalculateExp a;
     private CalculateExp b;
 
@@ -9,7 +9,7 @@ public class MinusExp implements CalculateExp{
         this.b = b;
     }
 
-    public Double evaluate() {
-        return a.evaluate() - b.evaluate();
+    public Double evaluate(Context<Double> c) {
+        return a.evaluate(c) - b.evaluate(c);
     }
 }

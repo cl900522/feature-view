@@ -10,8 +10,8 @@ public class MultiplyExp implements CalculateExp {
         this.b = b;
     }
 
-    public Double evaluate() {
-        return a.evaluate() * b.evaluate();
+    public Double evaluate(Context<Double> c) {
+        return a.evaluate(c) * b.evaluate(c);
     }
 
 }

@@ -35,11 +35,20 @@ public class ReflectView {
                     System.out.println(method.getName());
                 }
             }
+            if(field.getName().equals("name")){
+                try{
+                    /*here will throws exception because the field is private*/
+                    field.set(emp, "Elice");
+                }catch(Exception e){
+                    e.printStackTrace();
+                }
+            }
         }
 
         for (Method method : employeeClass2.getDeclaredMethods()) {
             if (method.getName().equals("getYearSalary")) {
                 try {
+                    /*Core of dynamic Proxy*/
                     Object result = method.invoke(emp, null);
                     System.out.println("Employee's year salary is:"+(Double)result);
                 } catch (Exception e) {
