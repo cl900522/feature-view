@@ -1,4 +1,4 @@
-package acme.me.thread;
+package acme.me.j2se.concurrent;
 
 import java.util.ArrayList;
 import java.util.List;

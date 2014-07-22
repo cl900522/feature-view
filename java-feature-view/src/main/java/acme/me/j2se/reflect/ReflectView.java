@@ -1,4 +1,4 @@
-package acme.me.reflect;
+package acme.me.j2se.reflect;
 
 import java.lang.reflect.Field;
 import java.lang.reflect.Method;

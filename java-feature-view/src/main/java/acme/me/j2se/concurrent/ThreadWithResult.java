@@ -1,4 +1,4 @@
-package acme.me.thread;
+package acme.me.j2se.concurrent;
 
 import java.util.concurrent.Callable;
 import java.util.concurrent.CompletionService;
@@ -49,6 +49,7 @@ public class ThreadWithResult implements Callable<String> {
         } catch (ExecutionException e) {
             e.printStackTrace();
         }
+        pool.shutdown();
         System.out.println("4.###################################");
         ExecutorService threadPool = Executors.newCachedThreadPool();
         CompletionService<String> cs = new ExecutorCompletionService<String>(threadPool);
@@ -65,6 +66,7 @@ public class ThreadWithResult implements Callable<String> {
                 e.printStackTrace();
             }
         }
+        threadPool.shutdown();
     }
 
 }

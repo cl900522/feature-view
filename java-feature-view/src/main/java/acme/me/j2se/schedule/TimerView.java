@@ -1,4 +1,4 @@
-package acme.me.j2se;
+package acme.me.j2se.schedule;
 
 import java.text.SimpleDateFormat;
 import java.util.Date;
