@@ -1,4 +1,4 @@
-package acme.me.collection;
+package acme.me.j2se.collection;
 
 import java.util.*;
 
