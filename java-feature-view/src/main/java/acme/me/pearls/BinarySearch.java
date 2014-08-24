@@ -10,7 +10,11 @@ public class BinarySearch {
         generateArray(size);
     }
 
-    private static void swap(int[] array, int source, int target) {
+    public int[] getArrray() {
+        return array;
+    }
+
+    public static void swap(int[] array, int source, int target) {
         int temp = array[source];
         array[source] = array[target];
         array[target] = temp;
@@ -90,6 +94,23 @@ public class BinarySearch {
     }
 
     /**
+     * 插入排序数组array，由小到大
+     * @param start
+     * @param end
+     */
+    private void insertSort(int start, int end) {
+        for (int i = 1; i < this.array.length; i++) {
+            for (int j = i; j > 0; j--) {
+                if (array[j] < array[j - 1]) {
+                    swap(array, j, j - 1);
+                } else {
+                    break;
+                }
+            }
+        }
+    }
+
+    /**
      * 使用二分搜索对已经排序的数组搜索target值
      * @param targetValue
      * @param start
@@ -139,6 +160,9 @@ public class BinarySearch {
             case QUICK:
                 quickSort(0, array.length - 1);
                 break;
+            case INSERT:
+                insertSort(0, array.length - 1);
+                break;
             default:
                 break;
         }
@@ -159,7 +183,7 @@ public class BinarySearch {
         long maxSofar = 0;
         long maxEndingHere = 0;
         for (int node : array) {
-            maxEndingHere = max(maxEndingHere+node, 0);
+            maxEndingHere = max(maxEndingHere + node, 0);
             maxSofar = max(maxSofar, maxEndingHere);
         }
         return maxSofar;
@@ -168,7 +192,7 @@ public class BinarySearch {
     public static void main(String[] args) {
         BinarySearch sample = new BinarySearch(200);
         sample.print();
-        sample.sort(SortMethod.QUICK);
+        sample.sort(SortMethod.INSERT);
         sample.print();
         System.out.println("12 in the array index is:" + sample.search(12));
         sample.generateArray(10);

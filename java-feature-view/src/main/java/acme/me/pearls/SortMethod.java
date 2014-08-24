@@ -1,5 +1,5 @@
 package acme.me.pearls;
 
 public enum SortMethod {
-    POP, QUICK;
+    POP, QUICK,INSERT;
 }
