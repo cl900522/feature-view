@@ -95,7 +95,7 @@ public class DesignPatternTest {
 
         Assert.assertTrue(mainBoard.getTotalCurrency().getCount() > 650 && mainBoard.getTotalCurrency().getCount() <= 1400);
     }
-    
+
     /**
      * 代理模式
      * */
