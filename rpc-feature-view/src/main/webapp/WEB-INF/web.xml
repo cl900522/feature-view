@@ -1,0 +1,45 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<web-app version="2.5" xmlns="http://java.sun.com/xml/ns/javaee" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    xsi:schemaLocation="http://java.sun.com/xml/ns/javaee
+    http://java.sun.com/xml/ns/javaee/web-app_2_5.xsd">
+    <!-- 注册cxf的noSpringServlet -->
+    <servlet>
+        <servlet-name>NoSpringCXFServlet</servlet-name>
+        <servlet-class>acme.me.servlet.CXFServlet</servlet-class>
+        <load-on-startup>1</load-on-startup>
+    </servlet>
+    <servlet-mapping>
+        <servlet-name>NoSpringCXFServlet</servlet-name>
+        <url-pattern>/webservice/*</url-pattern>
+    </servlet-mapping>
+
+    <!-- hessian servlet -->
+    <servlet>
+        <servlet-name>hessian</servlet-name>
+        <servlet-class>com.caucho.hessian.server.HessianServlet</servlet-class>
+        <init-param>
+            <param-name>home-class</param-name>
+            <param-value>acme.me.rpc.hessian.impl.HessianServer</param-value>
+        </init-param>
+        <init-param>
+            <param-name>home-api</param-name>
+            <param-value>acme.me.rpc.ServiceInterface</param-value>
+        </init-param>
+        <load-on-startup>1</load-on-startup>
+    </servlet>
+    <servlet-mapping>
+        <servlet-name>hessian</servlet-name>
+        <url-pattern>/hessian/*</url-pattern>
+    </servlet-mapping>
+
+    <!-- burlap servlet -->
+    <servlet>
+        <servlet-name>burlap-servlet</servlet-name>
+        <servlet-class>acme.me.rpc.burlap.impl.BurlapServer</servlet-class>
+        <load-on-startup>1</load-on-startup>
+    </servlet>
+    <servlet-mapping>
+        <servlet-name>burlap-servlet</servlet-name>
+        <url-pattern>/burlap/*</url-pattern>
+    </servlet-mapping>
+</web-app>
