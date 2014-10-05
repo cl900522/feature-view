@@ -2,6 +2,15 @@
 <web-app version="2.5" xmlns="http://java.sun.com/xml/ns/javaee" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
     xsi:schemaLocation="http://java.sun.com/xml/ns/javaee
     http://java.sun.com/xml/ns/javaee/web-app_2_5.xsd">
+    <!-- ContextLoaderListener -->
+    <context-param>
+        <param-name>contextConfigLocation</param-name>
+        <param-value>classpath:application-context.xml</param-value>
+    </context-param>
+    <listener>
+        <listener-class>org.springframework.web.context.ContextLoaderListener</listener-class>
+    </listener>
+
     <!-- 注册cxf的noSpringServlet -->
     <servlet>
         <servlet-name>NoSpringCXFServlet</servlet-name>
@@ -41,5 +50,15 @@
     <servlet-mapping>
         <servlet-name>burlap-servlet</servlet-name>
         <url-pattern>/burlap/*</url-pattern>
+    </servlet-mapping>
+
+    <!-- http Invoker -->
+    <servlet>
+        <servlet-name>httpInvokerExporter</servlet-name>
+        <servlet-class>acme.me.servlet.HttpInvokerServlet</servlet-class>
+    </servlet>
+    <servlet-mapping>
+        <servlet-name>httpInvokerExporter</servlet-name>
+        <url-pattern>/httpinvoker</url-pattern>
     </servlet-mapping>
 </web-app>
