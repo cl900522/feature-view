@@ -12,4 +12,55 @@
         <property name="service" ref="httpInvokerService" />
         <property name="serviceInterface" value="acme.me.rpc.ServiceInterface" />
     </bean>
+
+    <!-- JMS Queue Template -->
+    <bean id="jmsQueueTemplate" class="org.springframework.jms.core.JmsTemplate102">
+        <property name="connectionFactory">
+            <ref bean="jmsQueueConnectionFactory" />
+        </property>
+        <property name="destinationResolver">
+            <ref bean="jmsDestinationResolver" />
+        </property>
+        <property name="pubSubDomain">
+            <value>false</value>
+        </property>
+        <property name="receiveTimeout">
+            <value>20000</value>
+        </property>
+    </bean>
+
+    <!-- JMS Queue Connection Factory -->
+    <bean id="internalJmsQueueConnectionFactory" class="org.springframework.jndi.JndiObjectFactoryBean">
+        <property name="jndiTemplate">
+            <ref bean="jndiTemplate" />
+        </property>
+        <property name="jndiName">
+            <value>MQ_JMS_MANAGER</value>
+        </property>
+    </bean>
+
+    <bean id="jndiTemplate" class="org.springframework.jndi.JndiTemplate">
+        <property name="environment">
+            <props>
+                <prop key="java.naming.factory.initial">
+                    com.sun.jndi.fscontext.RefFSContextFactory
+                </prop>
+                <prop key="java.naming.provider.url">
+                    file:/C:/JNDI-Directory
+                </prop>
+            </props>
+        </property>
+    </bean>
+
+    <bean id="jmsSender" class="springexample.client.JMSSender">
+        <property name="jmsTemplate102">
+            <ref bean="jmsQueueTemplate" />
+        </property>
+    </bean>
+
+    <bean id="jmsReceiver" class="springexample.client.JMSReceiver">
+        <property name="jmsTemplate102">
+            <ref bean="jmsQueueTemplate" />
+        </property>
+    </bean>
 </beans>
