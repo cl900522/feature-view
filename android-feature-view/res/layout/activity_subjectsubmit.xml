@@ -1,0 +1,79 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical" >
+
+    <include
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        layout="@layout/merget_header" />
+
+    <ScrollView
+        android:id="@+id/scrollView1"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content" >
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_margin="10dip"
+            android:orientation="vertical" >
+
+            <TextView
+                android:id="@+id/acitvity_subjectsubmit_fieldbodyinfo"
+                style="@style/SubjectSubmitField"
+                android:layout_width="wrap_content"
+                android:text="症状信息"
+                android:visibility="gone" />
+
+            <TextView
+                android:id="@+id/acitvity_subjectsubmit_bodyinfo"
+                style="@style/SubjectSubmitContent"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:background="@color/clean"
+                android:visibility="gone" />
+
+            <TextView
+                android:id="@+id/acitvity_subjectsubmit_fieldcontent"
+                style="@style/SubjectSubmitField"
+                android:layout_width="wrap_content"
+                android:text="@string/app_yourquestion" />
+
+            <EditText
+                android:id="@+id/acitvity_subjectsubmit_content"
+                style="@style/SubjectSubmitContent"
+                android:layout_width="match_parent"
+                android:hint="输入您想要问的问题" >
+
+            </EditText>
+
+            <LinearLayout
+                android:id="@+id/acitvity_subjectsubmit_operate"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="20dip"
+                android:layout_marginTop="10dip"
+                android:orientation="horizontal" >
+
+                <Button
+                    android:id="@+id/acitvity_subjectsubmit_cancel"
+                    style="@style/PageoperateButton"
+                    android:layout_width="match_parent"
+                    android:layout_weight="1"
+                    android:text="@string/app_cancel" />
+
+                <Button
+                    android:id="@+id/acitvity_subjectsubmit_submit"
+                    style="@style/PageoperateButton"
+                    android:layout_width="match_parent"
+                    android:layout_weight="1"
+                    android:clickable="false"
+                    android:enabled="false"
+                    android:text="@string/app_submit" />
+            </LinearLayout>
+        </LinearLayout>
+    </ScrollView>
+
+</LinearLayout>

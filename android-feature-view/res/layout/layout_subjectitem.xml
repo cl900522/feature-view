@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/layout_subjectitem"
+    style="@style/ChatItem"
+    android:layout_width="match_parent"
+    android:orientation="vertical" >
+
+    <TextView
+        android:id="@+id/layout_subjectitem_date"
+        style="@style/ChatItem.Date"
+        android:layout_width="wrap_content"
+        android:text="date" />
+
+    <TextView
+        android:id="@+id/layout_subjectitem_content"
+        style="@style/ChatItem.Content"
+        android:layout_width="wrap_content"
+        android:text="content" />
+
+</LinearLayout>

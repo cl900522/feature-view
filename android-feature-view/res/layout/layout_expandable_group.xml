@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/layout_expandable"
+    style="@style/ExpandableGroup"
+    android:layout_width="match_parent" >
+
+    <TextView
+        android:id="@+id/layout_expandable_grouptextview"
+        style="@style/ExpandableGroup.Text"
+        android:layout_width="wrap_content"
+        android:layout_height="match_parent"
+        android:layout_alignParentLeft="true"
+        android:text="Title" />
+
+    <ImageView
+        style="@style/ExpandableGroup.Indicator"
+        android:id="@+id/layout_expandable_indicatorview"
+        android:layout_width="wrap_content"
+        android:layout_alignParentRight="true"
+        android:src="@drawable/arrow_down" />
+
+</RelativeLayout>

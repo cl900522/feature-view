@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:gravity="center_vertical"
+    android:orientation="horizontal"
+    style="@style/FormRow">
+
+    <TextView
+        android:id="@+id/layout_formrow_title"
+        style="@style/FormRow.LeftItem"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:text="Field"/>
+
+    <TextView
+        style="@style/FormRow.RightItem"
+        android:id="@+id/layout_formrow_content"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:text="Value"/>
+
+</LinearLayout>

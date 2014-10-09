@@ -1,0 +1,51 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+    <string name="app_name">手机问病</string>
+
+    <string name="app_man">男</string>
+    <string name="app_woman">女</string>
+    <string name="app_child">童</string>
+    <string name="app_mainsymptom">主要症状</string>
+    <string name="app_bodypart">发病部位</string>
+    <string name="app_frequency">发病频率</string>
+    <string name="app_subsymptom">辅助症状</string>
+    <string name="app_suspected_disease">疑似疾病</string>
+    <string name="app_result">诊断结果</string>
+    <string name="app_diagnosis">诊断</string>
+    <string name="app_recall">回溯</string>
+
+    <string name="app_reply">回复</string>
+    <string name="app_setting">设置</string>
+    <string name="app_exit">退出</string>
+    <string name="app_selfcheck">自诊</string>
+    <string name="app_departs">科室</string>
+    <string name="app_favourite">收藏</string>
+    <string name="app_help">帮助</string>
+    <string name="app_consulting">咨询</string>
+    <string name="app_consultingsuject">咨询主题</string>
+
+    <string name="app_login">点击登陆</string>
+    <string name="app_cancel">取消</string>
+    <string name="button_pre"> 后退 </string>
+    <string name="button_next"> 前进 </string>
+    <string name="search">搜索</string>
+    <string name="search_hint">症状关键字或拼音首字母</string>
+    <string name="save_history">本地收藏</string>
+    <string name="app_submit">提交</string>
+    <string name="app_consultinline">在线咨询</string>
+    <string name="app_consulthistory">在线咨询</string>
+    <string name="app_delete">删除</string>
+    <string name="app_hisoryconsultiing">咨询记录</string>
+    <string name="app_createconsulting">我要咨询</string>
+    <string name="success_questionsubmit">问题提交成功！</string>
+    
+    <string name="error_networkconnect">请连接网络后重试！</string>
+    <string name="error_synchronize">传输记录到服务器失败！</string>
+    <string name="error_nosubsymsselected">请选择至少一个辅助症状！</string>
+    <string name="error_successtosavelocal">添加本地收藏成功！</string>
+    <string name="error_failtosavelocal">添加本地收藏失败！</string>
+    <string name="app_yourquestion">您的问题？</string>
+    <string name="app_send">发送</string>
+    <string name="app_yourmessge">您的回复</string>
+</resources>

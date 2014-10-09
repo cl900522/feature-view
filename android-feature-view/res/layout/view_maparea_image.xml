@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- 身体映射图，会启动三个，男、女、童，加载对应的映射区域 -->
+<view xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/scroll_image_view"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:layout_gravity="center"
+    class="com.clinix.askmobile.ui.view.MapAreaView"
+    android:scaleType="matrix" >
+</view>

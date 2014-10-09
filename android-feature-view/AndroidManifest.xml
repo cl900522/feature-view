@@ -1,0 +1,105 @@
+<?xml version="1.0" encoding="utf-8"?>
+<manifest xmlns:android="http://schemas.android.com/apk/res/android"
+    package="com.clinix.askmobile.res"
+    android:installLocation="internalOnly"
+    android:versionCode="1"
+    android:versionName="1.0" >
+
+    <!-- 仅作为 -->
+
+    <uses-sdk
+        android:minSdkVersion="11"
+        android:targetSdkVersion="18" />
+
+    <uses-configuration android:reqTouchScreen="finger" />
+
+    <supports-screens
+        android:normalScreens="true"
+        android:smallScreens="true" />
+
+    <uses-permission android:name="android.permission.INTERNET" />
+    <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
+    <uses-permission android:name="android.permission.READ_PHONE_STATE" />
+
+    <application
+        android:name="com.clinix.askmobile.AskMobileApplication"
+        android:allowBackup="true"
+        android:icon="@drawable/app_icon"
+        android:label="@string/app_name"
+        android:theme="@style/AppBaseTheme" >
+        <activity
+            android:name="com.clinix.askmobile.ui.activity.LoadingActivity"
+            android:label="@string/app_name" >
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN" />
+
+                <category android:name="android.intent.category.LAUNCHER" />
+            </intent-filter>
+        </activity>
+        <activity
+            android:name="com.clinix.askmobile.ui.activity.IndexActivity"
+            android:label="@string/app_name" >
+        </activity>
+        <activity
+            android:name="com.clinix.askmobile.ui.activity.MainSymActivity"
+            android:label="@string/app_name" >
+        </activity>
+        <activity
+            android:name="com.clinix.askmobile.ui.activity.FrequencyActivity"
+            android:label="@string/app_name" >
+        </activity>
+        <activity
+            android:name="com.clinix.askmobile.ui.activity.SubSymActivity"
+            android:label="@string/app_name" >
+        </activity>
+        <activity
+            android:name="com.clinix.askmobile.ui.activity.SuspectIllActivity"
+            android:label="@string/app_name" >
+        </activity>
+        <activity
+            android:name="com.clinix.askmobile.ui.activity.BodyActivity"
+            android:label="@string/app_name" >
+        </activity>
+        <activity
+            android:name="com.clinix.askmobile.ui.activity.IllListActivity"
+            android:label="@string/app_name" >
+        </activity>
+        <activity
+            android:name="com.clinix.askmobile.ui.activity.IllDetailActivity"
+            android:label="@string/app_name" >
+        </activity>
+        <activity
+            android:name="com.clinix.askmobile.ui.activity.SearchActivity"
+            android:label="@string/app_name" >
+        </activity>
+        <activity
+            android:name="com.clinix.askmobile.ui.activity.ReCallActivity"
+            android:label="@string/app_name" >
+        </activity>
+        <activity
+            android:name="com.clinix.askmobile.ui.activity.ConsultHistoryActivity"
+            android:label="@string/app_name" >
+        </activity>
+        <activity
+            android:name="com.clinix.askmobile.ui.fragment.ConsultFinishFragment"
+            android:label="@string/app_name" >
+        </activity>
+        <activity
+            android:name="com.clinix.askmobile.ui.fragment.ConsultInprogressFragment"
+            android:label="@string/app_name" >
+        </activity>
+        <activity
+            android:name="com.clinix.askmobile.ui.activity.SubjectSubmitActivity"
+            android:label="@string/app_name" >
+        </activity>
+        <activity
+            android:name="com.clinix.askmobile.ui.activity.ChatActivity"
+            android:label="@string/app_name" >
+        </activity>
+        <!-- 后台服务类 -->
+        <!-- <service android:name=""></service> -->
+        <!-- 控制管理数据库访问和共享 -->
+        <!-- <provider android:name=""></provider> -->
+    </application>
+
+</manifest>

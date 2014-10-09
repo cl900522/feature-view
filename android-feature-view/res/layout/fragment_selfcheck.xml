@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical" >
+
+    <LinearLayout
+        android:id="@+id/fragment_selfcheck_searchnav"
+        style="@style/SelfCheckSearchNav"
+        android:layout_width="match_parent"
+        android:orientation="vertical" >
+
+        <Button
+            android:id="@+id/fragment_selfcheck_tosearchbutton"
+            style="@style/SelfCheckSearchNav_Button"
+            android:layout_width="match_parent"
+            android:text="@string/search" />
+    </LinearLayout>
+
+    <view
+        android:id="@+id/fragment_selfcheck_viewpager"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        class="android.support.v4.view.ViewPager"
+        android:background="@color/clean" />
+
+</LinearLayout>
