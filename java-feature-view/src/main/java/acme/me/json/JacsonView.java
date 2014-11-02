@@ -17,6 +17,7 @@ import org.codehaus.jackson.JsonParseException;
 import org.codehaus.jackson.map.JsonMappingException;
 import org.codehaus.jackson.map.ObjectMapper;
 import org.junit.After;
+import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;
 
@@ -33,6 +34,7 @@ public class JacsonView {
         hoojo.setAddress("china-Guangzhou");
         hoojo.setEmail("hoojo_@126.com");
         hoojo.setId(1);
+        hoojo.setBirthday(new Birthday("2014-10-10"));
 
         objectMapper = new ObjectMapper();
         try {
@@ -81,12 +83,47 @@ public class JacsonView {
     }
 
     @Test
+    public void writeEnum2JSON() {
+        try {
+            WeekDay day = WeekDay.STA;
+
+            System.out.println("jsonGenerator");
+            // writeObject可以转换java对象，eg:JavaBean/Map/List/Array等
+            jsonGenerator.writeObject(day);
+            System.out.println();
+
+            System.out.println("ObjectMapper");
+            // writeValue具有和writeObject相同的功能
+            String json = objectMapper.writeValueAsString(day);
+            System.out.println(json);
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
+
+    @Test
     public void readJson2Entity() {
         String json = "{\"address\":\"address\",\"name\":\"hoojo\",\"id\":1,\"email\":\"email\"}";
         try {
             Student acc = objectMapper.readValue(json, Student.class);
             System.out.println(acc.getName());
             System.out.println(acc);
+        } catch (JsonParseException e) {
+            e.printStackTrace();
+        } catch (JsonMappingException e) {
+            e.printStackTrace();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
+
+    @Test
+    public void readJson2Enum() {
+        String json = "1";
+        try {
+            WeekDay day = objectMapper.readValue(json, WeekDay.class);
+            System.out.println(day.toString());
+            Assert.assertEquals(day, WeekDay.SUN);
         } catch (JsonParseException e) {
             e.printStackTrace();
         } catch (JsonMappingException e) {

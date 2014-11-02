@@ -54,6 +54,7 @@ public class JsonLibView {
         System.out.println(object2JsonString(liming));
         System.out.println(objectArray2JsonString(liming));
         System.out.println(bean2JsonString(liming));
+        System.out.println(objectArray2JsonString(WeekDay.STA));
 
         // 将数组通过JSONObject装换json字符出错
         // System.out.println(Object2JsonString(classMates));
