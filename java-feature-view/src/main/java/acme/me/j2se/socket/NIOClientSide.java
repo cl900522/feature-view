@@ -40,6 +40,7 @@ public class NIOClientSide {
     }
 
     private void sendSumRequest(int first, int second) throws IOException {
+        buffer.flip();
         buffer.clear();
         intBuffer.put(0, first);
         intBuffer.put(1, second);
