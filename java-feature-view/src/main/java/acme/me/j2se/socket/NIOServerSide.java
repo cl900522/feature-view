@@ -8,6 +8,7 @@ import java.nio.channels.SelectionKey;
 import java.nio.channels.Selector;
 import java.nio.channels.ServerSocketChannel;
 import java.nio.channels.SocketChannel;
+import java.util.Iterator;
 import java.util.Set;
 
 import org.slf4j.Logger;
@@ -23,34 +24,74 @@ public class NIOServerSide {
     public void start() {
         try {
             openChannel();
-            waitForConnection();
+            startHandler();
+            startAcceptor();
         } catch (IOException e) {
-            System.err.println(e.toString());
+            logger.error(e.toString());
         }
     }
 
     private void openChannel() throws IOException {
         serverChannel = ServerSocketChannel.open();
         serverChannel.socket().bind(new InetSocketAddress(LISTEN_PORT));
-        serverChannel.configureBlocking(false);
+        serverChannel.configureBlocking(true);
         selector = Selector.open();
-        serverChannel.register(selector, SelectionKey.OP_ACCEPT);
-        System.out.println("服务器通道已经打开");
+        System.out.println("服务器通道已经打开……");
+    }
+
+    private void startHandler() {
+        Thread handler = new Thread() {
+            public void run() {
+                try {
+                    handleRequest();
+                } catch (Exception e) {
+                    e.printStackTrace();
+                    logger.error(e.getMessage());
+                }
+            }
+        };
+        handler.setDaemon(true);
+        handler.start();
+        System.out.println("处理器准备就绪……");
+    }
+
+    private void startAcceptor() {
+        Thread acceptor = new Thread() {
+            public void run() {
+                try {
+                    waitForConnection();
+                } catch (Exception e) {
+                    logger.error(e.getMessage());
+                }
+            }
+        };
+        acceptor.start();
+        System.out.println("接收器准备就绪，可以向服务器发送请求了……");
     }
 
     private void waitForConnection() throws IOException {
-        while (selector.select() > 0) {
-            Set<SelectionKey> keys = selector.keys();
-            for (SelectionKey key : keys) {
-                if (key.isAcceptable()) {
-                    SocketChannel clientChannel = ((ServerSocketChannel) key.channel()).accept();
-                    if (clientChannel == null)
-                        continue;
-                    System.out.println("新的请求到来……");
-                    clientChannel.configureBlocking(false);
-                    Handler handler = wrapSocket(clientChannel);
-                    clientChannel.register(selector, SelectionKey.OP_READ, handler);
-                }
+        while (true) {
+            SocketChannel clientChannel = serverChannel.accept();
+            if (clientChannel == null) {
+                continue;
+            } else {
+                System.out.println("新的请求到来……");
+                clientChannel.configureBlocking(false);
+                Handler handler = wrapSocket(clientChannel);
+                clientChannel.register(selector, SelectionKey.OP_READ, handler);
+                selector.wakeup();
+            }
+        }
+    }
+
+    private void handleRequest() throws IOException, InterruptedException {
+        while (true) {
+            selector.select(100);
+            Set<SelectionKey> keys = selector.selectedKeys();
+            Iterator<SelectionKey> it = keys.iterator();
+
+            while (it.hasNext()) {
+                SelectionKey key = it.next();
                 if (key.isReadable()) {
                     Handler handler = (Handler) key.attachment();
                     handler.parseRequest();
@@ -59,7 +100,9 @@ public class NIOServerSide {
                 if (key.isWritable()) {
                     Handler handler = (Handler) key.attachment();
                     handler.processRequest();
+                    handler.getClient().close();
                 }
+                it.remove();
             }
         }
     }
@@ -75,7 +118,6 @@ public class NIOServerSide {
     }
 
     private class Handler {
-
         private ByteBuffer inBuffer = ByteBuffer.allocate(10);
         private IntBuffer inIntBuffer = inBuffer.asIntBuffer();
         private ByteBuffer outBuffer = ByteBuffer.allocate(10);
@@ -93,20 +135,19 @@ public class NIOServerSide {
         }
 
         private void parseRequest() throws IOException {
-            System.out.println("读取请求参数……");
             inBuffer.clear();
             client.read(inBuffer);
             firstParam = inIntBuffer.get(0);
             secondParam = inIntBuffer.get(1);
-            logger.info("Params are {},{}", firstParam, secondParam);
+            logger.debug("请求参数为： {},{}", firstParam, secondParam);
         }
 
         private void processRequest() throws IOException {
-            System.out.println("处理请求并返回……");
             outBuffer.flip();
             outBuffer.clear();
             outIntBuffer.put(0, firstParam + secondParam);
             client.write(outBuffer);
+            logger.debug("处理结果为：{}", outIntBuffer.get());
         }
 
     }

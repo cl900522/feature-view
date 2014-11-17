@@ -7,6 +7,9 @@ import java.nio.IntBuffer;
 import java.nio.channels.SocketChannel;
 
 public class NIOClientSide {
+    private static final int FIRST_SED = 100;
+    private static final int SECOND_SED = 349;
+
     private ByteBuffer buffer = ByteBuffer.allocate(8);
     private IntBuffer intBuffer;
     private SocketChannel channel;
@@ -15,11 +18,11 @@ public class NIOClientSide {
         intBuffer = buffer.asIntBuffer();
     } // SumClient constructor
 
-    public int getSum(int first, int second) {
+    public int getSum() {
         int result = 0;
         try {
             channel = connect();
-            sendSumRequest(first, second);
+            sendSumRequest();
             result = receiveResponse();
         } catch (IOException e) {
             System.err.println(e.toString());
@@ -39,7 +42,9 @@ public class NIOClientSide {
         return SocketChannel.open(socketAddress);
     }
 
-    private void sendSumRequest(int first, int second) throws IOException {
+    private void sendSumRequest() throws IOException {
+        int first = (int) (FIRST_SED * Math.random());
+        int second = (int) (SECOND_SED * Math.random());
         buffer.flip();
         buffer.clear();
         intBuffer.put(0, first);
@@ -54,8 +59,18 @@ public class NIOClientSide {
         return intBuffer.get(0);
     }
 
-    public static void main(String[] args) {
-        NIOClientSide sumClient = new NIOClientSide();
-        System.out.println("加法结果为 :" + sumClient.getSum(100, 324));
+    public static void main(String[] args) throws InterruptedException {
+        for (int i = 0; i < 5; i++) {
+            for (int j = 0; j < 100; j++) {
+                Thread request = new Thread() {
+                    public void run() {
+                        NIOClientSide sumClient = new NIOClientSide();
+                        System.out.println("加法结果为 :" + sumClient.getSum());
+                    }
+                };
+                request.start();
+            }
+            Thread.sleep(2000);
+        }
     }
 }
