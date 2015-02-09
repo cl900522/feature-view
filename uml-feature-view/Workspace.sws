@@ -7,8 +7,7 @@
 		<Model ID="{8E79B626-25E1-4DDF-B824-87150CD1C768}" Loaded="No" Name="designpattern" Type="{FF4B6538-9856-42CF-B9B9-304ED370CEAA}" URL="DesignPattern/DesignPattern.prj"/>
 		<Model ID="{44C945E3-2595-4599-B6EC-441B8C8D77DE}" Loaded="No" Name="ibatis" Type="{FF4B6538-9856-42CF-B9B9-304ED370CEAA}" URL="ibatis/ibatis.prj"/>
 		<Model ID="{AC776D14-E33E-4E14-91E9-64AF3803B28D}" Loaded="No" Name="spring-framework" Type="{FF4B6538-9856-42CF-B9B9-304ED370CEAA}" URL="spring-framework/spring-framework.prj"/>
-		<Model Expanded="Yes" ID="{02C2AAE7-A9F8-4D58-9EB9-3BD35AF76B61}" Loaded="No" Name="tomcat7.x" Type="{FF4B6538-9856-42CF-B9B9-304ED370CEAA}" URL="tomcat7_x/tomcat7_x.prj"/>
-		<Model Expanded="Yes" ID="{BC769F9D-14B1-4512-B375-F52A421CFD35}" Name="Huayang social" Type="{FF4B6538-9856-42CF-B9B9-304ED370CEAA}" URL="/05_projects/00_huayang social/Huayang social/Huayang social.prj"/>
+		<Model Expanded="Yes" ID="{02C2AAE7-A9F8-4D58-9EB9-3BD35AF76B61}" Name="tomcat7.x" Type="{FF4B6538-9856-42CF-B9B9-304ED370CEAA}" URL="tomcat7_x/tomcat7_x.prj"/>
 	</Local>
 	<BrowserModule Name="Repository"/>
 </Workspace>
