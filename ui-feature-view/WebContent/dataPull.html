@@ -1,0 +1,25 @@
+<!DOCTYPE HTML>
+<html>
+<head>
+<title>数据抓取</title>
+<meta http-equiv="Access-Control-Allow-Origin" content="*">
+<link rel="stylesheet" href="css/mobile.css">
+<script src="js/jquery-1.10.1.min.js"></script>
+<script type="text/javascript">
+    $(function() {
+        dataPull();
+    });
+    function dataPull(){
+        var frameBody = $("#sourcePage").contents().find("body");
+        console.log(frameBody);
+    }
+</script>
+</head>
+<body>
+    <div id="content" style="width:800px;height:400px">
+        <iframe id ="sourcePage" src="http://lqbaidu.eicp.net:29925/ymStock.jsp" style="width:800px;height:400px">
+        </iframe>
+    </div>
+    <input type="button" onclick="dataPull();" />
+</body>
+</html>

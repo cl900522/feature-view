@@ -1,6 +1,6 @@
 eclipse.preferences.version=1
 environment/project/cdt.managedbuild.config.gnu.mingw.exe.debug.1316340679/PATH/delimiter=\:
 environment/project/cdt.managedbuild.config.gnu.mingw.exe.debug.1316340679/PATH/operation=replace
-environment/project/cdt.managedbuild.config.gnu.mingw.exe.debug.1316340679/PATH/value=/usr/lib/qt-3.3/bin\:/usr/local/bin\:/usr/bin\:/bin\:/usr/local/sbin\:/usr/sbin\:/sbin\:/home/ChenMx/bin
+environment/project/cdt.managedbuild.config.gnu.mingw.exe.debug.1316340679/PATH/value=${MINGW_HOME}\\bin;${MSYS_HOME}\\bin;C\:\\Program Files (x86)\\Common Files\\NetSarang;C\:\\Windows\\system32;C\:\\Windows;C\:\\Windows\\System32\\Wbem;C\:\\Windows\\System32\\WindowsPowerShell\\v1.0\\;C\:\\Program Files (x86)\\Intel\\Services\\IPT\\;C\:\\Program Files\\ThinkPad\\Bluetooth Software\\;C\:\\Program Files\\ThinkPad\\Bluetooth Software\\syswow64;C\:\\Program Files\\Broadcom\\WHL\\;C\:\\Program Files\\Broadcom\\WHL\\syswow64;C\:\\Program Files\\Broadcom\\WHL\\SysWow64\\;C\:\\Program Files\\Broadcom\\WHL\\SysWow64\\syswow64;D\:\\Program Files (x86)\\Git\\cmd;D\:\\Program Files\\Java\\jdk1.7.0_09/bin;D\:\\Program Files\\MinGW/bin
 environment/project/cdt.managedbuild.config.gnu.mingw.exe.debug.1316340679/append=true
 environment/project/cdt.managedbuild.config.gnu.mingw.exe.debug.1316340679/appendContributed=true
