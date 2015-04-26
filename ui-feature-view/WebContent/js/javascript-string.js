@@ -9,6 +9,7 @@ $(function(){
     console.log("oriString.substring(3, -4) is : " + oriString.substring(3, -4));
     console.log("oriString.substr(-3) is : " + oriString.substr(-3));
     console.log("oriString.substr(3, -4) is : " + oriString.substr(3, -4));
+    console.log("oriString.concat('!') is : " + oriString.concat('!'));
 
     console.log("############################## case function Test!!");
     var caseString = "Upper Lower";
@@ -30,4 +31,9 @@ $(function(){
     console.log("s1 is : " + s1);
     console.log("s2 is : " + s2);
     console.log("s1.localeCompare(s2) is : " + s1.localeCompare(s2));
+
+    console.log("############################## indexof function Test!!");
+    var str = "Hello world, I miss you!";
+    console.log(str +" indexof('o') is:" + str.indexOf("o"));
+    console.log(str +" lastIndexOf('o') is:" + str.lastIndexOf("o"));
 })

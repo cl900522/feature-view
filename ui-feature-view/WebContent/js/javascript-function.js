@@ -43,4 +43,19 @@ $(function(){
     console.log("######################## Function.apply()");
     console.log("sum.apply(this, [11, 22]) is : " + sum.apply(this, [11, 22]));
     console.log("applySum(11, 22) is : " + applySum(11, 22));
+    
+    console.log("######################## arguments.callee");
+    function factorial(num){
+        if(num <= 1){
+            return 1;
+        } else {
+            return num * arguments.callee(num-1);
+        }
+    }
+    var trueFactorial = factorial;
+    factorial = function(){
+        return 0;
+    }
+    console.log("trueFactorial(5) is : " + trueFactorial(5));
+    console.log("factorial(5) is : " + factorial(5));
 })
