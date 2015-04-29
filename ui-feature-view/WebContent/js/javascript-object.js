@@ -109,6 +109,4 @@ $(function(){
     console.log("instance1 colors are:" + instance1.colors);
     console.log("instance2 colors are:" + instance2.colors);
     console.log("#########there colors are not sharing########");
-
-
 })
