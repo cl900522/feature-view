@@ -4,7 +4,16 @@ public class SubjectImpl implements Subject {
 
     public void doSomeThing() throws Exception {
         System.out.println("i am doing something");
-        //throw new Exception("####ERROR TEST!####");
+    }
+
+    @Override
+    public String getName() {
+       return "Subject Impl";
+    }
+
+    @Override
+    public void throwException() throws Exception {
+        throw new Exception("I throw exception!");
     }
 
 }
