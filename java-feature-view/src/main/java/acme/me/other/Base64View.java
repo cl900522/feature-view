@@ -1,4 +1,4 @@
-package acme.me.basic;
+package acme.me.other;
 
 import java.awt.image.BufferedImage;
 import java.io.ByteArrayOutputStream;

@@ -1,4 +1,4 @@
-package acme.me.basic;
+package acme.me.other;
 
 public class Kit {
     public static void main(String[] args) {
