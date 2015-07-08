@@ -21,4 +21,14 @@ public class StaticProxy implements Subject {
         Subject real = new StaticProxy(new SubjectImpl());
         real.doSomeThing();
     }
+
+    @Override
+    public String getName() {
+        return "Static Proxy";
+    }
+
+    @Override
+    public void throwException() throws Exception {
+        throw new Exception("proxy throw exception");
+    }
 }
