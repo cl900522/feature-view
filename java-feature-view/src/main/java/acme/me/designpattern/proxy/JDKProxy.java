@@ -22,7 +22,7 @@ public class JDKProxy implements InvocationHandler {
         SubjectImpl proxyTarget = new SubjectImpl();
         JDKProxy jdkProxy = new JDKProxy(proxyTarget);
 
-        Subject sub = (Subject) Proxy.newProxyInstance(Subject.class.getClassLoader(), new Class[] { Subject.class }, jdkProxy);
+        Subject sub = (Subject) Proxy.newProxyInstance(ClassLoader.getSystemClassLoader(), new Class[] { Subject.class }, jdkProxy);
 
         try{
             sub.doSomeThing();
