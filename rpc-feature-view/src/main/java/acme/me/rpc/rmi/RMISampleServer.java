@@ -24,7 +24,8 @@ public class RMISampleServer extends UnicastRemoteObject implements RMISampleInt
     }
 
     public int sum(int a, int b) throws RemoteException {
-        return a + b;
+        throw new RemoteException("xxxxx");
+        //return a + b;
     }
 
     public static void main(String[] args) {
