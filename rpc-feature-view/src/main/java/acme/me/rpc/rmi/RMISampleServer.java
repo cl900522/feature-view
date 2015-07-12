@@ -1,12 +1,14 @@
 package acme.me.rpc.rmi;
 
+import java.io.Serializable;
 import java.net.MalformedURLException;
 import java.rmi.Naming;
 import java.rmi.RemoteException;
 import java.rmi.registry.LocateRegistry;
-import java.rmi.server.UnicastRemoteObject;
+import java.util.ArrayList;
+import java.util.HashMap;
 
-public class RMISampleServer extends UnicastRemoteObject implements RMISampleInterface {
+public class RMISampleServer extends Rmisuper implements RMISampleInterface {
     public static final Integer PORT = 8808;
     public static final String SERVERICE_NAME = "SAMEPLE-SERVER";
     private static final long serialVersionUID = 2742977636753958461L;
@@ -24,8 +26,7 @@ public class RMISampleServer extends UnicastRemoteObject implements RMISampleInt
     }
 
     public int sum(int a, int b) throws RemoteException {
-        throw new RemoteException("xxxxx");
-        //return a + b;
+        return a + b;
     }
 
     public static void main(String[] args) {
@@ -42,5 +43,14 @@ public class RMISampleServer extends UnicastRemoteObject implements RMISampleInt
 
     public String seriObject(RMIObject object) throws RemoteException {
         return object.toString();
+    }
+
+    public ArrayList<String> getStringList(HashMap<String, Serializable> params) throws RemoteException {
+        return null;
+    }
+
+    @Override
+    public String doEnum(Gender gender) {
+        return gender.toString();
     }
 }
