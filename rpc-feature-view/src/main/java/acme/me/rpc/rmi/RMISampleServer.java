@@ -7,8 +7,10 @@ import java.rmi.RemoteException;
 import java.rmi.registry.LocateRegistry;
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
 
-public class RMISampleServer extends Rmisuper implements RMISampleInterface {
+public class RMISampleServer extends RmiSuper implements RMISampleInterface {
     public static final Integer PORT = 8808;
     public static final String SERVERICE_NAME = "SAMEPLE-SERVER";
     private static final long serialVersionUID = 2742977636753958461L;
@@ -45,12 +47,17 @@ public class RMISampleServer extends Rmisuper implements RMISampleInterface {
         return object.toString();
     }
 
+    @Override
+    public String doEnum(Gender gender) {
+        return gender.toString();
+    }
+
     public ArrayList<String> getStringList(HashMap<String, Serializable> params) throws RemoteException {
         return null;
     }
 
     @Override
-    public String doEnum(Gender gender) {
-        return gender.toString();
+    public List<String> getList(Map<String, Object> params) throws RemoteException {
+        return null;
     }
 }

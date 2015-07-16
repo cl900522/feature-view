@@ -16,7 +16,9 @@ public class RMISampleClient {
             object.setAge(12);
             System.out.println(rmiObject.seriObject(object));
             System.out.println("12 + 23 = " + rmiObject.sum(12, 23));
+            System.out.println(rmiObject.doEnum(Gender.FEMALE));
             System.out.println(rmiObject.getStringList(null));
+            System.out.println(rmiObject.getList(null));
         } catch (RemoteException rex) {
             System.out.println("Error in lookup: " + rex.toString());
         } catch (java.net.MalformedURLException me) {
