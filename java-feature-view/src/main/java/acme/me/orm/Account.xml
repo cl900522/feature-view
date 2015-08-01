@@ -1,8 +1,8 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE sqlMap PUBLIC "-//iBATIS.com//DTD SQL Map 2.0//EN"
 "http://www.ibatis.com/dtd/sql-map-2.dtd">
-<sqlMap namespace="acme.me.orm.Account">
-    <typeAlias alias="account" type="acme.me.orm.Account" />
+<sqlMap namespace="acme.me.orm.bean.Account">
+    <typeAlias alias="account" type="acme.me.orm.bean.Account" />
     <select id="getAccount" parameterClass="java.lang.String" resultClass="account">
         <![CDATA[
            select id, name, sex from account where name = #name#

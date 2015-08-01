@@ -1,18 +1,18 @@
-package acme.me.orm;
+package acme.me.orm.bean;
 
 import java.util.Date;
 
 public class Account {
-    private long id;
+    private String id;
     private String name;
     private String province;
     private String city;
     private Date birthDay;
     private String sex;
-    public long getId() {
+    public String getId() {
         return id;
     }
-    public void setId(long id) {
+    public void setId(String id) {
         this.id = id;
     }
     public String getName() {
@@ -45,5 +45,7 @@ public class Account {
     public void setSex(String sex) {
         this.sex = sex;
     }
-    
+    public String toString(){
+        return name;
+    }
 }

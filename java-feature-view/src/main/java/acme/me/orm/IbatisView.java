@@ -7,6 +7,8 @@ import java.sql.SQLException;
 import org.apache.ibatis.io.Resources;
 import org.apache.log4j.Logger;
 
+import acme.me.orm.bean.Account;
+
 import com.ibatis.sqlmap.client.SqlMapClient;
 import com.ibatis.sqlmap.client.SqlMapClientBuilder;
 
