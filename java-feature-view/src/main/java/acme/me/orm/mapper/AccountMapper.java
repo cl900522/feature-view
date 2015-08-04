@@ -8,4 +8,8 @@ import acme.me.orm.pager.Page;
 
 public interface AccountMapper {
     List<Account> getAccountList(Map<String,Object> params, Page<Account> pager) throws Exception;
+
+    List<Account> getAccountListB(Page<Account> pager) throws Exception;
+
+    List<Account> getAccountListB(Map<String,Object> params, Page<Account> pager) throws Exception;
 }

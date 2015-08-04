@@ -34,13 +34,14 @@ public class MybatisPageInterceptor implements Interceptor {
 
     public static final String MYSQL = "mysql";
     public static final String ORACLE = "oracle";
+    public static final String PAGER_KEY = "_pager_";
 
     protected String databaseType;// 数据库类型，不同的数据库有不同的分页方法
 
     public String getDatabaseType() {
         return databaseType;
     }
-    
+
     public void setDatabaseType(String databaseType) {
         this.databaseType = databaseType;
     }
@@ -59,9 +60,8 @@ public class MybatisPageInterceptor implements Interceptor {
     }
 
     @Override
-    @SuppressWarnings({ "unchecked", "rawtypes" })
     public Object intercept(Invocation invocation) throws Throwable {
-        if (invocation.getTarget() instanceof StatementHandler) { // 控制SQL和查询总数的地方
+        if (invocation.getTarget() instanceof StatementHandler) {
             RoutingStatementHandler handler = (RoutingStatementHandler) invocation.getTarget();
             StatementHandler delegate = (StatementHandler) ReflectUtil.getFieldValue(handler, "delegate");
             BoundSql boundSql = delegate.getBoundSql();
@@ -105,18 +105,18 @@ public class MybatisPageInterceptor implements Interceptor {
             ReflectUtil.setFieldValue(boundSql, "sql", pageSql);
 
             return invocation.proceed();
-        } else { // 查询结果的地方
-            // 获取是否有分页Page对象
-            Page<?> page = findPageObject(invocation.getArgs()[1]);
+        } else {
+            Object oriParameterObj = invocation.getArgs()[1];
+            Page<?> page = findPageObject(oriParameterObj);
+            invocation.getArgs()[1] = rebindPagerParameter(oriParameterObj, page);
             if (page == null) {
                 if (log.isTraceEnabled()) {
                     log.trace("没有Page对象作为参数, 不是分页查询.");
                 }
                 return invocation.proceed();
             }
-            Object resultObj = invocation.proceed(); // Executor.query(..)
+            Object resultObj = invocation.proceed();
             if (resultObj instanceof List) {
-                /* @SuppressWarnings({ "unchecked", "rawtypes" }) */
                 page.setResults((List) resultObj);
             }
             return resultObj;
@@ -124,16 +124,47 @@ public class MybatisPageInterceptor implements Interceptor {
     }
 
     protected Page<?> findPageObject(Object parameterObj) {
-        if (parameterObj instanceof Page<?>) {
+        if (parameterObj instanceof Page) {
             return (Page<?>) parameterObj;
-        } else if (parameterObj instanceof Map) {
-            for (Object val : ((Map<?, ?>) parameterObj).values()) {
-                if (val instanceof Page<?>) {
-                    return (Page<?>) val;
+        }
+        if (parameterObj instanceof Map) {
+            Map<?,?> paramsMap = (Map<?, ?>) parameterObj;
+            if(paramsMap.containsKey(PAGER_KEY)){
+                return (Page<?>) paramsMap.get(PAGER_KEY);
+            }
+            if(paramsMap.containsKey("param1") && paramsMap.containsKey("1")){
+                for (Object val : paramsMap.values()) {
+                    if (val instanceof Page<?>) {
+                        return (Page<?>) val;
+                    }
                 }
+            } else {
+                return null;
             }
         }
         return null;
+    }
+
+    protected Object rebindPagerParameter(Object oriParameterObj, Page page) {
+        if (oriParameterObj instanceof Page) {
+            return oriParameterObj;
+        }
+        if (oriParameterObj instanceof Map) {
+            Map paramsMap = (Map<?, ?>) oriParameterObj;
+            if(paramsMap.containsKey("param1")){
+                Object param1 = paramsMap.get("param1");
+                if(param1 instanceof Map){
+                    ((Map) param1).put(PAGER_KEY, page);
+                    return param1;
+                }else{
+                    throw new RuntimeException("pager info cannot be rebind to map.");
+                }
+            } else {
+                paramsMap.put(PAGER_KEY, page);
+                return paramsMap;
+            }
+        }
+        throw new RuntimeException("pager info cannot be rebind to map.");
     }
 
     protected void prepareAndCheckDatabaseType(Connection connection) throws SQLException {
@@ -148,14 +179,14 @@ public class MybatisPageInterceptor implements Interceptor {
             } else if (productName.indexOf(ORACLE) != -1) {
                 databaseType = ORACLE;
             } else {
-                throw new PageNotSupportException("Page not support for the type of database, database product name [" + productName + "]");
+                throw new SQLException("Page not support for the type of database, database product name [" + productName + "]");
             }
             if (log.isDebugEnabled()) {
                 log.debug("自动检测数据库类型为: " + databaseType);
             }
         } else {
             if (!databaseType.equalsIgnoreCase(MYSQL) && !databaseType.equalsIgnoreCase(ORACLE)) {
-                throw new PageNotSupportException("Page not support for the type of database, database product name [" + databaseType + "]");
+                throw new SQLException("Page not support for the type of database, database product name [" + databaseType + "]");
             }
         }
     }
@@ -223,7 +254,7 @@ public class MybatisPageInterceptor implements Interceptor {
      * @throws SQLException
      */
     protected void queryTotalRecord(Page<?> page, Object parameterObject, MappedStatement mappedStatement, Connection connection) throws SQLException {
-        BoundSql boundSql = mappedStatement.getBoundSql(page);
+        BoundSql boundSql = mappedStatement.getBoundSql(parameterObject);
         String sql = boundSql.getSql();
         String countSql = this.buildCountSql(sql);
         if (log.isDebugEnabled()) {
@@ -291,10 +322,8 @@ public class MybatisPageInterceptor implements Interceptor {
                 try {
                     result = field.get(obj);
                 } catch (IllegalArgumentException e) {
-                    // TODO Auto-generated catch block
                     e.printStackTrace();
                 } catch (IllegalAccessException e) {
-                    // TODO Auto-generated catch block
                     e.printStackTrace();
                 }
             }
@@ -333,33 +362,11 @@ public class MybatisPageInterceptor implements Interceptor {
                     field.setAccessible(true);
                     field.set(obj, fieldValue);
                 } catch (IllegalArgumentException e) {
-                    // TODO Auto-generated catch block
                     e.printStackTrace();
                 } catch (IllegalAccessException e) {
-                    // TODO Auto-generated catch block
                     e.printStackTrace();
                 }
             }
         }
     }
-
-    public static class PageNotSupportException extends RuntimeException {
-
-        public PageNotSupportException() {
-            super();
-        }
-
-        public PageNotSupportException(String message, Throwable cause) {
-            super(message, cause);
-        }
-
-        public PageNotSupportException(String message) {
-            super(message);
-        }
-
-        public PageNotSupportException(Throwable cause) {
-            super(cause);
-        }
-    }
-
 }

@@ -4,6 +4,13 @@
     <select id="getAccountList" resultType="account" parameterType="map">
         <![CDATA[
             select id, name, sex from account
+            where name like concat('%', '${keyWord}','%')
+        ]]>
+    </select>
+
+    <select id="getAccountListB" resultType="account" parameterType="map">
+        <![CDATA[
+            select id, name, sex from account
         ]]>
     </select>
 </mapper>
