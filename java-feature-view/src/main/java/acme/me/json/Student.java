@@ -9,6 +9,7 @@ public class Student {
     private String email;
     private String address;
     private Date birthDate;
+    private String message = "Chen yi is a sb";
 
     public Student(){
     }
