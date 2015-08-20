@@ -1,11 +1,14 @@
 package acme.me.json;
 
+import java.util.Date;
+
 
 public class Student {
     private int id;
     private String name;
     private String email;
     private String address;
+    private Date birthDate;
 
     public Student(){
     }
