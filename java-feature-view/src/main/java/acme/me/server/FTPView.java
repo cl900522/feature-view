@@ -80,6 +80,9 @@ public class FTPView {
             }
             outs = new FileOutputStream(localFile);
         }catch (IOException e) {
+            //if Connection reset or recv failed happended, it is bug of Java7 on windows
+            //run the following command with administrator in cmd:
+            //netsh advfirewall set global StatefulFTP disable
             e.printStackTrace();
             throw new Exception("Error to create local file:" + localFileName);
         }
