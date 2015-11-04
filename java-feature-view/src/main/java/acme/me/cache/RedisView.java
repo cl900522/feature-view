@@ -7,6 +7,8 @@ import java.io.OutputStream;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
+import java.util.concurrent.locks.Lock;
+import java.util.concurrent.locks.ReentrantLock;
 
 import redis.clients.jedis.Jedis;
 import redis.clients.jedis.JedisPool;
@@ -20,6 +22,17 @@ public class RedisView {
     private JedisPool jedisPool;// 非切片连接池
     private ShardedJedis shardedJedis;// 切片额客户端连接
     private ShardedJedisPool shardedJedisPool;// 切片连接池
+
+    private static Lock lock = new ReentrantLock();  
+
+    public Jedis getJedis() {
+        lock.lock();
+        return jedis;
+    }
+
+    public void release() {
+        lock.unlock();
+    }
 
     public RedisView() {
         initialPool();
@@ -36,7 +49,8 @@ public class RedisView {
         config.setMaxWaitMillis(1000l);
         config.setTestOnBorrow(false);
 
-        jedisPool = new JedisPool(config, "192.168.1.100", 6379);
+        this.jedisPool = new JedisPool(config, "192.168.1.100", 6379);
+        this.jedis = this.jedisPool.getResource();
     }
 
     /**
@@ -67,7 +81,7 @@ public class RedisView {
 
         /**************single thread***************/
         int i = 0;
-        while (i < 1000) {
+        while (i < 50) {
             try {
                 ByteArrayOutputStream os = new ByteArrayOutputStream();
                 ObjectOutputStream oos = new ObjectOutputStream(os);
@@ -81,13 +95,13 @@ public class RedisView {
         }
 
         /**************multi thread***************/
-        int TEST_COUNT = 5;
+        int TEST_COUNT = 10000;
         jedis = view.jedisPool.getResource();
 
         Thread[] threads = new Thread[TEST_COUNT];
         for (int j = 0; j < threads.length; j++) {
             RedisRun redisRun = new RedisRun();
-            redisRun.jedis = jedis;
+            redisRun.jedisView = view;
             threads[j] = new Thread(redisRun);
         }
 
@@ -97,18 +111,29 @@ public class RedisView {
     }
 
     public static class RedisRun implements Runnable {
-        public JedisPool jedisPool;
-        public Jedis jedis;
+        public RedisView jedisView;
 
         @Override
         public void run() {
+            Jedis jedis = jedisView.getJedis();
+
             User user = new User();
             user.birthDate = new Date();
             user.password = Math.random() + "";
             user.userName = Math.random() + "";
 
-            jedis.setex(user.userName, 3600 * 24, user.toString());
+            try {
+                ByteArrayOutputStream os = new ByteArrayOutputStream();
+                ObjectOutputStream oos = new ObjectOutputStream(os);
+                oos.writeObject(user);
+                jedis.setex(("user 00" + user.getUserName()).getBytes(), 3600 * 24, os.toByteArray());
+            } catch (Exception e) {
+                System.err.println(e.getClass().toString() + ": " +e.getMessage());
+            }
+
             System.out.println("Execute well!");
+
+            jedisView.release();
         }
     }
 }
