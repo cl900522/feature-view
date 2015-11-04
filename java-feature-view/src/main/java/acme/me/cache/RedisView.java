@@ -1,5 +1,9 @@
 package acme.me.cache;
 
+import java.io.ByteArrayOutputStream;
+import java.io.FileOutputStream;
+import java.io.ObjectOutputStream;
+import java.io.OutputStream;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
@@ -28,8 +32,8 @@ public class RedisView {
     private void initialPool() {
         // 池基本配置
         JedisPoolConfig config = new JedisPoolConfig();
-        config.setMaxIdle(100);
-        config.setMaxWaitMillis(3000l);
+        config.setMaxIdle(1000);
+        config.setMaxWaitMillis(1000l);
         config.setTestOnBorrow(false);
 
         jedisPool = new JedisPool(config, "192.168.1.100", 6379);
@@ -54,19 +58,41 @@ public class RedisView {
 
     public static void main(String[] args) {
         RedisView view = new RedisView();
-
-        int TEST_COUNT = 100;
         Jedis jedis = view.jedisPool.getResource();
 
-        Thread[] threads = new Thread[TEST_COUNT];
-        for (int i = 0; i < threads.length; i++) {
-            RedisRun redisRun = new RedisRun();
-            redisRun.jedis = jedis;
-            threads[i] = new Thread(redisRun);
+        User user = new User();
+        user.birthDate = new Date();
+        user.password = Math.random() + "";
+        user.userName = Math.random() + "";
+
+        /**************single thread***************/
+        int i = 0;
+        while (i < 1000) {
+            try {
+                ByteArrayOutputStream os = new ByteArrayOutputStream();
+                ObjectOutputStream oos = new ObjectOutputStream(os);
+                oos.writeObject(user);
+                jedis.setex(("join 00" + i).getBytes(), 3600 * 24, os.toByteArray());
+                System.out.println("Finish storing " + i + " object!");
+            } catch (Exception e) {
+                System.err.println(e.getClass().toString() + ": " +e.getMessage());
+            }
+            i++;
         }
 
-        for (int i = 0; i < threads.length; i++) {
-            threads[i].start();
+        /**************multi thread***************/
+        int TEST_COUNT = 5;
+        jedis = view.jedisPool.getResource();
+
+        Thread[] threads = new Thread[TEST_COUNT];
+        for (int j = 0; j < threads.length; j++) {
+            RedisRun redisRun = new RedisRun();
+            redisRun.jedis = jedis;
+            threads[j] = new Thread(redisRun);
+        }
+
+        for (int j = 0; j < threads.length; j++) {
+            threads[j].start();
         }
     }
 
