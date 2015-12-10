@@ -1,25 +1,25 @@
 package acme.me.j2ee.jms;
 
 import javax.jms.Connection;
+import javax.jms.Destination;
 import javax.jms.JMSException;
 import javax.jms.Message;
 import javax.jms.MessageConsumer;
 import javax.jms.MessageListener;
 import javax.jms.MessageProducer;
-import javax.jms.Queue;
 import javax.jms.Session;
 import javax.jms.TextMessage;
 
 import org.apache.activemq.ActiveMQConnectionFactory;
-import org.apache.activemq.command.ActiveMQQueue;
+import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
 public class ActiveMQView {
     private Session session;
     //消息发送到这个Queue
-    private Queue queue;
+    private Destination queue;
     //消息回复到这个Queue
-    private Queue replyQueue;
+    private Destination replyQueue;
 
     @Before
     public void init() {
@@ -29,8 +29,8 @@ public class ActiveMQView {
             connection.start();
 
             session = connection.createSession(false, Session.AUTO_ACKNOWLEDGE);
-            queue = new ActiveMQQueue("testQueue");
-            replyQueue = new ActiveMQQueue("replyQueue");
+            queue = session.createQueue("testQueue");
+            replyQueue = session.createQueue("replyQueue");
 
             producerTest();
         } catch (Exception e) {
@@ -38,16 +38,6 @@ public class ActiveMQView {
         }
     }
 
-    public void producerTest() throws Exception {
-        //创建一个消息，并设置它的JMSReplyTo为replyQueue。
-        MessageProducer producer = session.createProducer(queue);
-
-        for(int i = 0; i<10; i++) {
-            Message message = session.createTextMessage("This is message of instance " + i);
-            message.setJMSReplyTo(replyQueue);
-            producer.send(message);
-        }
-    }
 
     @Test
     public void consumerTest() throws Exception {
@@ -77,5 +67,17 @@ public class ActiveMQView {
                 }
             }
         });
+    }
+
+    @After
+    public void producerTest() throws Exception {
+        //创建一个消息，并设置它的JMSReplyTo为replyQueue。
+        MessageProducer producer = session.createProducer(queue);
+
+        for(int i = 0; i<100; i++) {
+            Message message = session.createTextMessage("This is message of instance " + i);
+            message.setJMSReplyTo(replyQueue);
+            producer.send(message);
+        }
     }
 }
