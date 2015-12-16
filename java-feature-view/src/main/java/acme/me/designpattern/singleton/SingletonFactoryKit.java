@@ -4,15 +4,19 @@ import acme.me.designpattern.factory.AbstractCakeFactory;
 import acme.me.designpattern.factory.StrawberyCakeFactory;
 
 public class SingletonFactoryKit {
-     private static AbstractCakeFactory  factory;
+    private static AbstractCakeFactory factory;
 
-     /**
-      * 单例模式入口
-      * @return
-      */
-     public static AbstractCakeFactory instance(){
+    /**
+     * 单例模式入口
+     * @return
+     */
+    public static AbstractCakeFactory instance(){
         if(factory == null){
-            factory = new StrawberyCakeFactory();
+            try{
+                factory = new StrawberyCakeFactory();
+            }catch(Exception e){
+                e.printStackTrace();
+            }
         }
         return factory;
     }
