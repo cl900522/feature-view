@@ -9,6 +9,8 @@ import java.util.concurrent.Executors;
 import java.util.concurrent.Future;
 import java.util.concurrent.FutureTask;
 
+import org.junit.Test;
+
 /**
  * 线程运行返回值得
  * @author 明轩
@@ -26,7 +28,8 @@ public class ThreadWithResult implements Callable<String> {
         return "This thread is: " + id;
     }
 
-    public static void main(String[] args) {
+    @Test
+    public void main() {
         System.out.println("1.###################################");
         FutureTask<String> futask = new FutureTask<String>(new ThreadWithResult(10));
         new Thread(futask).start();
@@ -38,6 +41,7 @@ public class ThreadWithResult implements Callable<String> {
         } catch (ExecutionException e) {
             e.printStackTrace();
         }
+
         System.out.println("2.###################################");
         ExecutorService pool = Executors.newSingleThreadExecutor();
         Future<String> fu = pool.submit(new ThreadWithResult(20));
@@ -50,6 +54,7 @@ public class ThreadWithResult implements Callable<String> {
             e.printStackTrace();
         }
         pool.shutdown();
+
         System.out.println("4.###################################");
         ExecutorService threadPool = Executors.newCachedThreadPool();
         CompletionService<String> cs = new ExecutorCompletionService<String>(threadPool);
