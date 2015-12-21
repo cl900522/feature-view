@@ -4,6 +4,7 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collections;
 import java.util.Comparator;
+import java.util.Iterator;
 import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
@@ -58,7 +59,7 @@ public class CollectionView {
             System.out.println(l.size() + ": " + l);
         }
     }
-    
+
     private List<String> generateRandamList(){
         int i =(int) (Math.random() * 20);
         List<String> aa = new ArrayList<String>(i);
@@ -66,5 +67,25 @@ public class CollectionView {
             aa.add("x");
         }
         return aa;
+    }
+
+    @Test
+    public void listOperate (){
+        List<String> list = new ArrayList<String>();
+        list.add("wo");
+        list.add("ni");
+        list.add("na");
+        list.add("ba");
+        list.add("jo");
+
+        Iterator<String> ite = list.iterator();
+        System.out.println(list);
+        while(ite.hasNext()){
+            String value = ite.next();
+            if(value.indexOf("o") != -1){
+                ite.remove();
+            }
+        }
+        System.out.println(list);
     }
 }

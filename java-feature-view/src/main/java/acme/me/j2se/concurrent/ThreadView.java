@@ -1,5 +1,8 @@
 package acme.me.j2se.concurrent;
 
+import java.net.MalformedURLException;
+import java.net.URL;
+import java.net.URLClassLoader;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -17,9 +20,19 @@ public class ThreadView {
     public static void main(String[] args) throws InterruptedException{
         logger.info("define th1.###########################");
         ExtThread m = new ExtThread();
+
         logger.info("define th2.###########################");
         Thread n = new Thread(new ImpRunable());
         m.start();
         n.start();
+
+        URL url = null;
+        try {
+            url = new URL("D:\\Program Files\\apache-tomcat-7.0.33\\lib");
+        } catch (MalformedURLException e) {
+            e.printStackTrace();
+        }
+        ClassLoader classLoader = new URLClassLoader(new URL[]{url});
+        Thread.currentThread().setContextClassLoader(classLoader);
     }
 }
