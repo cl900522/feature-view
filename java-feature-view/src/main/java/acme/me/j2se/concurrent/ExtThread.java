@@ -24,4 +24,19 @@ public class ExtThread extends Thread {
             System.out.println("###"+i);
         }
     }
+
+    public static void main(String[] args){
+        Thread thread = new Thread(new Runnable() {
+            @Override
+            public void run() {
+                exe();
+            }
+        });
+        thread.run();
+        System.out.println("Finish");
+    }
+
+    public static void exe (){
+        System.out.println("Exe function do!");
+    }
 }
