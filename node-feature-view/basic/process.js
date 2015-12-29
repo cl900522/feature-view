@@ -1,5 +1,7 @@
 process.stdout.write('Process info is:');
-console.log(process);
+for(var p in process){
+    console.log("type: " + (typeof process[p]) +"; value:" + p);
+}
 
 process.stdout.write('You can input data in the terminal!');
 
