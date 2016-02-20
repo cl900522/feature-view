@@ -6,6 +6,7 @@ import java.util.Timer;
 import java.util.TimerTask;
 
 public class TimerView extends TimerTask{
+
     public static void main(String[] args){
         Timer timer = new Timer();
         TimerTask task = new TimerView();
