@@ -22,9 +22,10 @@ import acme.me.designpattern.singleton.SingletonFactoryKit;
 public class DesignPatternTest {
     /**
      * 抽象工厂设计模式
+     * @throws Exception 
      */
     @Test
-    public void testAbstructFactory() {
+    public void testAbstructFactory() throws Exception {
         AbstractCakeFactory factory = new StrawberyCakeFactory();
         Cake mycake = factory.createCake();
         Assert.assertEquals(StrawberyCake.class, mycake.getClass());

@@ -1,0 +1,26 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE hibernate-mapping PUBLIC "-//Hibernate/Hibernate Mapping DTD 3.0//EN"
+"http://hibernate.sourceforge.net/hibernate-mapping-3.0.dtd">
+
+<hibernate-mapping>
+
+    <class name="acme.me.orm.bean.Account" table="Account">
+        <id name="id" type="long" column="id">
+            <generator class="identity"></generator>
+        </id>
+        <property name="name" column="name" type="string"></property>
+        <property name="province" column="province" type="string"></property>
+        <property name="city" column="city" type="string"></property>
+        <property name="birthDay" column="birthDay" type="date"></property>
+        <property name="sex" column="sex" type="string"></property>
+    </class>
+
+    <class name="acme.me.orm.bean.Role" table="Role">
+        <id name="id" type="long" column="id">
+            <generator class="identity"></generator>
+        </id>
+        <property name="name" column="name" type="string"></property>
+        <property name="active" column="active" type="boolean"></property>
+    </class>
+
+</hibernate-mapping>

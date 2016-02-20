@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE hibernate-mapping PUBLIC "-//Hibernate/Hibernate Mapping DTD 3.0//EN"
+"http://hibernate.sourceforge.net/hibernate-mapping-3.0.dtd">
+
+<hibernate-configuration>
+
+    <session-factory>
+        <property name="dialect">org.hibernate.dialect.MySQLDialect</property>
+        <property name="connection.url">jdbc:jtds:sqlserver://server:1434/hibernateTest</property>
+        <property name="connection.username">dev</property>
+        <property name="connection.password">711</property>
+        <property name="connection.driver_class">net.sourceforge.jtds.jdbc.Driver</property>
+        <property name="hibernate.show_sql">true</property>
+        <property name="format_sql">true</property>
+        <property name="myeclipse.connection.profile">jtds</property>
+        <mapping resource="com/yaxing/entity/Order.hbm.xml" />
+        <mapping resource="com/yaxing/entity/Customer.hbm.xml"/>
+    </session-factory>
+
+</hibernate-configuration>

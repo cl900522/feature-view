@@ -1,6 +1,7 @@
 package acme.me.orm.bean;
 
 import java.util.Date;
+import java.util.List;
 
 public class Account {
     private String id;
@@ -9,6 +10,8 @@ public class Account {
     private String city;
     private Date birthDay;
     private String sex;
+    private List<Role> roles;
+
     public String getId() {
         return id;
     }
@@ -47,5 +50,11 @@ public class Account {
     }
     public String toString(){
         return name;
+    }
+    public List<Role> getRoles() {
+        return roles;
+    }
+    public void setRoles(List<Role> roles) {
+        this.roles = roles;
     }
 }

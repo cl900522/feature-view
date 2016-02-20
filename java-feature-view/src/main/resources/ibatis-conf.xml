@@ -23,5 +23,5 @@ PUBLIC "-//iBATIS.com//DTD SQL Map Config 2.0//EN"
             <property name="Pool.PingConnectionsNotUsedFor" value="1" />
         </dataSource>
     </transactionManager>
-    <sqlMap resource="acme/me/orm/Account.xml" />
+    <sqlMap resource="acme/me/orm/mapper/ibatis-Account.xml" />
 </sqlMapConfig>
