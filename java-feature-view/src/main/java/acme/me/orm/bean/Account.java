@@ -2,16 +2,27 @@ package acme.me.orm.bean;
 
 import java.util.Date;
 import java.util.List;
+import java.util.Set;
 
 public class Account {
+    private Long no;
     private String id;
     private String name;
     private String province;
     private String city;
     private Date birthDay;
     private String sex;
+    private Date createDate;
     private List<Role> roles;
+    private Set<Address> addresses;
+    private Set<String> emails;
 
+    public Long getNo() {
+        return no;
+    }
+    public void setNo(Long no) {
+        this.no = no;
+    }
     public String getId() {
         return id;
     }
@@ -56,5 +67,23 @@ public class Account {
     }
     public void setRoles(List<Role> roles) {
         this.roles = roles;
+    }
+    public Date getCreateDate() {
+        return createDate;
+    }
+    public void setCreateDate(Date createDate) {
+        this.createDate = createDate;
+    }
+    public Set<String> getEmails() {
+        return emails;
+    }
+    public void setEmails(Set<String> emails) {
+        this.emails = emails;
+    }
+    public Set<Address> getAddresses() {
+        return addresses;
+    }
+    public void setAddresses(Set<Address> addresses) {
+        this.addresses = addresses;
     }
 }

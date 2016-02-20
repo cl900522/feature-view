@@ -3,24 +3,45 @@
 "http://hibernate.sourceforge.net/hibernate-mapping-3.0.dtd">
 
 <hibernate-mapping>
+    <class name="acme.me.orm.bean.Address" table="Address">
+        <id name="no" column="no" type="long" >
+            <generator class="native" />
+        </id>
+        <property name="province" column="province" type="string" />
+        <property name="city" column="city" type="string" />
+        <property name="area" column="area" type="string" />
+        <property name="street" column="street" type="string" />
+        <many-to-one name="account" column="accountNo" class="acme.me.orm.bean.Account" />
+    </class>
 
     <class name="acme.me.orm.bean.Account" table="Account">
-        <id name="id" type="long" column="id">
-            <generator class="identity"></generator>
+        <id name="no" column="no" type="long">
+            <generator class="native" />
         </id>
-        <property name="name" column="name" type="string"></property>
-        <property name="province" column="province" type="string"></property>
-        <property name="city" column="city" type="string"></property>
-        <property name="birthDay" column="birthDay" type="date"></property>
-        <property name="sex" column="sex" type="string"></property>
+        <property name="id" column="id" type="string" length="20" not-null="true"/>
+        <property name="name" column="name" type="string" length="10"  not-null="true"/>
+        <property name="province" column="province" type="string" length="10"/>
+        <property name="city" column="city" type="string" length="10"/>
+        <property name="birthDay" column="birthDay" type="date" />
+        <property name="createDate" column="createDate" type="timestamp" />
+        <property name="sex" column="sex" type="string" length="6"/>
+        <set name="emails" table="emails" lazy="false">
+            <key column="accountNo" />
+            <element type="string" column="email" not-null="true" />
+        </set>
+
+        <set name="addresses" cascade="save-update" inverse="true" lazy="false">
+            <key column="accountNo"/>
+            <one-to-many class="acme.me.orm.bean.Address" />
+        </set>
     </class>
 
     <class name="acme.me.orm.bean.Role" table="Role">
-        <id name="id" type="long" column="id">
-            <generator class="identity"></generator>
+        <id name="id" column="id" type="long" >
+            <generator class="native" />
         </id>
-        <property name="name" column="name" type="string"></property>
-        <property name="active" column="active" type="boolean"></property>
+        <property name="name" column="name" type="string" />
+        <property name="active" column="active" type="boolean" />
     </class>
 
 </hibernate-mapping>
