@@ -5,7 +5,7 @@
     <groupId>acme</groupId>
     <artifactId>java-feature-view</artifactId>
     <version>1.0.0</version>
-    <packaging>war</packaging>
+    <packaging>jar</packaging>
 
     <name>java-feature-view</name>
     <url>http://maven.apache.org</url>
@@ -381,6 +381,16 @@
             <groupId>org.hibernate</groupId>
             <artifactId>hibernate-entitymanager</artifactId>
             <version>3.5.6-Final</version>
+        </dependency>
+        <dependency>
+            <groupId>net.sf.ehcache</groupId>
+            <artifactId>ehcache-core</artifactId>
+            <version>2.6.9</version>
+        </dependency>
+        <dependency>
+            <groupId>net.sf.ehcache</groupId>
+            <artifactId>ehcache-web</artifactId>
+            <version>2.0.4</version>
         </dependency>
         <!-- <dependency> -->
         <!-- <groupId>org.jdom</groupId> -->
