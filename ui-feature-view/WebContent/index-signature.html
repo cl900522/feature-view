@@ -1,0 +1,33 @@
+﻿<html>
+<head>
+</head>
+    <meta name="viewport" content="height = device-height , width = device-width , initial-scale = 1 ,
+         minimum-scale = 1 , maximum-scale = 1 , user-scalable = no">
+<body>
+    <h1>签名工具</h1>
+    <div style="display:block; height:50px;"></div>
+    <div id="signature" style="display:block;width:100%; border: 2px solid"></div>
+    <img id="image" style="display:block;height: auto;min-height:50px; width:100%; border: 2px solid; margin-top: 20px"></img>
+    <button onclick="reset()">重置</button>
+    <script type="text/javascript" src="./js/jquery-1.10.1.min.js"></script>
+    <script type="text/javascript" src="./js/jSignature.min.js"></script>
+    <script type="text/javascript">
+        var signature = $("#signature");
+        $(function(){
+            signature.jSignature();
+            console.log(signature);
+            signature.bind('change', function(){
+                getData();
+            });
+        })
+        function reset() {
+            signature.jSignature("reset")
+        }
+        function getData() {
+            var data = signature.jSignature("getData", "image");
+            console.log(data);
+            $("#image").attr("src", "data:"+data);
+        }
+    </script>
+</body>
+</html>
