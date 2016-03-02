@@ -1,11 +1,11 @@
-<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" 
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
     xsi:schemaLocation="http://maven.apache.org/POM/4.0.0
-    http://maven.apache.org/xsd/maven-4.0.0.xsd" >
+    http://maven.apache.org/xsd/maven-4.0.0.xsd">
     <modelVersion>4.0.0</modelVersion>
     <groupId>acme</groupId>
     <artifactId>java-feature-view</artifactId>
     <version>1.0.0</version>
-    <packaging>war</packaging>
+    <packaging>jar</packaging>
 
     <name>java-feature-view</name>
     <url>http://maven.apache.org</url>
@@ -253,44 +253,44 @@
             <version>2.2</version>
         </dependency>
         <dependency>
-          <groupId>cglib</groupId>
-          <artifactId>cglib</artifactId>
-          <version>2.2</version>
+            <groupId>cglib</groupId>
+            <artifactId>cglib</artifactId>
+            <version>2.2</version>
         </dependency>
         <dependency>
-          <groupId>cglib</groupId>
-          <artifactId>cglib-nodep</artifactId>
-          <version>2.2</version>
+            <groupId>cglib</groupId>
+            <artifactId>cglib-nodep</artifactId>
+            <version>2.2</version>
         </dependency>
         <dependency>
-          <groupId>org.apache.poi</groupId>
-          <artifactId>poi-scratchpad</artifactId>
-          <version>3.10-FINAL</version>
+            <groupId>org.apache.poi</groupId>
+            <artifactId>poi-scratchpad</artifactId>
+            <version>3.10-FINAL</version>
         </dependency>
         <dependency>
-          <groupId>org.apache.poi</groupId>
-          <artifactId>poi-ooxml</artifactId>
-          <version>3.10-FINAL</version>
+            <groupId>org.apache.poi</groupId>
+            <artifactId>poi-ooxml</artifactId>
+            <version>3.10-FINAL</version>
         </dependency>
         <dependency>
-          <groupId>org.apache.poi</groupId>
-          <artifactId>poi</artifactId>
-          <version>3.10-FINAL</version>
+            <groupId>org.apache.poi</groupId>
+            <artifactId>poi</artifactId>
+            <version>3.10-FINAL</version>
         </dependency>
         <dependency>
-          <groupId>org.springframework</groupId>
-          <artifactId>spring-ibatis</artifactId>
-          <version>2.0.8</version>
+            <groupId>org.springframework</groupId>
+            <artifactId>spring-ibatis</artifactId>
+            <version>2.0.8</version>
         </dependency>
         <dependency>
-          <groupId>commons-net</groupId>
-          <artifactId>commons-net</artifactId>
-          <version>3.1</version>
+            <groupId>commons-net</groupId>
+            <artifactId>commons-net</artifactId>
+            <version>3.1</version>
         </dependency>
         <dependency>
-          <groupId>commons-httpclient</groupId>
-          <artifactId>commons-httpclient</artifactId>
-          <version>3.1</version>
+            <groupId>commons-httpclient</groupId>
+            <artifactId>commons-httpclient</artifactId>
+            <version>3.1</version>
         </dependency>
         <dependency>
             <groupId>org.apache.httpcomponents</groupId>
@@ -308,9 +308,9 @@
             <version>${apache.hadoop.version}</version>
         </dependency>
         <dependency>
-          <groupId>org.apache.hadoop</groupId>
-          <artifactId>hadoop-hdfs</artifactId>
-          <version>${apache.hadoop.version}</version>
+            <groupId>org.apache.hadoop</groupId>
+            <artifactId>hadoop-hdfs</artifactId>
+            <version>${apache.hadoop.version}</version>
         </dependency>
         <dependency>
             <groupId>org.mongodb</groupId>
@@ -368,14 +368,34 @@
             <version>2.6.0</version>
         </dependency>
         <dependency>
-          <groupId>org.apache.activemq</groupId>
-          <artifactId>activemq-all</artifactId>
-          <version>5.6.0</version>
+            <groupId>org.apache.activemq</groupId>
+            <artifactId>activemq-all</artifactId>
+            <version>5.6.0</version>
         </dependency>
-<!--         <dependency> -->
-<!--             <groupId>org.jdom</groupId> -->
-<!--             <artifactId>jdom</artifactId> -->
-<!--             <version>2.0.2</version> -->
-<!--         </dependency> -->
+        <dependency>
+            <groupId>org.hibernate</groupId>
+            <artifactId>hibernate-core</artifactId>
+            <version>3.5.6-Final</version>
+        </dependency>
+        <dependency>
+            <groupId>org.hibernate</groupId>
+            <artifactId>hibernate-entitymanager</artifactId>
+            <version>3.5.6-Final</version>
+        </dependency>
+        <dependency>
+            <groupId>net.sf.ehcache</groupId>
+            <artifactId>ehcache-core</artifactId>
+            <version>2.6.9</version>
+        </dependency>
+        <dependency>
+            <groupId>net.sf.ehcache</groupId>
+            <artifactId>ehcache-web</artifactId>
+            <version>2.0.4</version>
+        </dependency>
+        <!-- <dependency> -->
+        <!-- <groupId>org.jdom</groupId> -->
+        <!-- <artifactId>jdom</artifactId> -->
+        <!-- <version>2.0.2</version> -->
+        <!-- </dependency> -->
     </dependencies>
 </project>
