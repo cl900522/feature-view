@@ -2,20 +2,31 @@ package acme.me.orm;
 
 import java.util.Date;
 
+import javax.annotation.Resource;
+
 import org.apache.log4j.Logger;
-import org.springframework.context.ApplicationContext;
-import org.springframework.context.support.ClassPathXmlApplicationContext;
-import org.springframework.orm.hibernate3.HibernateTemplate;
+import org.hibernate.SessionFactory;
+import org.hibernate.classic.Session;
+import org.junit.Test;
+import org.junit.runner.RunWith;
+import org.springframework.test.context.ContextConfiguration;
+import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
+import org.springframework.transaction.annotation.Transactional;
 
 import acme.me.orm.bean.Account;
 import acme.me.orm.bean.Address;
 
+@RunWith(SpringJUnit4ClassRunner.class)
+@Transactional
+@ContextConfiguration(locations = "classpath:spring-beans.xml")
 public class HibernateView {
     private static Logger logger = Logger.getLogger(HibernateView.class);
-    public static void main(String[] args) throws Exception{
-        ApplicationContext ap = new ClassPathXmlApplicationContext("spring-beans.xml");
-        HibernateTemplate hibernateTemplate = (HibernateTemplate) ap.getBean("hibernateTemplate");
 
+    @Resource
+    private SessionFactory hiberSessionFactory;
+
+    @Test
+    public void saveTest() throws Exception {
         Account account = new Account();
         account.setId("admin");
         account.setName("admin");
@@ -24,6 +35,7 @@ public class HibernateView {
         account.setCity("Chendu");
         account.setBirthDay(new Date());
         account.setCreateDate(new Date());
+
         Address ad1 = new Address();
         ad1.setProvince("Sichuan");
         ad1.setCity("Chengdu");
@@ -31,6 +43,7 @@ public class HibernateView {
         ad1.setStreet("Guangxinglu");
         ad1.setAccount(account);
 
-        hibernateTemplate.save(account);
+        Session currentSession = hiberSessionFactory.getCurrentSession();
+        currentSession.save(account);
     }
 }
