@@ -19,38 +19,37 @@ public class MapReduceTest extends Configured implements Tool {
         LINESKIP,
     }
 
+    public static void main(String[] args) throws Exception {
+        int res = ToolRunner.run(new Configuration(), new MapReduceTest(), new String[] { "hdfs://192.168.100.159/tmp/input/",
+            "hdfs://192.168.100.159/tmp/output" });
+        System.exit(res);
+    }
+
     @Override
     public int run(String[] args) throws Exception {
         JobConf conf = new JobConf(getConf(), MapReduceTest.class);
-        conf.setJarByClass(Map.class);
-        conf.setJarByClass(Reduce.class);
-        conf.setJar("logAnalysis");
 
-        Job job = new Job(conf);
-        job.setJobName("logAnalysis");
+        Job job = Job.getInstance(conf);
+        job.setJobName("wordCount");
         job.setJarByClass(MapReduceTest.class);
-
-        job.setInputFormatClass(TextInputFormat.class);
-        job.setOutputFormatClass(TextOutputFormat.class);
-
-        FileInputFormat.addInputPath(job, new Path(args[0]));
-        FileOutputFormat.setOutputPath(job, new Path(args[1]));
 
         job.setMapperClass(Map.class);
         job.setReducerClass(Reduce.class);
 
+        job.setInputFormatClass(TextInputFormat.class);
         job.setOutputFormatClass(TextOutputFormat.class);
+        FileInputFormat.addInputPath(job, new Path(args[0]));
+        FileOutputFormat.setOutputPath(job, new Path(args[1]));
+
         // keep the same format with the output of Map and Reduce
         job.setOutputKeyClass(Text.class);
         job.setOutputValueClass(IntWritable.class);
 
         job.waitForCompletion(true);
 
-        return job.isSuccessful() ? 0 : 1;
-    }
+        System.out.println(job.isComplete());
+        System.out.println("JobID: " + job.getJobID());
 
-    public static void main(String[] args) throws Exception {
-        int res = ToolRunner.run(new Configuration(), new MapReduceTest(), args);
-        System.exit(res);
+        return job.isSuccessful() ? 0 : 1;
     }
 }
