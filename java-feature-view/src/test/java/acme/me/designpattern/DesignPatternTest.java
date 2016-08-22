@@ -24,6 +24,7 @@ public class DesignPatternTest {
      * 抽象工厂设计模式
      * @throws Exception 
      */
+
     @Test
     public void testAbstructFactory() throws Exception {
         AbstractCakeFactory factory = new StrawberyCakeFactory();
