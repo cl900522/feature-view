@@ -11,8 +11,8 @@
     <bean id="dataSource" class="org.apache.commons.dbcp.BasicDataSource" destroy-method="close">
         <property name="driverClassName" value="com.mysql.jdbc.Driver" />
         <property name="url" value="jdbc:mysql://localhost:3306/test" />
-        <property name="username" value="dev" />
-        <property name="password" value="dev" />
+        <property name="username" value="root" />
+        <property name="password" value="chen900827" />
         <property name="defaultAutoCommit" value="true" />
         <property name="poolPreparedStatements" value="true" />
         <!-- 数据库连接池保持的最小连接数 -->
@@ -35,36 +35,55 @@
 <!--     <bean id="sessionFactory" class="org.springframework.orm.hibernate3.annotation.AnnotationSessionFactoryBean"> -->
 <!--         <property name="dataSource" ref="dataSource" /> -->
 <!--         <property name="namingStrategy" ref="namingStrategy" /> -->
-<!--         <property name="packagesToScan" value="test.package" /> -->
+<!--         <property name="packagesToScnativean" value="test.package" /> -->
 <!--     </bean> -->
 
-    <bean id="hiberSessionFactory" class="org.springframework.orm.hibernate3.LocalSessionFactoryBean">
-        <property name="dataSource" ref="dataSource" />
-        <!-- 注意：我用的是Annotation的方式配置的Hibernate，这里的property的name是annotatedClasses -->
+	<bean id="hiberSessionFactory" class="org.springframework.orm.hibernate3.annotation.AnnotationSessionFactoryBean">
+		<property name="dataSource" ref="dataSource" />
         <property name="namingStrategy" ref="namingStrategy" />
-        <property name="hibernateProperties">
-            <props>
-                <!-- 设置Hibernate方言 -->
-                <prop key="hibernate.dialect">org.hibernate.dialect.MySQL5InnoDBDialect</prop>
-                <!-- 是否打印sql -->
-                <prop key="hibernate.show_sql">true</prop>
-                <!-- 格式化sql -->
-                <prop key="hibernate.format_sql">true</prop>
-                <!-- 是否自动更新表 -->
-                <prop key="hibernate.hbm2ddl.auto">update</prop>
-                <prop key="hibernate.current_session_context_class">thread</prop>
-                <!-- 最大抓取深度，如果为0，则关闭默认的外连接抓取。建议值为0-3 -->
-                <prop key="hibernate.max_fetch_depth">1</prop>
-                <!-- 用于生成有助于调试的注释信息，默认为关闭 -->
-                <prop key="hibernate.use_sql_comments">true</prop>
-            </props>
-        </property>
-        <property name="mappingResources">
-            <list>
-                <value>acme/me/orm/mapper/hiber-Account.xml</value>
-            </list>
-        </property>
-    </bean>
+		<property name="hibernateProperties">
+			<props>
+				<!-- <prop key="hibernate.dialect">org.hibernate.dialect.Oracle10gDialect</prop> -->
+				<prop key="hibernate.dialect">org.hibernate.dialect.MySQLDialect</prop>
+				<prop key="hibernate.show_sql">false</prop>
+				<prop key="hibernate.hbm2ddl.auto">update</prop>
+				<prop key="hibernate.autoReconnect">true</prop>
+			</props>
+		</property>
+		<property name="packagesToScan"><!-- name配置为annotatedPackages不行 -->
+			<list>
+				<value>acme.me.orm.*</value>
+			</list>
+		</property>
+	</bean>
+
+<!--     <bean id="hiberSessionFactory" class="org.springframework.orm.hibernate3.LocalSessionFactoryBean"> -->
+<!--         <property name="dataSource" ref="dataSource" /> -->
+<!--         注意：我用的是Annotation的方式配置的Hibernate，这里的property的name是annotatedClasses -->
+<!--         <property name="namingStrategy" ref="namingStrategy" /> -->
+<!--         <property name="hibernateProperties"> -->
+<!--             <props> -->
+<!--                 设置Hibernate方言 -->
+<!--                 <prop key="hibernate.dialect">org.hibernate.dialect.MySQL5InnoDBDialect</prop> -->
+<!--                 是否打印sql -->
+<!--                 <prop key="hibernate.show_sql">true</prop> -->
+<!--                 格式化sql -->
+<!--                 <prop key="hibernate.format_sql">true</prop> -->
+<!--                 是否自动更新表 -->
+<!--                 <prop key="hibernate.hbm2ddl.auto">update</prop> -->
+<!--                 <prop key="hibernate.current_session_context_class">thread</prop> -->
+<!--                 最大抓取深度，如果为0，则关闭默认的外连接抓取。建议值为0-3 -->
+<!--                 <prop key="hibernate.max_fetch_depth">1</prop> -->
+<!--                 用于生成有助于调试的注释信息，默认为关闭 -->
+<!--                 <prop key="hibernate.use_sql_comments">true</prop> -->
+<!--             </props> -->
+<!--         </property> -->
+<!--         <property name="mappingResources"> -->
+<!--             <list> -->
+<!--                 <value>acme/me/orm/mapper/hiber-Account.xml</value> -->
+<!--             </list> -->
+<!--         </property> -->
+<!--     </bean> -->
 
     <bean id="hibernateTemplate" class="org.springframework.orm.hibernate3.HibernateTemplate">
         <property name="sessionFactory" ref="hiberSessionFactory" />

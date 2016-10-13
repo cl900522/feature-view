@@ -14,6 +14,13 @@
         <many-to-one name="account" column="accountNo" class="acme.me.orm.bean.Account" />
     </class>
 
+    <class name="acme.me.orm.bean.AreaNode" table="AreaNode">
+        <id name="code" column="code" type="string" >
+            <generator class="assigned" />
+        </id>
+        <property name="name" column="name" type="string" />
+    </class>
+    
     <class name="acme.me.orm.bean.Account" table="Account">
         <id name="no" column="no" type="long">
             <generator class="native" />

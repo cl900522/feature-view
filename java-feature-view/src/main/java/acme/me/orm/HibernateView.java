@@ -18,6 +18,7 @@ import org.springframework.transaction.annotation.Transactional;
 
 import acme.me.orm.bean.Account;
 import acme.me.orm.bean.Address;
+import acme.me.orm.bean.AreaNode;
 
 @RunWith(SpringJUnit4ClassRunner.class)
 @Transactional
@@ -153,6 +154,17 @@ public class HibernateView {
         getAccount = (Account) session1.get(Account.class, account.getNo());
         logger.warn("When call save on Entiry, the object will be Persistant");
         Assert.assertTrue(getAccount == account);
+        t.commit();
+    }
+
+    @Test
+    public void stringPrimaryKey() throws Exception {
+        AreaNode account = new AreaNode();
+        account.setName("安徽");
+        Session session1 = hiberSessionFactory.getCurrentSession();
+        Transaction t = session1.beginTransaction();
+        logger.info("Before commit any changes to bean will be saved");
+        session1.save(account);
         t.commit();
     }
 }
