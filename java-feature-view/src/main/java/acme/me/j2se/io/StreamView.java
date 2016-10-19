@@ -6,10 +6,13 @@ import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileOutputStream;
 import java.io.IOException;
+import java.io.PipedInputStream;
+import java.io.PipedOutputStream;
 import java.io.SequenceInputStream;
-import java.io.StringBufferInputStream;
 
 import org.junit.Test;
+
+import com.jcraft.jsch.Logger;
 
 public class StreamView {
     @Test
@@ -95,6 +98,33 @@ public class StreamView {
             File fileTo = new File("target/classes/bytearrayout.txt");
             bo.writeTo(new FileOutputStream(fileTo));
         } catch (IOException e) {
+        }
+    }
+
+    @Test
+    public void pipedIOStream() {
+        PipedOutputStream pos = null;
+        PipedInputStream pis = null;
+        try {
+            pos = new PipedOutputStream();
+            pis = new PipedInputStream();
+            //pis.connect(pos);
+            pos.connect(pis);
+
+            pos.write("Great Wall".getBytes());
+            byte[] bytes = new byte[1024];
+            if (pis.read(bytes) > 0) {
+                String message = new String(bytes);
+                System.out.println(message);
+            }
+        } catch (Exception e) {
+            System.err.println(e.getMessage());
+        } finally {
+            try {
+                pos.close();
+                pis.close();
+            } catch (IOException e) {
+            }
         }
     }
 }
