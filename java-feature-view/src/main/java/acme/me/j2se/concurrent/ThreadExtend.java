@@ -8,8 +8,8 @@ import org.slf4j.LoggerFactory;
  * 不建议使用此方法定义线程，因为采用继承Thread的方式定义线程后，你不能在继承其他的类了，导致程序的可扩展性大大降低。
  * @author 明轩
  */
-public class ExtThread extends Thread {
-    private static Logger logger = LoggerFactory.getLogger(ExtThread.class);
+public class ThreadExtend extends Thread {
+    private static Logger logger = LoggerFactory.getLogger(ThreadExtend.class);
 
     @Override
     public void run() {
@@ -31,7 +31,7 @@ public class ExtThread extends Thread {
     public void extThreadTest() {
         Thread.currentThread().setName("#Main Tread");
 
-        Thread thread = new ExtThread();
+        Thread thread = new ThreadExtend();
         thread.setName("$New Thread instance of ExtThread");
         thread.start();
         thread.run();
