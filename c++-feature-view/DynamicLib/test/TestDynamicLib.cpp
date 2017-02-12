@@ -14,7 +14,7 @@ typedef int (*CAC_FUNC)(int, int);
 void runDynamicLoad() {
     void *handle;
     char *error;
-    char *path = "/home/chenmx/git/feature-view/c++-feature-view/DynamicLib/lib/libDynamicLib.so";
+    char *path = "../../lib/libDynamicLib.so";
     /* 开启之前所撰写的 libmylib.so 链接库 */
     handle = dlopen(path,
     RTLD_NOW);
