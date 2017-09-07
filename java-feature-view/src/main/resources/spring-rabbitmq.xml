@@ -1,0 +1,63 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    xmlns:context="http://www.springframework.org/schema/context" xmlns:aop="http://www.springframework.org/schema/aop"
+    xmlns:tx="http://www.springframework.org/schema/tx" xmlns:p="http://www.springframework.org/schema/p"
+    xmlns:task="http://www.springframework.org/schema/task"
+    xmlns:rabbit="http://www.springframework.org/schema/rabbit"
+    xsi:schemaLocation="http://www.springframework.org/schema/beans
+        http://www.springframework.org/schema/beans/spring-beans-3.0.xsd
+        http://www.springframework.org/schema/data/mongo
+        http://www.springframework.org/schema/data/mongo/spring-mongo-1.0.xsd
+        http://www.springframework.org/schema/context
+        http://www.springframework.org/schema/context/spring-context-3.0.xsd
+        http://www.springframework.org/schema/rabbit
+        http://www.springframework.org/schema/rabbit/spring-rabbit.xsd">
+
+    <!-- 加载mongodb的属性配置文件 -->
+    <context:property-placeholder location="classpath:rabbit.properties" />
+
+<!--     <rabbit:connection-factory id="connectionFactory" host="${rabbitmq.master.ip}" port="${rabbitmq.master.port}" -->
+<!--         username="${rabbitmq.master.username}" password="${rabbitmq.master.password}" /> -->
+    <rabbit:connection-factory id="connectionFactory" host="${rabbitmq.master.ip}" port="${rabbitmq.master.port}"/>
+
+    <rabbit:template id="amqpTemplate" connection-factory="connectionFactory"
+        exchange="order_topic_exchange" />
+    <rabbit:admin connection-factory="connectionFactory" />
+
+    <rabbit:queue name="orderQueue" durable="true" />
+    <rabbit:queue name="orderPayQueryQueue" durable="true" auto-delete="false" exclusive="false">
+        <rabbit:queue-arguments>
+            <entry key="x-message-ttl">
+                <value  type="java.lang.Long">600000</value>
+            </entry>
+            <entry key="x-dead-letter-exchange" value="pay_delay_exchange"/>
+        </rabbit:queue-arguments>
+    </rabbit:queue>
+
+    <rabbit:queue name="orderPayDelayQueryQueue" durable="true"/>
+
+    <rabbit:topic-exchange name="pay_delay_exchange">
+        <rabbit:bindings>
+            <rabbit:binding queue="orderPayDelayQueryQueue" pattern="orderPay.#"/>
+        </rabbit:bindings>
+    </rabbit:topic-exchange>
+    <rabbit:topic-exchange name="order_topic_exchange">
+        <rabbit:bindings>
+            <rabbit:binding queue="orderQueue" pattern="sps.#"/>
+            <rabbit:binding queue="orderPayQueryQueue" pattern="orderPay.#"/>
+        </rabbit:bindings>
+    </rabbit:topic-exchange>
+
+    <rabbit:listener-container connection-factory="connectionFactory" acknowledge="manual" concurrency="10">
+        <rabbit:listener queues="orderQueue" ref="orderQueueListener"/>
+    </rabbit:listener-container>
+
+    <bean id="orderQueueListener" class="acme.me.j2ee.jms.OrderSendQueueListener" />
+
+    <bean class="com.rabbitmq.client.ConnectionFactory">
+        <property name="host" value="${rabbitmq.master.ip}"></property>
+        <property name="port" value="${rabbitmq.master.port}"></property>
+    </bean>
+
+    <context:annotation-config />
+</beans>
