@@ -149,11 +149,11 @@ public class RabbitMQView {
         String EXCHANGE_NAME = "logs", type = "fanout";
         declareExhange(EXCHANGE_NAME, type);
 
-        test03SubscribeMsg(EXCHANGE_NAME, "a");
-        test03SubscribeMsg(EXCHANGE_NAME, "b");
-        test03SubscribeMsg(EXCHANGE_NAME, "c");
+        test0xSubscribeMsg(EXCHANGE_NAME, "a");
+        test0xSubscribeMsg(EXCHANGE_NAME, "b");
+        test0xSubscribeMsg(EXCHANGE_NAME, "c");
 
-        test03PubishMsg(EXCHANGE_NAME, type, new String[] { "a", "b", "c" });
+        test0xPubishMsg(EXCHANGE_NAME, type, new String[] { "a", "b", "c" });
         Thread.sleep(1000);
     }
 
@@ -162,11 +162,11 @@ public class RabbitMQView {
         String EXCHANGE_NAME = "events", type = "direct";
         declareExhange(EXCHANGE_NAME, type);
 
-        test03SubscribeMsg(EXCHANGE_NAME, "a");
-        test03SubscribeMsg(EXCHANGE_NAME, "b");
-        test03SubscribeMsg(EXCHANGE_NAME, "c");
+        test0xSubscribeMsg(EXCHANGE_NAME, "a");
+        test0xSubscribeMsg(EXCHANGE_NAME, "b");
+        test0xSubscribeMsg(EXCHANGE_NAME, "c");
 
-        test03PubishMsg(EXCHANGE_NAME, type, new String[] { "a", "b", "c" });
+        test0xPubishMsg(EXCHANGE_NAME, type, new String[] { "a", "b", "c" });
         Thread.sleep(1000);
     }
 
@@ -175,11 +175,11 @@ public class RabbitMQView {
         String EXCHANGE_NAME = "match", type = "topic";
         declareExhange(EXCHANGE_NAME, type);
 
-        test03SubscribeMsg(EXCHANGE_NAME, "*.info");
-        test03SubscribeMsg(EXCHANGE_NAME, "*.error");
-        test03SubscribeMsg(EXCHANGE_NAME, "*.debug");
+        test0xSubscribeMsg(EXCHANGE_NAME, "*.info");
+        test0xSubscribeMsg(EXCHANGE_NAME, "*.error");
+        test0xSubscribeMsg(EXCHANGE_NAME, "*.debug");
 
-        test03PubishMsg(EXCHANGE_NAME, type, new String[] { "a.info", "b.info", "c.debug" });
+        test0xPubishMsg(EXCHANGE_NAME, type, new String[] { "a.info", "b.info", "c.debug" });
         Thread.sleep(1000);
     }
 
@@ -188,7 +188,7 @@ public class RabbitMQView {
         channel.exchangeDeclare(exchangeName, type);
     }
 
-    public void test03PubishMsg(String exchangeName, String type, String[] routes) throws Exception {
+    public void test0xPubishMsg(String exchangeName, String type, String[] routes) throws Exception {
         Channel channel = connection.createChannel();
 
         for (String route : routes) {
@@ -198,7 +198,7 @@ public class RabbitMQView {
         }
     }
 
-    public void test03SubscribeMsg(String exchangeName, final String route) throws Exception {
+    public void test0xSubscribeMsg(String exchangeName, final String route) throws Exception {
         final Channel channel = connection.createChannel();
         final String queueName = channel.queueDeclare().getQueue();
         channel.queueBind(queueName, exchangeName, route);
