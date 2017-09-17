@@ -7,7 +7,7 @@ import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Component;
 
 @Component
-public class SpringSchedulView {
+public class SpringSchedulTask {
     @Scheduled(fixedRate=12000)
     /**
      * fixedRate：每隔多少毫秒执行一次该方法

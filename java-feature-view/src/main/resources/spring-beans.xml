@@ -122,34 +122,4 @@
         </constructor-arg>
     </bean>
 
-    <context:annotation-config />
-
-    <bean id="factoryPostProcessor" class="acme.me.spring.MyBeanFactoryPostProcessor"></bean>
-
-    <bean id="postProcessor" class="acme.me.spring.MyBeanPostProcessor"></bean>
-
-    <bean id="bean2" class="acme.me.spring.Bean"></bean>
-
-    <bean id="bean1" class="acme.me.spring.Bean" init-method="init" />
-
-    <bean id="sleepHelper" class="acme.me.spring.SleepHelper">
-    </bean>
-
-    <bean id="human" class="acme.me.spring.Human">
-    </bean>
-
-    <bean id="sleepPointcut" class="org.springframework.aop.support.JdkRegexpMethodPointcut">
-        <property name="pattern" value=".*sleep" />
-    </bean>
-
-    <bean id="sleepHelperAdvisor" class="org.springframework.aop.support.DefaultPointcutAdvisor">
-        <property name="advice" ref="sleepHelper" />
-        <property name="pointcut" ref="sleepPointcut" />
-    </bean>
-
-    <bean id="humanProxy" class="org.springframework.aop.framework.ProxyFactoryBean">
-        <property name="target" ref="human" />
-        <property name="interceptorNames" value="sleepHelperAdvisor" />
-        <property name="proxyInterfaces" value="acme.me.spring.Sleepable" />
-    </bean>
 </beans>
