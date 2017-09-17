@@ -2,12 +2,14 @@ package acme.me.spring;
 
 import org.junit.Test;
 import org.springframework.context.ApplicationContext;
+import org.springframework.context.support.AbstractApplicationContext;
 import org.springframework.context.support.ClassPathXmlApplicationContext;
 
 public class SpringFeatureTest {
     @Test
     public void test01LifeCycle() {
-        ApplicationContext apc = new ClassPathXmlApplicationContext("spring-lifecycle.xml");
+        AbstractApplicationContext apc = new ClassPathXmlApplicationContext("spring-lifecycle.xml");
+        apc.registerShutdownHook();
     }
 
     @Test

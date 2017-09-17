@@ -16,7 +16,7 @@
 
     <bean id="bean2" class="acme.me.spring.Bean" />
 
-    <bean id="bean1" class="acme.me.spring.Bean" init-method="init" />
+    <bean id="bean1" class="acme.me.spring.Bean" init-method="init"/>
     
     <alias name="bean1" alias="bean1-alias"/>
 
