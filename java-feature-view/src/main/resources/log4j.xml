@@ -5,7 +5,7 @@
         <param name="Target" value="System.out" />
         <param name="encoding" value="UTF-8" />
         <layout class="org.apache.log4j.PatternLayout"><!-- 设置监视器输出方式 -->
-            <param name="ConversionPattern" value="%p [%C{1}:%M(%L)] %m%n" />
+            <param name="ConversionPattern" value="%p %d{yyyy/MM/dd HH:mm:ss} [%C{1}:%M(%L)] %m%n" />
         </layout>
         <filter class="org.apache.log4j.varia.LevelRangeFilter"><!--滤镜设置输出的级别（范围）-->
             <param name="levelMin" value="DEBUG" />

@@ -2,8 +2,12 @@ package acme.me.j2ee.jms;
 
 import java.io.IOException;
 import java.util.Date;
+import java.util.HashSet;
+import java.util.Set;
+import java.util.UUID;
 
 import org.apache.log4j.Logger;
+import org.hibernate.util.SerializationHelper;
 import org.junit.After;
 import org.junit.Before;
 import org.junit.FixMethodOrder;
@@ -198,6 +202,38 @@ public class RabbitMQView {
         }
     }
 
+    @Test
+    public void test06PressureTest() throws Exception {
+        String EXCHANGE_NAME = "logs", type = "fanout";
+        declareExhange(EXCHANGE_NAME, type);
+
+        test0xSubscribeMsg(EXCHANGE_NAME, "");
+        test0xSubscribeMsg(EXCHANGE_NAME, "");
+        test0xSubscribeMsg(EXCHANGE_NAME, "");
+        test0xSubscribeMsg(EXCHANGE_NAME, "");
+        test0xSubscribeMsg(EXCHANGE_NAME, "");
+        test0xSubscribeMsg(EXCHANGE_NAME, "");
+
+        test06PubishByteMsg(EXCHANGE_NAME, type, new String[] { "" });
+        Thread.sleep(10000);
+    }
+
+    public void test06PubishByteMsg(String exchangeName, String type, String[] routes) throws Exception {
+        Channel channel = connection.createChannel();
+
+        HashSet<String> names = new HashSet<String>();
+        byte[] data = new byte[1024 * 1024 * 30];
+        for (int i = 0; i < 1000000; i++) {
+            names.add(UUID.randomUUID().toString().substring(0, 12));
+        }
+        data = SerializationHelper.serialize(names);
+
+        for (String route : routes) {
+            channel.basicPublish(exchangeName, route, null, data);
+            logger.info("Route [" + route + "] Exchange [" + exchangeName + "] Sent " + data.length + " Byte(s)");
+        }
+    }
+
     public void test0xSubscribeMsg(String exchangeName, final String route) throws Exception {
         final Channel channel = connection.createChannel();
         final String queueName = channel.queueDeclare().getQueue();
@@ -206,8 +242,7 @@ public class RabbitMQView {
         Consumer consumer = new DefaultConsumer(channel) {
             @Override
             public void handleDelivery(String consumerTag, Envelope envelope, AMQP.BasicProperties properties, byte[] body) throws IOException {
-                String message = new String(body, "UTF-8");
-                logger.info("Router [" + route + "] from queue [" + queueName + "] Received '" + message + "'");
+                logger.info("Router [" + route + "] from queue [" + queueName + "] Received '" + body.length + "' Byte(s)");
                 try {
                     Thread.sleep(100);
                 } catch (InterruptedException e) {
