@@ -14,10 +14,10 @@
 
     <bean id="postProcessor" class="acme.me.spring.MyBeanPostProcessor" />
 
-    <bean id="bean2" class="acme.me.spring.Bean" />
+    <bean class="acme.me.spring.MyInstantiationAwareBeanPostProcessor" />
 
-    <bean id="bean1" class="acme.me.spring.Bean" init-method="init"/>
-    
+    <bean id="bean1" class="acme.me.spring.Bean" init-method="init" destroy-method="anoDestroy"/>
+
     <alias name="bean1" alias="bean1-alias"/>
 
 
