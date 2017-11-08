@@ -1,5 +1,6 @@
 package acme.me.j2se.concurrent;
 
+import java.util.concurrent.ArrayBlockingQueue;
 import java.util.concurrent.Callable;
 import java.util.concurrent.CompletionService;
 import java.util.concurrent.ExecutionException;
@@ -8,33 +9,36 @@ import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 import java.util.concurrent.Future;
 import java.util.concurrent.FutureTask;
+import java.util.concurrent.LinkedBlockingQueue;
+import java.util.concurrent.ThreadPoolExecutor;
+import java.util.concurrent.TimeUnit;
+import java.util.concurrent.atomic.AtomicInteger;
 
 import org.junit.Test;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 
 /**
  * 线程运行返回值得
  * @author 明轩
- *
  */
-public class ExecutorView implements Callable<String> {
+public class ExecutorView {
 
-    private int id;
+    public class MyCallAble implements Callable<String> {
+        private int id;
 
-    public ExecutorView(int m) {
-        id = m;
-    }
+        public MyCallAble(int m) {
+            id = m;
+        }
 
-    public String call() throws Exception {
-        System.out.println("Executing thread now!");
-        return "This thread is: " + id;
+        public String call() throws Exception {
+            System.out.println("Executing thread now!");
+            return "This thread is: " + id;
+        }
     }
 
     @Test
     public void main() {
         System.out.println("1.###################################");
-        FutureTask<String> futask = new FutureTask<String>(new ExecutorView(10));
+        FutureTask<String> futask = new FutureTask<String>(new MyCallAble(10));
         new Thread(futask).start();
         try {
             Thread.sleep(2000);
@@ -47,7 +51,7 @@ public class ExecutorView implements Callable<String> {
 
         System.out.println("2.###################################");
         ExecutorService pool = Executors.newSingleThreadExecutor();
-        Future<String> fu = pool.submit(new ExecutorView(20));
+        Future<String> fu = pool.submit(new MyCallAble(20));
         try {
             Thread.sleep(2000);
             System.out.println(fu.get());
@@ -62,7 +66,7 @@ public class ExecutorView implements Callable<String> {
         ExecutorService threadPool = Executors.newCachedThreadPool();
         CompletionService<String> cs = new ExecutorCompletionService<String>(threadPool);
         for (int i = 1; i < 5; i++) {
-            cs.submit(new ExecutorView(i));
+            cs.submit(new MyCallAble(i));
         }
         System.out.println("loop to get result!");
         for (int i = 1; i < 5; i++) {
@@ -77,4 +81,47 @@ public class ExecutorView implements Callable<String> {
         threadPool.shutdown();
     }
 
+    @Test
+    public void testSize() {
+        ThreadPoolExecutor threadPool = new ThreadPoolExecutor(10, 10, 10L, TimeUnit.SECONDS, new LinkedBlockingQueue<Runnable>());
+        for (int i = 0; i < 1000; i++) {
+            Run1 r = new Run1(i);
+            threadPool.execute(r);
+        }
+//        try {
+//            threadPool.awaitTermination(10, TimeUnit.SECONDS); //最佳等待方案
+//        } catch (InterruptedException e1) {
+//            e1.printStackTrace();
+//        }
+        threadPool.shutdown();
+        while (threadPool.getPoolSize() > 0) {
+            try {
+                Thread.sleep(1000);
+            } catch (InterruptedException e) {
+                e.printStackTrace();
+            }
+        }
+//        while(threadPool.getPoolSize() != 0); //效率极度地下
+    }
+
+    static public class Run1 implements Runnable {
+        private static final AtomicInteger counter = new AtomicInteger(0);
+        public Integer value;
+
+        public Run1(Integer value) {
+            this.value = value;
+        }
+
+        @Override
+        public void run() {
+            try {
+                Thread.sleep(1000);
+            } catch (InterruptedException e) {
+                e.printStackTrace();
+            }
+            int incrementAndGet = counter.incrementAndGet();
+            System.out.println("Value is:" + value);
+        }
+
+    }
 }
