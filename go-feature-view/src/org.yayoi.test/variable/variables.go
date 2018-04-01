@@ -33,7 +33,9 @@ var f2 float64 = float64(f1)
 var c1 complex64 = -5 + 12i
 var c2 complex128 = -5 + 12i
 
-c, python, java := true, false, "no!"
+var c, python, java = true, false, "no!"
+
+//c, python, java := true, false, "no!" // := can only be use in function
 
 const Pi = 3.14
 const (
