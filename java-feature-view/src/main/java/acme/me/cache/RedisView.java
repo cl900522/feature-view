@@ -1,11 +1,6 @@
 package acme.me.cache;
 
-import java.io.ByteArrayOutputStream;
-import java.io.FileOutputStream;
-import java.io.ObjectOutputStream;
-import java.io.OutputStream;
 import java.util.ArrayList;
-import java.util.Date;
 import java.util.List;
 import java.util.concurrent.locks.Lock;
 import java.util.concurrent.locks.ReentrantLock;
@@ -23,7 +18,7 @@ public class RedisView {
     private ShardedJedis shardedJedis;// 切片额客户端连接
     private ShardedJedisPool shardedJedisPool;// 切片连接池
 
-    private static Lock lock = new ReentrantLock();  
+    private static Lock lock = new ReentrantLock();
 
     public Jedis getJedis() {
         lock.lock();
@@ -49,7 +44,7 @@ public class RedisView {
         config.setMaxWaitMillis(1000l);
         config.setTestOnBorrow(false);
 
-        this.jedisPool = new JedisPool(config, "192.168.1.100", 6379);
+        this.jedisPool = new JedisPool(config, "192.168.2.202", 6380);
         this.jedis = this.jedisPool.getResource();
     }
 
@@ -64,7 +59,7 @@ public class RedisView {
         config.setTestOnBorrow(false);
         // slave链接
         List<JedisShardInfo> shards = new ArrayList<JedisShardInfo>();
-        shards.add(new JedisShardInfo("192.168.1.100", 6379));
+        shards.add(new JedisShardInfo("192.168.2.202", 6380));
 
         // 构造池
         shardedJedisPool = new ShardedJedisPool(config, shards);
@@ -74,66 +69,30 @@ public class RedisView {
         RedisView view = new RedisView();
         Jedis jedis = view.jedisPool.getResource();
 
-        User user = new User();
-        user.birthDate = new Date();
-        user.password = Math.random() + "";
-        user.userName = Math.random() + "";
+        putdata(jedis);
 
-        /**************single thread***************/
-        int i = 0;
-        while (i < 50) {
-            try {
-                ByteArrayOutputStream os = new ByteArrayOutputStream();
-                ObjectOutputStream oos = new ObjectOutputStream(os);
-                oos.writeObject(user);
-                jedis.setex(("join 00" + i).getBytes(), 3600 * 24, os.toByteArray());
-                System.out.println("Finish storing " + i + " object!");
-            } catch (Exception e) {
-                System.err.println(e.getClass().toString() + ": " +e.getMessage());
-            }
-            i++;
+        jedis.expire("a", 1);
+        
+        try {
+            Thread.sleep(15000);
+        } catch (InterruptedException e) {
+            e.printStackTrace();
         }
 
-        /**************multi thread***************/
-        int TEST_COUNT = 10000;
-        jedis = view.jedisPool.getResource();
+        String hget = jedis.hget("a","key12");
+        System.out.println(hget);
+        System.out.println(jedis.hlen("a"));
 
-        Thread[] threads = new Thread[TEST_COUNT];
-        for (int j = 0; j < threads.length; j++) {
-            RedisRun redisRun = new RedisRun();
-            redisRun.jedisView = view;
-            threads[j] = new Thread(redisRun);
-        }
-
-        for (int j = 0; j < threads.length; j++) {
-            threads[j].start();
-        }
+        putdata(jedis);
+        hget = jedis.hget("a","key12");
+        System.out.println(hget);
     }
 
-    public static class RedisRun implements Runnable {
-        public RedisView jedisView;
-
-        @Override
-        public void run() {
-            Jedis jedis = jedisView.getJedis();
-
-            User user = new User();
-            user.birthDate = new Date();
-            user.password = Math.random() + "";
-            user.userName = Math.random() + "";
-
-            try {
-                ByteArrayOutputStream os = new ByteArrayOutputStream();
-                ObjectOutputStream oos = new ObjectOutputStream(os);
-                oos.writeObject(user);
-                jedis.setex(("user 00" + user.getUserName()).getBytes(), 3600 * 24, os.toByteArray());
-            } catch (Exception e) {
-                System.err.println(e.getClass().toString() + ": " +e.getMessage());
-            }
-
-            System.out.println("Execute well!");
-
-            jedisView.release();
+    private static void putdata(Jedis jedis) {
+        for (int i = 0; i < 1000; i++) {
+            jedis.hset("a", "key" + i, "" + i);
         }
+        System.out.println("finish put");
     }
+
 }

@@ -157,7 +157,7 @@ public class RabbitMQView {
         test0xSubscribeMsg(EXCHANGE_NAME, "b");
         test0xSubscribeMsg(EXCHANGE_NAME, "c");
 
-        test0xPubishMsg(EXCHANGE_NAME, type, new String[] { "a", "b", "c" });
+        test0xPubishMsg(EXCHANGE_NAME, type, new String[] { "a", "b", "c", "c" });
         Thread.sleep(1000);
     }
 
@@ -166,6 +166,7 @@ public class RabbitMQView {
         String EXCHANGE_NAME = "events", type = "direct";
         declareExhange(EXCHANGE_NAME, type);
 
+        test0xSubscribeMsg(EXCHANGE_NAME, "a");
         test0xSubscribeMsg(EXCHANGE_NAME, "a");
         test0xSubscribeMsg(EXCHANGE_NAME, "b");
         test0xSubscribeMsg(EXCHANGE_NAME, "c");
@@ -180,6 +181,7 @@ public class RabbitMQView {
         declareExhange(EXCHANGE_NAME, type);
 
         test0xSubscribeMsg(EXCHANGE_NAME, "*.info");
+        test0xSubscribeMsg(EXCHANGE_NAME, "b.info");
         test0xSubscribeMsg(EXCHANGE_NAME, "*.error");
         test0xSubscribeMsg(EXCHANGE_NAME, "*.debug");
 

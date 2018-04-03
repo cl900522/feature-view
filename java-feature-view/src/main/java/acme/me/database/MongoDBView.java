@@ -75,6 +75,14 @@ public class MongoDBView {
     }
 
     @Test
+    public void dbEvalTest() {
+        DB db = mongoClient.getDB("test");
+
+        Object eval = db.eval("function(){return '2'}");
+        System.out.println(eval);
+    }
+
+    @Test
     public void clientDBTest() {
         DB db = mongoClient.getDB("test");
         // 取得foo的连接
