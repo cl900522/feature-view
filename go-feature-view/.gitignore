@@ -1,2 +1,8 @@
+<<<<<<< HEAD
 /pkg/
 /bin/
+=======
+/bin/
+/pkg/
+*.exe
+>>>>>>> f9fff50453b860da64e47dd95c07881aaa4f6fec
