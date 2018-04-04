@@ -1,19 +1,29 @@
 package flow
 
-import "fmt"
+import (
+	f "fmt"
+)
 
+/**
+ * 测试defer，让直行延后
+ * @type {[type]}
+ */
 func Defer0() {
-	defer fmt.Println("world")
+	defer f.Println("world")
 
-	fmt.Println("hello")
+	f.Println("hello")
 }
 
+/**
+ * 测试defer，让直行延后
+ * @type {[type]}
+ */
 func Defer1() {
-	fmt.Println("counting")
+	f.Println("counting")
 
 	for i := 0; i < 10; i++ {
-		defer fmt.Println(i)
+		defer f.Println(i)
 	}
 
-	fmt.Println("done")
+	f.Println("done")
 }
