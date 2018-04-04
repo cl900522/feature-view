@@ -1,8 +1,10 @@
 package controllers
 
 import (
+	"fmt"
+
 	"github.com/astaxie/beego"
-	"org.yayoi.beego.test/model"
+	userdao "org.yayoi.beego.test/model"
 )
 
 type MainController struct {
@@ -16,13 +18,18 @@ const (
 
 func (c *MainController) Get() {
 	loginUser := c.GetSession(LOGIN_USER)
-
 	callBack := c.GetString("callBack")
 
 	if loginUser == nil {
+		beego.Debug("login user is nil")
 		cookieId := c.Ctx.GetCookie(LOGIN_USER_COOKIE)
-		if cookieId == "123981023" {
-			loginUser = model.User{"123981023", "123"}
+		if cookieId != "" {
+			u := userdao.FindByToken(cookieId)
+			beego.Debug("find user by token:" + cookieId)
+			beego.Debug(u)
+			if &u != nil {
+				loginUser = u
+			}
 		}
 	}
 
@@ -33,7 +40,7 @@ func (c *MainController) Get() {
 		if callBack == "" {
 			c.Ctx.WriteString("Validate Success")
 		} else {
-			temp := loginUser.(model.User)
+			temp := loginUser.(userdao.User)
 			c.Redirect(callBack+"?token="+temp.Token, int(302))
 		}
 	}
@@ -45,8 +52,15 @@ func (c *MainController) Post() {
 	pwd := c.GetString("password")
 	callBack := c.GetString("callBack")
 
-	if user == "admin" && pwd == "admin" {
-		loginUser := model.User{"123981023", "123"}
+	find := userdao.FindByName(user)
+	fmt.Println("Find:" + find.Password)
+
+	if &find != nil && find.Password == pwd {
+		loginUser := find
+		loginUser.Token = "2222222222"
+		loginUser.CookieId = "1111111111"
+		userdao.Update(loginUser)
+
 		c.SetSession(LOGIN_USER, loginUser)
 		c.Ctx.SetCookie(LOGIN_USER_COOKIE, loginUser.Token, 7*24*3600, "/")
 
