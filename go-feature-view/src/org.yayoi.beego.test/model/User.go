@@ -30,33 +30,33 @@ func Add(u User) {
 	o.Insert(u)
 }
 
-func FindByName(userName string) (u User) {
+func FindByName(userName string) (u *User) {
 	o := orm.NewOrm()
 	qs := o.QueryTable("user")
 
 	var users []*User
 	num, err := qs.Filter("userName", userName).All(&users)
 	if num > 0 && err == nil {
-		u = *users[0]
+		u = users[0]
 	}
 
 	return
 }
 
-func FindByCookie(cookie string) (u User) {
+func FindByCookie(cookie string) (u *User) {
 	o := orm.NewOrm()
 	qs := o.QueryTable("user")
 
 	var users []*User
 	num, err := qs.Filter("cookie_id", cookie).All(&users)
 	if num > 0 && err == nil {
-		u = *users[0]
+		u = users[0]
 	}
 
 	return
 }
 
-func FindByToken(token string) User {
+func FindByToken(token string) (u *User) {
 
 	o := orm.NewOrm()
 	qs := o.QueryTable("user")
@@ -64,10 +64,10 @@ func FindByToken(token string) User {
 	var users []*User
 	num, err := qs.Filter("token", token).All(&users)
 	if num > 0 && err == nil {
-		return *users[0]
+		return users[0]
 	}
 
-	return User{}
+	return
 }
 
 func Update(u User) {
