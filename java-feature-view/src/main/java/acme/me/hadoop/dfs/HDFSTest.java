@@ -19,7 +19,7 @@ public class HDFSTest {
     public void init(){
         try {
             Configuration conf = new Configuration();
-            fs = FileSystem.get(URI.create("hdfs://192.168.100.200/"), conf);
+            fs = FileSystem.get(URI.create("hdfs://192.168.2.208:8020/"), conf);
         } catch (IOException e) {
             e.printStackTrace();
         } catch (Exception e) {
