@@ -2,7 +2,7 @@ package controllers
 
 import (
 	"github.com/astaxie/beego"
-	"org.yayoi.beego.test/model"
+	userdao "org.yayoi.beego.test/model"
 )
 
 type MainController struct {
@@ -10,19 +10,24 @@ type MainController struct {
 }
 
 const (
-	LOGIN_USER        = "LONG_USER"
-	LOGIN_USER_COOKIE = "token"
+	SESSION_KEY_OF_LOGIN_USER = "LOGIN_USER"
+	LOGIN_TOKEN               = "token"
 )
 
 func (c *MainController) Get() {
-	loginUser := c.GetSession(LOGIN_USER)
-
+	loginUser := c.GetSession(SESSION_KEY_OF_LOGIN_USER)
 	callBack := c.GetString("callBack")
 
 	if loginUser == nil {
-		cookieId := c.Ctx.GetCookie(LOGIN_USER_COOKIE)
-		if cookieId == "123981023" {
-			loginUser = model.User{"123981023", "123"}
+		beego.Debug("session user is nil")
+		token := c.Ctx.GetCookie(LOGIN_TOKEN)
+		if token != "" {
+			u := userdao.FindByToken(token)
+			if u != nil {
+				beego.Debug("find user with token: ", token, "->", u)
+				loginUser = *u
+				c.SetSession(SESSION_KEY_OF_LOGIN_USER, loginUser)
+			}
 		}
 	}
 
@@ -33,7 +38,7 @@ func (c *MainController) Get() {
 		if callBack == "" {
 			c.Ctx.WriteString("Validate Success")
 		} else {
-			temp := loginUser.(model.User)
+			temp := loginUser.(userdao.User)
 			c.Redirect(callBack+"?token="+temp.Token, int(302))
 		}
 	}
@@ -45,10 +50,18 @@ func (c *MainController) Post() {
 	pwd := c.GetString("password")
 	callBack := c.GetString("callBack")
 
-	if user == "admin" && pwd == "admin" {
-		loginUser := model.User{"123981023", "123"}
-		c.SetSession(LOGIN_USER, loginUser)
-		c.Ctx.SetCookie(LOGIN_USER_COOKIE, loginUser.Token, 7*24*3600, "/")
+	find := userdao.FindByName(user)
+
+	if find != nil && find.Password == pwd {
+		loginUser := find
+		loginUser.Token = "2222222222"
+		loginUser.CookieId = "1111111111"
+		userdao.Update(*loginUser)
+
+		beego.Debug(*loginUser)
+
+		c.SetSession(SESSION_KEY_OF_LOGIN_USER, loginUser)
+		c.Ctx.SetCookie(LOGIN_TOKEN, loginUser.Token, 7*24*3600, "/")
 
 		if callBack == "" {
 			c.Ctx.WriteString("Validate Success")
