@@ -1,11 +1,14 @@
 package acme.me.database;
 
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Set;
 
 import javax.annotation.Resource;
 
+import org.bson.Document;
+import org.bson.conversions.Bson;
 import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
@@ -25,8 +28,9 @@ import com.mongodb.DBCollection;
 import com.mongodb.DBCursor;
 import com.mongodb.DBObject;
 import com.mongodb.MongoClient;
-
-import acme.me.cache.User;
+import com.mongodb.client.MongoCollection;
+import com.mongodb.client.MongoDatabase;
+import com.mongodb.client.model.UpdateOptions;
 
 @RunWith(SpringJUnit4ClassRunner.class)
 @ContextConfiguration(locations = "classpath:spring-mongo-single.xml")
@@ -34,6 +38,7 @@ public class MongoDBView {
     private static final String TEST_FOO_NAME = "foo";
     private static final String TEST_INDEX_NAME = "IndexCollection";
     private static final String TEST_MR_NAME = "MapReduceCollection";
+    private static final String TEST_UPSERT_NAME = "UpsertCollection";
 
     @Resource
     private MongoTemplate mongoTemplate;
@@ -46,6 +51,20 @@ public class MongoDBView {
         mongoTemplate.createCollection(TEST_INDEX_NAME);
         mongoTemplate.createCollection(TEST_FOO_NAME);
         mongoTemplate.createCollection(TEST_MR_NAME);
+        mongoTemplate.createCollection(TEST_UPSERT_NAME);
+    }
+
+    @Test
+    public void idTest() {
+        MongoDatabase database = mongoClient.getDatabase("test");
+        MongoCollection<Document> collection = database.getCollection(TEST_UPSERT_NAME);
+        List<Document> docs = new ArrayList<Document>();
+        for (int i = 0; i < 50; i++) {
+            Document document = new Document();
+            document.put("_id", "ppppp" + i);
+            document.put("value", "v95192" + i);
+            collection.replaceOne(new Document("_id", document.get("_id")), document, new UpdateOptions().upsert(true));
+        }
     }
 
     @Test
