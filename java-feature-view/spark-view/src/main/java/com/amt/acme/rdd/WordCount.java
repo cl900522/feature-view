@@ -1,4 +1,4 @@
-package com.amt.acme;
+package com.amt.acme.rdd;
 
 import java.util.Arrays;
 import java.util.Iterator;
@@ -20,7 +20,7 @@ public class WordCount {
         JavaSparkContext sc = new JavaSparkContext(conf);
 
         JavaRDD<String> lines = sc.textFile(args[0]);
-
+        
         /* 过滤提取INFO行 */
         JavaRDD<String> filteredList = lines.filter(new Function<String, Boolean>() {
             @Override
@@ -37,7 +37,7 @@ public class WordCount {
                 return Arrays.asList(str.substring(indexOf - 17, indexOf)).iterator();
             }
         });
-
+        
         // 再转化为键值对
         JavaPairRDD<String, Integer> pairRdd = flatMapRdd.mapToPair(new PairFunction<String, String, Integer>() {
             public Tuple2<String, Integer> call(String word) throws Exception {
@@ -52,7 +52,7 @@ public class WordCount {
                 return i1 + i2;
             }
         });
-
+        
         JavaRDD<String> results = countRdd.keys();
         results.saveAsTextFile(args[1]);
         sc.close();
