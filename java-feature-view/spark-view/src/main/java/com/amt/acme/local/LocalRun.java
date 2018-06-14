@@ -17,20 +17,23 @@ import scala.Tuple2;
 public class LocalRun {
 
 	public static void main(String[] args) {
-//		String string = "spark://192.168.2.208:7077";
-		String string = "yarn-client";
+	    
+		String string = "spark://192.168.2.208:7077";
+//		String string = "yarn-client";
 //		String string = "local";
 		SparkConf conf = new SparkConf().setMaster(string).setAppName("My App");
 
 		String [] jars = {"/02_git/feature-view/java-feature-view/spark-view/target/spark-demo-1.0.jar"};
 		conf.setJars(jars);
-		conf.set("spark.yarn.stagingDir", "/temp/stag");
-		conf.set("spark.yarn.archive", "hdfs://192.168.2.208:9000/spark-jars.zip");
-        conf.set("spark.executor.instances", "30");
-        conf.set("spark.executor.cores", "3");
-        conf.set("spark.executor.memory", "5G");
-        conf.set("spark.driver.memory", "3G");
-        conf.set("spark.driver.maxResultSize", "10G");
+//		conf.set("spark.yarn.stagingDir", "hdfs://192.168.2.208:9000/spark-app/");
+		
+//		conf.set("spark.yarn.jars", "hdfs://192.168.2.208:9000/spark/spark-2.3.0-yarn-shuffle.jar");
+//		conf.set("spark.yarn.archive", "hdfs://192.168.2.208:9000/spark-hadoop.zip");
+//        conf.set("spark.executor.instances", "30");
+//        conf.set("spark.executor.cores", "3");
+//        conf.set("spark.executor.memory", "5G");
+//        conf.set("spark.driver.memory", "3G");
+//        conf.set("spark.driver.maxResultSize", "10G");
 		JavaSparkContext sc = new JavaSparkContext(conf);
 		JavaRDD<String> parallelize = sc.parallelize(Arrays.asList("a.", "a.c", "b,c"));
 		parallelize = parallelize.filter(new Function<String, Boolean>() {
@@ -56,7 +59,7 @@ public class LocalRun {
 
         JavaRDD<String> results = countRdd.keys();
 		System.out.println(results.first());
-        results.saveAsTextFile("hdfs://192.168.2.208:9000/Hadoop/Output/a");
+        results.saveAsTextFile("hdfs://192.168.2.208:9000/Hadoop/Output/b");
 
 		sc.close();
 	}
