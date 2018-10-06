@@ -58,6 +58,17 @@ public class RabbitMQView {
                 }
             }
         }).start();
+
+        new Thread(new Runnable() {
+            @Override
+            public void run() {
+                try {
+                    test01ReceiveCommonMsg();
+                } catch (Exception e) {
+                }
+            }
+        }).start();
+
         Thread.sleep(500);
         new Thread(new Runnable() {
             @Override
@@ -123,7 +134,7 @@ public class RabbitMQView {
         int i = 20;
         while (i-- > 0) {
             String message = "WorkMessage:" + new Date();
-            channel.basicPublish("", TASK_QUEUE_NAME, MessageProperties.PERSISTENT_TEXT_PLAIN, message.getBytes());
+            channel.basicPublish("", TASK_QUEUE_NAME, null, message.getBytes());
             logger.info("[" + TASK_QUEUE_NAME + "] Sent '" + message + "'");
         }
     }
