@@ -2,12 +2,9 @@ package acme.me.j2ee.jms;
 
 import java.io.IOException;
 import java.util.Date;
-import java.util.HashSet;
-import java.util.Set;
 import java.util.UUID;
 
 import org.apache.log4j.Logger;
-import org.hibernate.util.SerializationHelper;
 import org.junit.After;
 import org.junit.Before;
 import org.junit.FixMethodOrder;
@@ -26,7 +23,6 @@ import com.rabbitmq.client.ConnectionFactory;
 import com.rabbitmq.client.Consumer;
 import com.rabbitmq.client.DefaultConsumer;
 import com.rabbitmq.client.Envelope;
-import com.rabbitmq.client.MessageProperties;
 import com.rabbitmq.client.QueueingConsumer;
 
 @RunWith(SpringJUnit4ClassRunner.class)
@@ -85,7 +81,7 @@ public class RabbitMQView {
     public void test01SendCommonMsg() throws Exception {
         /* 建立Queue，如果存在则会忽略 */
         Channel channel = connection.createChannel();
-        DeclareOk queueDeclare = channel.queueDeclare(QUEUE_NAME, false, false, false, null);
+        DeclareOk queueDeclare = channel.queueDeclare(QUEUE_NAME, true, false, false, null);
         logger.info("QueueName:" + queueDeclare.getQueue());
         logger.info("MessageCount:" + queueDeclare.getMessageCount());
         logger.info("ConsumerCount:" + queueDeclare.getConsumerCount());
@@ -98,7 +94,7 @@ public class RabbitMQView {
     public void test01ReceiveCommonMsg() throws Exception {
         /* 再次声明queue的存在，如果确认队的发送者已经存在，则可以忽略 */
         Channel channel = connection.createChannel();
-        DeclareOk queueDeclare = channel.queueDeclare(QUEUE_NAME, false, false, false, null);
+        DeclareOk queueDeclare = channel.queueDeclare(QUEUE_NAME, true, false, false, null);
         logger.info("QueueName:" + queueDeclare.getQueue());
         logger.info("MessageCount:" + queueDeclare.getMessageCount());
         logger.info("ConsumerCount:" + queueDeclare.getConsumerCount());
@@ -164,11 +160,12 @@ public class RabbitMQView {
         String EXCHANGE_NAME = "logs", type = "fanout";
         declareExhange(EXCHANGE_NAME, type);
 
-        test0xSubscribeMsg(EXCHANGE_NAME, "a");
-        test0xSubscribeMsg(EXCHANGE_NAME, "b");
-        test0xSubscribeMsg(EXCHANGE_NAME, "c");
+        //不需要提供routekey
+        test0xSubscribeMsg(EXCHANGE_NAME, "");
+        test0xSubscribeMsg(EXCHANGE_NAME, "");
+        test0xSubscribeMsg(EXCHANGE_NAME, "");
 
-        test0xPubishMsg(EXCHANGE_NAME, type, new String[] { "a", "b", "c", "c" });
+        test0xPubishMsg(EXCHANGE_NAME, type, new String[] { "", "", "", "" });
         Thread.sleep(1000);
     }
 
@@ -212,6 +209,7 @@ public class RabbitMQView {
             String message = "Exchange Msg: " + route + ": " + System.currentTimeMillis();
             channel.basicPublish(exchangeName, route, null, message.getBytes());
             logger.info("Route [" + route + "] Exchange [" + exchangeName + "] Sent '" + message + "'");
+            Thread.sleep(5);
         }
     }
 
@@ -234,17 +232,15 @@ public class RabbitMQView {
     public void test06PubishByteMsg(String exchangeName, String type, String[] routes) throws Exception {
         Channel channel = connection.createChannel();
 
-        HashSet<String> names = new HashSet<String>();
-        byte[] data = new byte[1024 * 1024 * 30];
-        for (int i = 0; i < 1000000; i++) {
-            names.add(UUID.randomUUID().toString().substring(0, 12));
+        for (int i = 0; i < 10000; i++) {
+            String message = UUID.randomUUID().toString().substring(0, 12);
+            for (String route : routes) {
+                channel.basicPublish(exchangeName, route, null, message.getBytes());
+                logger.info("Route [" + route + "] Exchange [" + exchangeName + "] Sent " + message.length() + " Byte(s)");
+                Thread.sleep(5);
+            }
         }
-        data = SerializationHelper.serialize(names);
 
-        for (String route : routes) {
-            channel.basicPublish(exchangeName, route, null, data);
-            logger.info("Route [" + route + "] Exchange [" + exchangeName + "] Sent " + data.length + " Byte(s)");
-        }
     }
 
     public void test0xSubscribeMsg(String exchangeName, final String route) throws Exception {
@@ -255,7 +251,7 @@ public class RabbitMQView {
         Consumer consumer = new DefaultConsumer(channel) {
             @Override
             public void handleDelivery(String consumerTag, Envelope envelope, AMQP.BasicProperties properties, byte[] body) throws IOException {
-                logger.info("Router [" + route + "] from queue [" + queueName + "] Received '" + body.length + "' Byte(s)");
+                logger.info("Router [" + route + "] from queue [" + queueName + "] Received '" + new String(body) + "'");
                 try {
                     Thread.sleep(100);
                 } catch (InterruptedException e) {

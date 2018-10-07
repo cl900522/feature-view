@@ -4,6 +4,10 @@
     <groupId>acme</groupId>
     <artifactId>java-feature-view</artifactId>
     <version>1.0.0</version>
+    <modules>
+        <module>redis-view</module>
+        <module>common</module>
+    </modules>
     <packaging>jar</packaging>
 
     <name>java-feature-view</name>
