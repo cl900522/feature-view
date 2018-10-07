@@ -2,9 +2,7 @@ package com.amt.acme.local;
 
 import java.util.Arrays;
 
-import org.apache.hadoop.yarn.client.api.impl.YarnClientImpl;
 import org.apache.spark.SparkConf;
-import org.apache.spark.SparkContext;
 import org.apache.spark.api.java.JavaPairRDD;
 import org.apache.spark.api.java.JavaRDD;
 import org.apache.spark.api.java.JavaSparkContext;
@@ -17,24 +15,22 @@ import scala.Tuple2;
 public class LocalRun {
 
 	public static void main(String[] args) {
-	    
+		System.setProperty("HADOOP_USER_NAME", "hadoop");
+
 		String string = "spark://192.168.2.208:7077";
 //		String string = "yarn-client";
-//		String string = "local";
-		SparkConf conf = new SparkConf().setMaster(string).setAppName("My App");
-
-		String [] jars = {"/02_git/feature-view/java-feature-view/spark-view/target/spark-demo-1.0.jar"};
-		conf.setJars(jars);
-//		conf.set("spark.yarn.stagingDir", "hdfs://192.168.2.208:9000/spark-app/");
+		SparkConf conf = new SparkConf().setMaster("yarn-client").setAppName("My App");
 		
-//		conf.set("spark.yarn.jars", "hdfs://192.168.2.208:9000/spark/spark-2.3.0-yarn-shuffle.jar");
-//		conf.set("spark.yarn.archive", "hdfs://192.168.2.208:9000/spark-hadoop.zip");
-//        conf.set("spark.executor.instances", "30");
-//        conf.set("spark.executor.cores", "3");
-//        conf.set("spark.executor.memory", "5G");
-//        conf.set("spark.driver.memory", "3G");
-//        conf.set("spark.driver.maxResultSize", "10G");
+//		conf.set("spark.yarn.dist.files", "/web/soft/hadoop-2.7.4/etc/hadoop/yarn-site.xml");
+//		conf.set("spark.yarn.jar", "/web/soft/spark-2.3.0/yarn/spark-assembly-1.5.2-hadoop2.6.0.jar");
+		conf.set("spark.yarn.stagingDir", "hdfs://192.168.100.200:9000/spark/stage");
+		
+		String [] jars = {"/home/chenmx/.m2/repository/com/amt/spark-demo/1.0/spark-demo-1.0.jar"};
+		conf.setJars(jars);
+		conf.set("spark.submit.deployMode", "client");
+
 		JavaSparkContext sc = new JavaSparkContext(conf);
+
 		JavaRDD<String> parallelize = sc.parallelize(Arrays.asList("a.", "a.c", "b,c"));
 		parallelize = parallelize.filter(new Function<String, Boolean>() {
 			@Override
@@ -59,8 +55,7 @@ public class LocalRun {
 
         JavaRDD<String> results = countRdd.keys();
 		System.out.println(results.first());
-        results.saveAsTextFile("hdfs://192.168.2.208:9000/Hadoop/Output/b");
-
+        results.saveAsTextFile("hdfs://192.168.100.200:9000/Hadoop/Output/g");
 		sc.close();
 	}
 }
