@@ -8,6 +8,7 @@ import org.springframework.data.redis.serializer.RedisSerializer;
 
 /**
  * Created by caijun.yang on 2018/3/21
+ * 使用Jedis默认的JedisPool在获取Client后自动回收有问题，最好采用spring RedisTemplate进行处理
  */
 public class RedisClientImpl implements RedisClient {
 
@@ -45,6 +46,17 @@ public class RedisClientImpl implements RedisClient {
         });
     }
 
+
+    public Boolean setNX(final String key, final String value) {
+        return redisTemplate.execute(new RedisCallback<Boolean>() {
+            public Boolean doInRedis(RedisConnection redisConnection) throws DataAccessException {
+                RedisSerializer<String> serializer = getRedisSerializer();
+                byte keys[] = serializer.serialize(key);
+                byte values[] = serializer.serialize(value);
+                return redisConnection.setNX(keys, values);
+            }
+        });
+    }
 
     public Long delete(final String key) {
         return redisTemplate.execute(new RedisCallback<Long>() {
@@ -198,6 +210,17 @@ public class RedisClientImpl implements RedisClient {
         });
     }
 
+    public Boolean hsetNX(final String key, final String field, final String value) {
+        return redisTemplate.execute(new RedisCallback<Boolean>() {
+            public Boolean doInRedis(RedisConnection redisConnection) throws DataAccessException {
+                return redisConnection.hSetNX(
+                        getRedisSerializer().serialize(key),
+                        getRedisSerializer().serialize(field),
+                        getRedisSerializer().serialize(value)
+                );
+            }
+        });
+    }
 
     public String hget(final String key, final String field) {
         byte[] bytes = redisTemplate.execute(new RedisCallback<byte[]>() {

@@ -1,2 +1,6 @@
 /target/
-/redis-view.iml
+/.settings
+/.idea/
+/.classpath
+/.project
+/*.iml
