@@ -15,6 +15,14 @@ eureka:
     prefer-ip-address: true
     instance-id: ${spring.application.name}:${spring.application.instance_id:${server.port}}
 
-  feign:
-    hystrix:
-      enabled: true
+feign:
+  #启用针对您的Feign请求的请求或响应GZIP压缩
+  compression:
+    request:
+      enable: true
+      mime-types: text/xml,application/xml,application/json
+      min-request-size: 2048
+    response:
+      enable: true
+  hystrix:
+    enabled: true
