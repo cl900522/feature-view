@@ -6,6 +6,10 @@ import org.springframework.boot.autoconfigure.EnableAutoConfiguration;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.cloud.netflix.eureka.server.EnableEurekaServer;
 
+/**
+ * The @SpringBootApplication annotation is equivalent to using @Configuration,
+ * @EnableAutoConfiguration and @ComponentScan with their default attributes
+ */
 @SpringBootApplication
 @EnableEurekaServer
 public class EurekaServerApplication {

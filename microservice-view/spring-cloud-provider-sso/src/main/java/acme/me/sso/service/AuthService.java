@@ -1,6 +1,7 @@
 package acme.me.sso.service;
 
 public interface AuthService {
-    void login(String user, String name);
+    String login(String loginName, String password);
 
+    Boolean isValidTooken(String token);
 }

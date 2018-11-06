@@ -14,6 +14,10 @@ spring:
     charset: UTF-8 #编码格式
     settings:
       number_format: '0.##'   #数字格式化，无小数点
+  devtools:
+    restart:
+      exclude: static/**,public/**
+      classic_compatible: true
 
 eureka:
   client:
@@ -37,3 +41,16 @@ feign:
   hystrix:
     enabled: true
 
+sso:
+  cookie:
+    domain: acme.org
+    key:
+      token: token
+      tokenAge: 30
+  param:
+    default_redirct_url: http://home.acme.org
+    key:
+      redirect-url: redirectUrl
+  session:
+    key:
+      redirect-url: redirectUrl
