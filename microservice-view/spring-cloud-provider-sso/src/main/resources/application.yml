@@ -16,7 +16,7 @@ spring:
       number_format: '0.##'   #数字格式化，无小数点
   devtools:
     restart:
-      exclude: static/**,public/**
+      exclude: static/**,public/**,templates/**
       classic_compatible: true
 
 eureka:
