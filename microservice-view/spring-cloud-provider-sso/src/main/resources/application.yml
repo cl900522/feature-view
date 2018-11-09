@@ -48,7 +48,7 @@ sso:
       token: token
       tokenAge: 30
   param:
-    default_redirct_url: http://home.acme.org
+    default_redirct_url: http://jd.com
     key:
       redirect-url: redirectUrl
   session:

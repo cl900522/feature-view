@@ -12,7 +12,7 @@ import org.springframework.context.annotation.Configuration;
 @Configuration
 public class SSOConfiguration {
 
-    public String redirct_url_format = "redirect:%s?token=%s";
+    public String redirct_url_format = "%s?token=%s";
 
     @Value("${sso.param.key.redirect-url}")
     public String param_key_redirect_url = "redirectUrl";

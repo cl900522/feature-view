@@ -31,7 +31,8 @@ public class AuthAction extends BaseAction {
     public String index(HttpServletRequest request, HttpServletResponse response, ModelMap map) throws IOException {
         String redirectUrl = getRequestParameter(request, configuration.param_key_redirect_url);
         if (StringUtils.isEmpty(redirectUrl)) {
-            map.put(configuration.param_key_redirect_url, configuration.default_redirct_url);
+            redirectUrl = configuration.default_redirct_url;
+            map.put(configuration.param_key_redirect_url, redirectUrl);
         }
 
         Cookie[] cookies = request.getCookies();

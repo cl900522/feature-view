@@ -25,9 +25,9 @@
                     <label class="input-group-addon">密码</label><input class="form-control" type="password" name="password" id="password"/>
                 </div>
             </div>
-            <input type="hidden" name="redirect-url" id="redirect-url" value="${redirectUrc!""}"/>
+            <input type="hidden" name="redirect-url" id="redirect-url" value="${redirectUrl}"/>
             <div class="row">
-                <div class="input-group input-group-m">
+                <div class="input-group input-group-md">
                     <button class="btn btn-success btn-md" id="goLogin">登录</button>
                 </div>
             </div>
@@ -49,8 +49,8 @@
                     cache: false,
                     url: "/validate",
                     data: {
-                        loginName: $("#loginName").val(),
-                        password: $("#password").val(),
+                        "loginName": $("#loginName").val(),
+                        "password": $("#password").val(),
                         "redirect-url": $("#redirect-url").val()
                     },
                     dataType: "json",

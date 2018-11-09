@@ -11,7 +11,7 @@ function ProgressBar(barId) {
     };
     this.go = function () {
         var me = this;
-        me.intervalTag = setInterval(createGoInterVal(10), 500);
+        me.intervalTag = setInterval(me.createGoInterVal(10), 500);
     };
     this.createGoInterVal =function(goStep) {
         var me = this;
