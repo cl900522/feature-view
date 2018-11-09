@@ -3,34 +3,51 @@
         <meta name="viewport" content="width=device-width, initial-scale=1.0">
     </head>
     <body>
-        <div class="header container" style="width:100%;max-width: 100%">
-            <div class="row left">
-                <div class="col-md-1">单点登录系统</div>
+        <div class="header container" style="height: 60px;width: 100%;max-width: 100%">
+            <div class="row">
+                <div class="col-lg-2" style="line-height: 40px;font-size: 16px">
+                    <div class="pull-left" style="display: block">
+                        <img src="https://ss1.baidu.com/6ONXsjip0QIZ8tyhnq/it/u=117732031,468073355&fm=58&bpow=1024&bpoh=1024" class="img-rounded" style="height: 40px;width: 40px;">
+                        <span style="height: 40px;width: 40px;">统一登录系统</span>
+                    </div>
+                </div>
+                <div class="col-lg-1" style="line-height: 40px;font-size: 16px">
+
+                </div>
             </div>
         </div>
-        <div class="progress" style="width: 100%;max-width: 100%;height: 8px">
-            <div id="validateProcess" class="progress-bar progress-bar-success" role="progressbar" aria-valuenow="60" aria-valuemin="0" aria-valuemax="100" style="width: 0%;">
-                <span class="sr-only">40% 完成</span>
+        <div class="progress" style="width: 100%;max-width: 100%;height: 20px">
+            <div id="validateProcess" class="progress-bar progress-bar-success" role="progressbar" aria-valuenow="60" aria-valuemin="0" aria-valuemax="100" style="width: 100%;">
+                <span class="sr-only">x% 完成</span>
             </div>
         </div>
 
-        <div class="container" role="form" style="width:500px; margin:100px auto;">
-            <div class="row">
-                <div class="input-group input-group-md">
-                    <label class="input-group-addon">账号</label><input class="form-control" type="text" name="loginName" id="loginName"/>
+        <div class="form form-horizontal" style="width:300px; margin:200px auto;">
+            <fieldset>
+                <div class="form-group">
+                    <label class="control-label">账号/邮箱/手机</label>
+                    <div class="controls">
+                        <input class="form-control" type="text" name="loginName" id="loginName" placeholder="输入账号/邮箱/手机"/>
+                    </div>
                 </div>
-            </div>
-            <div class="row">
-                <div class="input-group input-group-md">
-                    <label class="input-group-addon">密码</label><input class="form-control" type="password" name="password" id="password"/>
+                <div class="form-group">
+                    <label class="control-label">密码</label>
+                    <div class="controls">
+                        <input class="form-control" type="password" name="password" id="password" placeholder="输入密码"/>
+                    </div>
                 </div>
-            </div>
-            <input type="hidden" name="redirect-url" id="redirect-url" value="${redirectUrl}"/>
-            <div class="row">
-                <div class="input-group input-group-md">
-                    <button class="btn btn-success btn-md" id="goLogin">登录</button>
+                <div class="form-group">
+                    <div class="checkbox">
+                        <label class="control-label">记住我<input type="checkbox"/></label>
+                    </div>
                 </div>
-            </div>
+                <input type="hidden" name="redirect-url" id="redirect-url" value="${redirectUrc!""}"/>
+                <div class="form-group" style="margin-top: 30px">
+                    <div class="controls">
+                        <button class="form-control btn btn-success" id="goLogin">登录</button>
+                    </div>
+                </div>
+            </fieldset>
         </div>
     </body>
     <link rel="stylesheet" href="/css/bootstrap.min.css">
@@ -41,24 +58,25 @@
     <script>
         var progressBar = new ProgressBar("validateProcess");
         $(function () {
-            progressBar.reset();
-            progressBar.go();
             $("#goLogin").click(function () {
+                progressBar.reset();
+                progressBar.go();
+
+                return;
                 $.ajax({
                     type: "POST",
                     cache: false,
                     url: "/validate",
                     data: {
-                        "loginName": $("#loginName").val(),
-                        "password": $("#password").val(),
+                        loginName: $("#loginName").val(),
+                        password: $("#password").val(),
                         "redirect-url": $("#redirect-url").val()
                     },
                     dataType: "json",
                     success: function (response) {
                         progressBar.setProgress(100);
-
                         if (response.code == "0") {
-                            console.log("success");
+                            location.href = response.data;
                         } else {
                             console.log(response.message);
                         }
