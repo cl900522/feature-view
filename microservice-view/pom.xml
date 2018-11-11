@@ -25,6 +25,7 @@
         <module>spring-cloud-provider-sso</module>
         <module>spring-cloud-eureka</module>
         <module>spring-cloud-config</module>
+        <module>common</module>
     </modules>
 
     <dependencies>

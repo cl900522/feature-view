@@ -1,7 +1,9 @@
 package acme.me.sso.service.impl;
 
+import acme.me.sso.entity.UserInfo;
 import acme.me.sso.rpc.ManagerServiceRpc;
 import acme.me.sso.service.AuthService;
+import acme.me.sso.util.SecurityUtil;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.util.StringUtils;
@@ -13,9 +15,16 @@ public class AuthServiceImpl implements AuthService {
     private ManagerServiceRpc managerServiceRpc;
 
     @Override
-    public String login(String loginName, String password) {
-        managerServiceRpc.getAll();
-        return loginName;
+    public UserInfo login(String loginName, String inPwd, String passwordSalt) {
+        UserInfo manager = new UserInfo();
+        manager.setUserName("admin");
+        String oriPwd = SecurityUtil.md5("admin123");
+        manager.setPassword(oriPwd);
+
+        if (SecurityUtil.md5(oriPwd + passwordSalt).equals(oriPwd)) {
+            return manager;
+        }
+        return null;
     }
 
     @Override

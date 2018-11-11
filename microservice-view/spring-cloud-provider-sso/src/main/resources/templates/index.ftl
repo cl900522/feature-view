@@ -16,8 +16,8 @@
                 </div>
             </div>
         </div>
-        <div class="progress" style="width: 100%;max-width: 100%;height: 20px">
-            <div id="validateProcess" class="progress-bar progress-bar-success" role="progressbar" aria-valuenow="60" aria-valuemin="0" aria-valuemax="100" style="width: 100%;">
+        <div class="progress" style="width: 100%;max-width: 100%;height: 10px">
+            <div id="validateProcess" class="progress-bar progress-bar-success progress-bar-striped" role="progressbar" aria-valuenow="60" aria-valuemin="0" aria-valuemax="100" style="width: 100%;">
                 <span class="sr-only">x% 完成</span>
             </div>
         </div>
@@ -38,10 +38,10 @@
                 </div>
                 <div class="form-group">
                     <div class="checkbox">
-                        <label class="control-label">记住我<input type="checkbox"/></label>
+                        <label class="control-label"><input type="checkbox"/>记住我</label>
                     </div>
                 </div>
-                <input type="hidden" name="redirect-url" id="redirect-url" value="${redirectUrc!""}"/>
+                <input type="hidden" name="redirectUrl" id="redirect_url" value="${redirect_url}"/>
                 <div class="form-group" style="margin-top: 30px">
                     <div class="controls">
                         <button class="form-control btn btn-success" id="goLogin">登录</button>
@@ -52,25 +52,32 @@
     </body>
     <link rel="stylesheet" href="/css/bootstrap.min.css">
     <link rel="stylesheet" href="/css/common.css">
-    <script type="application/javascript" src="/js/jquery-1.7.1.js"></script>
+    <script type="application/javascript" src="/js/jquery.min.js"></script>
     <script type="application/javascript" src="/js/bootstrap.min.js"></script>
+    <script type="application/javascript" src="https://passport.cnblogs.com/scripts/jsencrypt.min.js"></script>
     <script type="application/javascript" src="/js/common.js"></script>
     <script>
         var progressBar = new ProgressBar("validateProcess");
+        var pwdSalt = "${pwd_salt}";
+        var rsaPublicKey = "${publicKey}";
+
+        var encrypt = new JSEncrypt();
+        encrypt.setPublicKey(rsaPublicKey );
+
         $(function () {
             $("#goLogin").click(function () {
                 progressBar.reset();
                 progressBar.go();
-
-                return;
+                var encryptData = encrypt.encrypt($("#password").val() + pwdSalt);//加密后的字符串
                 $.ajax({
                     type: "POST",
                     cache: false,
                     url: "/validate",
                     data: {
-                        loginName: $("#loginName").val(),
-                        password: $("#password").val(),
-                        "redirect-url": $("#redirect-url").val()
+                        "loginName": $("#loginName").val(),
+                        "password": encryptData,
+                        "passwordSalt": pwdSalt,
+                        "redirectUrl": $("#redirect_url").val()
                     },
                     dataType: "json",
                     success: function (response) {

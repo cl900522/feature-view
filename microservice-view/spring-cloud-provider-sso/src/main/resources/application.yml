@@ -50,7 +50,7 @@ sso:
   param:
     default_redirct_url: http://jd.com
     key:
-      redirect-url: redirectUrl
+      redirect_url: redirect_url
   session:
     key:
-      redirect-url: redirectUrl
+      redirect_url: redirect_url
