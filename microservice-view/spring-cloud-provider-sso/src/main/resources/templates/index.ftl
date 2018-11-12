@@ -59,7 +59,7 @@
     <script>
         var progressBar = new ProgressBar("validateProcess");
         var pwdSalt = "${pwd_salt}";
-        var rsaPublicKey = "${publicKey}";
+        var rsaPublicKey = "${rsa_public_key}";
 
         var encrypt = new JSEncrypt();
         encrypt.setPublicKey(rsaPublicKey );

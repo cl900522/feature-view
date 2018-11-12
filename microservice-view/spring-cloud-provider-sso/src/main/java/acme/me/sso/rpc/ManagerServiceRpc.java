@@ -8,4 +8,5 @@ import org.springframework.web.bind.annotation.RequestMethod;
 public interface ManagerServiceRpc {
     @RequestMapping(value = "/managers", method = RequestMethod.GET)
     String getAll();
+
 }

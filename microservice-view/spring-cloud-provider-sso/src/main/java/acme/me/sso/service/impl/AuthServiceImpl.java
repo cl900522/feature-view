@@ -1,5 +1,6 @@
 package acme.me.sso.service.impl;
 
+import acme.me.common.util.EncryptUtil;
 import acme.me.sso.entity.UserInfo;
 import acme.me.sso.rpc.ManagerServiceRpc;
 import acme.me.sso.service.AuthService;
@@ -8,6 +9,11 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.util.StringUtils;
 
+import javax.crypto.SecretKey;
+import java.util.HashSet;
+import java.util.Set;
+import java.util.UUID;
+
 @Service
 public class AuthServiceImpl implements AuthService {
 
@@ -15,16 +21,24 @@ public class AuthServiceImpl implements AuthService {
     private ManagerServiceRpc managerServiceRpc;
 
     @Override
-    public UserInfo login(String loginName, String inPwd, String passwordSalt) {
+    public UserInfo login(String loginName, String inPwd) {
         UserInfo manager = new UserInfo();
         manager.setUserName("admin");
-        String oriPwd = SecurityUtil.md5("admin123");
-        manager.setPassword(oriPwd);
-
-        if (SecurityUtil.md5(oriPwd + passwordSalt).equals(oriPwd)) {
+        manager.setPassword(EncryptUtil.md5("admin" + "admin123!@#"));
+        if (EncryptUtil.md5(loginName + inPwd).equals(manager.getPassword())) {
+            manager.setToken(createToken());
             return manager;
         }
+
         return null;
+    }
+
+    Set<String> tokens = new HashSet<String>();
+
+    private String createToken() {
+        String token = UUID.randomUUID().toString();
+        tokens.add(token);
+        return token;
     }
 
     @Override
@@ -32,6 +46,6 @@ public class AuthServiceImpl implements AuthService {
         if (StringUtils.isEmpty(token)) {
             return Boolean.FALSE;
         }
-        return Boolean.TRUE;
+        return tokens.contains(token);
     }
 }
