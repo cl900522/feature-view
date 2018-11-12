@@ -49,6 +49,9 @@
                 </div>
             </fieldset>
         </div>
+
+        <div style="position: fixed;right: 0px;top: 80px" id="messageBox">
+        </div>
     </body>
     <link rel="stylesheet" href="/css/bootstrap.min.css">
     <link rel="stylesheet" href="/css/common.css">
@@ -58,6 +61,7 @@
     <script type="application/javascript" src="/js/common.js"></script>
     <script>
         var progressBar = new ProgressBar("validateProcess");
+        var messageBox = new MessageBox("messageBox");
         var pwdSalt = "${pwd_salt}";
         var rsaPublicKey = "${rsa_public_key}";
 
@@ -85,10 +89,12 @@
                         if (response.code == "0") {
                             location.href = response.data;
                         } else {
-                            console.log(response.message);
+                            messageBox.error(response.message);
                         }
                     },
                     error: function (data) {
+                        progressBar.setProgress(0);
+                        messageBox.error("系统错误");
                     }
                 });
             });
