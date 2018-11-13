@@ -1,4 +1,4 @@
-package acme.me.sso.action;
+package acme.me.common.model;
 
 /**
  * @Auther: cdchenmingxuan
