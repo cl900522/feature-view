@@ -1,4 +1,4 @@
-package acme.me.sso.action;
+package acme.me.common.action;
 
 import javax.servlet.http.Cookie;
 import javax.servlet.http.HttpServletRequest;

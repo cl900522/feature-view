@@ -1,4 +1,4 @@
-package acme.me.sso.exception;
+package acme.me.common.exception;
 
 /**
  * @Auther: cdchenmingxuan
