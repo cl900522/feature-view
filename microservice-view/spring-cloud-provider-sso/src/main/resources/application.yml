@@ -47,10 +47,6 @@ feign:
   hystrix:
     enabled: true
 
-security:
-  basic:
-    enabled: false
-
 sso:
   security:
     rsa_key_size: 2048

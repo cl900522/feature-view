@@ -17,6 +17,12 @@ eureka:
     prefer-ip-address: true
     instance-id: ${spring.application.name}:${spring.application.instance_id:${server.port}}
 
+management:
+  endpoints:
+    web:
+      exposure:
+        include: "*"
+
 spring:
   application:
     name: spring-cloud-config
@@ -24,5 +30,5 @@ spring:
     config:
       server:
         git:
-          uri: https://github.com/cl900522/notebook
+          uri: https://github.com/spring-cloud-samples/config-repo
           force-pull: true
