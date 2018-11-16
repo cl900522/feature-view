@@ -19,6 +19,12 @@ spring:
       exclude: static/**,public/**,templates/**
       classic_compatible: true
 
+management:
+  endpoints:
+    web:
+      exposure:
+        include: "*"
+
 eureka:
   client:
     healthcheck:

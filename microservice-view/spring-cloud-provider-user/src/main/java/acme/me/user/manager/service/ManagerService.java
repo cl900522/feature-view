@@ -1,9 +1,6 @@
 package acme.me.user.manager.service;
 
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.Iterator;
-import java.util.List;
+import java.util.*;
 
 import javax.annotation.PostConstruct;
 
@@ -23,7 +20,7 @@ public class ManagerService {
 
     @PostConstruct
     public void init() {
-        managerDao.save(managers);
+        managerDao.saveAll(managers);
     }
 
     public List<Manager> getAllManagers() {
@@ -38,11 +35,12 @@ public class ManagerService {
     }
 
     public Manager getManagerByName(String name) {
-        return managerDao.findOne(name);
+        Optional<Manager> byId = managerDao.findById(name);
+        return byId.get();
     }
 
     public void deleteManager(String name) {
-        managerDao.delete(name);
+        managerDao.deleteById(name);
 
     }
 

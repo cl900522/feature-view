@@ -7,11 +7,16 @@
         <groupId>acme.me</groupId>
         <version>1.0</version>
     </parent>
-
     <modelVersion>4.0.0</modelVersion>
 
-    <artifactId>spring-cloud-eureka</artifactId>
-    <version>1.0</version>
-    <packaging>jar</packaging>
+    <artifactId>spring-boot-admin</artifactId>
+
+    <dependencies>
+        <dependency>
+            <groupId>de.codecentric</groupId>
+            <artifactId>spring-boot-admin-starter-server</artifactId>
+            <version>2.1.1</version>
+        </dependency>
+    </dependencies>
 
 </project>
