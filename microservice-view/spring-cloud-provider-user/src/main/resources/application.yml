@@ -3,23 +3,4 @@ server:
 
 spring:
   application:
-    name: microservice-provider-user
-
-eureka:
-  client:
-    #是否将自己注册到eureka服务注册中心，默认为true
-    register-with-eureka: true
-    #是否从服务注册中心获取可用的服务清单，默认为true
-    fetch-registry: false
-    healthcheck:
-      enabled: true
-    serviceUrl:
-      defaultZone: http://localhost:4000/eureka
-  instance:
-    prefer-ip-address: true
-    instance-id: ${spring.application.name}:${spring.application.instance_id:${server.port}}
-    #Eureka实例的状态和健康检查页面默认分别是”/info”和“/health”，它们是Spring Actuator应用中有用的默认定位设置
-    statusPageUrlPath: ${eureka.hostname}/info
-    healthCheckUrlPath: ${eureka.hostname}/health
-    #实例需要间隔性地向注册表发送心跳(通过客户端的serviceUrl),默认间隔是30秒。一个服务只有当实例，服务器和客户端在他们的本地缓存中都有相同的元数据后才能被客户端发现（因此需要三个心跳）。
-    leaseRenewalIntervalInSeconds: 30
+    name: spring-cloud-provider-user

@@ -3,7 +3,7 @@ server:
 
 spring:
   application:
-    name: microservice-provider-sso
+    name: spring-cloud-provider-sso
   freemarker:
     request-context-attribute: req  #req访问request
     suffix: .ftl  #后缀名
