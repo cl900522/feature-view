@@ -1,0 +1,21 @@
+sso:
+  security:
+    rsa_key_size: 2048
+  cookie:
+    domain: acme.org
+    key:
+      token: token
+      tokenAge: 30
+  param:
+    default_redirct_url: http://jd.com
+    key:
+      redirect_url: redirect_url
+      rsa_private: rsa_public_key
+      pwd_salt: pwd_salt
+  session:
+    key:
+      redirect_url: redirect_url
+
+app:
+  name: oooo
+  version: v2

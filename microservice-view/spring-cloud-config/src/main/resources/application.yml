@@ -1,34 +1,17 @@
 server:
   port: 4001
-  application:
-    name: spring-cloud-config
-
-eureka:
-  client:
-    #是否将自己注册到eureka服务注册中心，默认为true
-    register-with-eureka: true
-    #是否从服务注册中心获取可用的服务清单，默认为true
-    fetch-registry: false
-    healthcheck:
-      enabled: true
-    serviceUrl:
-      defaultZone: http://localhost:4000/eureka
-  instance:
-    prefer-ip-address: true
-    instance-id: ${spring.application.name}:${spring.application.instance_id:${server.port}}
-
-management:
-  endpoints:
-    web:
-      exposure:
-        include: "*"
 
 spring:
   application:
     name: spring-cloud-config
+  profiles:
+    active: native
   cloud:
     config:
       server:
-        git:
-          uri: https://github.com/spring-cloud-samples/config-repo
-          force-pull: true
+        native:
+          search-locations: classpath:/config
+        #git:
+        #  uri: file://D:/git_repository/config-repo/
+        #  force-pull: true
+        #  searchPaths: '{application}'
