@@ -3,7 +3,7 @@ server:
 
 spring:
   application:
-    name: microservice-provider-sso
+    name: spring-cloud-provider-sso
   freemarker:
     request-context-attribute: req  #req访问request
     suffix: .ftl  #后缀名
@@ -18,49 +18,3 @@ spring:
     restart:
       exclude: static/**,public/**,templates/**
       classic_compatible: true
-
-management:
-  endpoints:
-    web:
-      exposure:
-        include: "*"
-
-eureka:
-  client:
-    healthcheck:
-      enabled: true
-    serviceUrl:
-      defaultZone: http://localhost:4000/eureka
-  instance:
-    prefer-ip-address: true
-    instance-id: ${spring.application.name}:${spring.application.instance_id:${server.port}}
-
-feign:
-  #启用针对您的Feign请求的请求或响应GZIP压缩
-  compression:
-    request:
-      enable: true
-      mime-types: text/xml,application/xml,application/json
-      min-request-size: 2048
-    response:
-      enable: true
-  hystrix:
-    enabled: true
-
-sso:
-  security:
-    rsa_key_size: 2048
-  cookie:
-    domain: acme.org
-    key:
-      token: token
-      tokenAge: 30
-  param:
-    default_redirct_url: http://jd.com
-    key:
-      redirect_url: redirect_url
-      rsa_private: rsa_public_key
-      pwd_salt: pwd_salt
-  session:
-    key:
-      redirect_url: redirect_url

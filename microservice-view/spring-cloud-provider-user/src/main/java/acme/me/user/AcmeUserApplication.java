@@ -10,10 +10,10 @@ import org.springframework.cloud.openfeign.EnableFeignClients;
 @EnableEurekaClient
 /*该注解会把RestController修饰的类注册到注册中心去。*/
 @EnableFeignClients
-public class UserApplication {
+public class AcmeUserApplication {
 
     public static void main(String[] args) throws Exception {
-        SpringApplication.run(UserApplication.class, args);
+        SpringApplication.run(AcmeUserApplication.class, args);
     }
 
 }

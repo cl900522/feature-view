@@ -6,3 +6,8 @@ spring:
       uri: http://localhost:4001
       label: master
       profile: dev
+
+eureka:
+  client:
+    register-with-eureka: false
+    fetch-registry: false
