@@ -1,16 +1,19 @@
 
 <#macro htmlHeaders title>
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
+<link rel="icon" href="/img/chrome.ico" type="image/x-icon" />
 <title>${title}</title>
 </#macro>
 
 <#macro pageHead title='统一登录系统'>
-<div class="header container" style="height: 60px;width: 100%;max-width: 100%">
+<div class="header container" style="height: 50px;width: 100%;max-width: 100%">
     <div class="row">
-        <div class="col-lg-2" style="line-height: 40px;font-size: 16px">
+        <div class="col-lg-2" style="line-height: 30px;font-size: 16px">
             <div class="pull-left" style="display: block">
-                <img src="https://ss1.baidu.com/6ONXsjip0QIZ8tyhnq/it/u=117732031,468073355&fm=58&bpow=1024&bpoh=1024" class="img-rounded" style="height: 40px;width: 40px;">
-                <span style="height: 40px;width: 40px;"><a href="/">${title}</a></span>
+                <a href="/" style="text-decoration: none;color: white">
+                    <img src="/img/chrome.png" class="img-rounded" style="height: 30px;width: 30px;">
+                    <span style="height: 40px;width: 40px;">${title}</span>
+                </a>
             </div>
         </div>
         <div class="col-lg-10" style="line-height: 40px;font-size: 16px">
