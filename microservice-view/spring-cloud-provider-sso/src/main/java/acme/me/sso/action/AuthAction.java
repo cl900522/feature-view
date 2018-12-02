@@ -4,7 +4,7 @@ import acme.me.common.model.Response;
 import acme.me.common.util.RSAUtils;
 import acme.me.common.action.BaseAction;
 import acme.me.sso.config.SSOConfiguration;
-import acme.me.sso.entity.UserInfo;
+import acme.me.sso.entity.AccountEntity;
 import acme.me.common.exception.BussinessException;
 import acme.me.common.exception.BussinessExceptionEnum;
 import acme.me.sso.service.AuthService;
@@ -95,9 +95,9 @@ public class AuthAction extends BaseAction {
         }
         String oriPassword = decryptPassword.substring(0, decryptPassword.indexOf(passwordSalt));
 
-        UserInfo userInfo = authService.login(loginName, oriPassword);
-        if (userInfo != null && !StringUtils.isEmpty(userInfo.getToken())) {
-            String token = userInfo.getToken();
+        AccountEntity accountEntity = authService.login(loginName, oriPassword);
+        if (accountEntity != null && !StringUtils.isEmpty(accountEntity.getToken())) {
+            String token = accountEntity.getToken();
             Cookie cookie = addOrUpdateCookie(response, SSOConfiguration.cookie_key_token, token);
             cookie.setDomain(SSOConfiguration.sso_cookie_domain);
             cookie.setMaxAge(SSOConfiguration.cooke_key_token_age);

@@ -6,6 +6,10 @@ spring:
       uri: http://localhost:4001
       label: master
       profile: dev
+  devtools:
+    restart:
+      exclude: config/**
+      classic_compatible: true
 
 eureka:
   client:
