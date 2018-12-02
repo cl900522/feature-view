@@ -6,12 +6,13 @@ import lombok.Setter;
 
 @Getter
 @Setter
-public class AccountEntity extends DbEntity {
+public class AccountRegisterEntity extends DbEntity {
     String email;
-    String phoneNumber;
-    String loginName;
 
     String password;
     String pwdSalt;
-    String token;
+    String channel;//来源渠道
+
+    RegisterStatus status;
+    String failReason;
 }

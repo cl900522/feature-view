@@ -18,3 +18,9 @@ spring:
     restart:
       exclude: static/**,public/**,templates/**
       classic_compatible: true
+
+mybatis:
+  configuration:
+    map-underscore-to-camel-case: true
+    default-statement-timeout: 30
+    default-fetch-size: 100

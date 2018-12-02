@@ -3,6 +3,7 @@ package acme.me.sso.util;
 import acme.me.common.util.DateUtil;
 import acme.me.common.util.EncryptUtil;
 import acme.me.common.util.RSAUtils;
+import acme.me.sso.entity.AccountEntity;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.util.StringUtils;
@@ -29,6 +30,10 @@ public class SecurityUtil {
         String md5 = EncryptUtil.md5(salt.toString());
         salt.append(md5);
         return salt.toString();
+    }
+
+    public static String encrtyptPassword(String oriPassword, String salt) {
+        return EncryptUtil.md5(salt + oriPassword);
     }
 
     public static Boolean isValidPwdSalt(String passwordSalt) {

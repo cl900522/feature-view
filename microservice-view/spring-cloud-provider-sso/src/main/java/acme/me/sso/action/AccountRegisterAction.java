@@ -8,8 +8,8 @@ import acme.me.common.util.RSAUtils;
 import acme.me.common.util.RegUtil;
 import acme.me.sso.config.AccountConfiguration;
 import acme.me.sso.config.SSOConfiguration;
-import acme.me.sso.entity.AccountEntity;
-import acme.me.sso.service.AccountService;
+import acme.me.sso.entity.AccountRegisterEntity;
+import acme.me.sso.service.AccountRegisterService;
 import acme.me.sso.util.SecurityUtil;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiImplicitParam;
@@ -31,10 +31,10 @@ import java.security.interfaces.RSAPrivateKey;
 @Controller
 @Api("用户注册与修改")
 @RequestMapping("account")
-public class AccountAction extends BaseAction {
+public class AccountRegisterAction extends BaseAction {
 
     @Autowired
-    private AccountService accountService;
+    private AccountRegisterService accountRegisterService;
 
     @ApiOperation(value = "账号注册", notes = "账号注册页")
     @RequestMapping(value = "/register", method = RequestMethod.GET)
@@ -74,10 +74,10 @@ public class AccountAction extends BaseAction {
         if (!RegUtil.isPatternMatch(AccountConfiguration.passwordReg, decryptPassword)) {
             throw new BussinessException(BussinessExceptionEnum.ERROR_00_03, AccountConfiguration.passwodHint);
         }
-        AccountEntity accountEntity = new AccountEntity();
+        AccountRegisterEntity accountEntity = new AccountRegisterEntity();
         accountEntity.setEmail(email);
         accountEntity.setPassword(decryptPassword);
-        accountService.registerAccount(accountEntity);
+        accountRegisterService.registerAccount(accountEntity);
 
         return Response.success(null);
     }

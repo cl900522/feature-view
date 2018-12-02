@@ -10,6 +10,10 @@ import java.util.Date;
  * @Description: microservice-view
  */
 public class DateUtil {
+    public static final String DATE_TIME = "yyyy-MM-dd HH:mm:ss";
+    public static final String DATE = "yyyy-MM-dd";
+    public static final String MONTH = "yyyy-MM";
+
     public static String formateDate(Date date, String format) {
         return new SimpleDateFormat(format).format(date);
     }

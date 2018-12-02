@@ -21,6 +21,15 @@ data:
     standalone:
       host: 192.168.100.200
       port: 6379
+  jdbc:
+    standalone:
+      driverClass: com.mysql.jdbc.Driver
+      jdbcUrl: "jdbc:mysql://192.168.100.200:3306/test"
+      username: root
+      password: root
+      maxActive: 50
+      maxIdle: 10
+      maxWait: 2000
 
 account:
   password_hint: 密码长度在6~16位之间，必须包含数字、大小写字母和特殊字符
