@@ -1,4 +1,4 @@
-package acme.me.j2se.socket;
+package acme.me.j2se.socket.nio;
 
 import java.io.IOException;
 import java.net.InetSocketAddress;

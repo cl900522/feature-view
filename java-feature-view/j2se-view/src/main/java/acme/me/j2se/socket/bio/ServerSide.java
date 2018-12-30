@@ -1,4 +1,4 @@
-package acme.me.j2se.socket;
+package acme.me.j2se.socket.bio;
 
 import java.io.*;
 import java.net.ServerSocket;
