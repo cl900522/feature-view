@@ -14,6 +14,7 @@
         <module>hadoop-view</module>
         <module>spark-view</module>
         <module>dubbo-view</module>
+        <module>logging</module>
     </modules>
     <packaging>pom</packaging>
 
