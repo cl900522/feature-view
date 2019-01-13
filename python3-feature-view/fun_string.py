@@ -1,3 +1,4 @@
+#!python
 #!/usr/bin/pytyon3
 import string
 import math

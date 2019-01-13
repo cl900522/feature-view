@@ -1,3 +1,4 @@
+#!python
 #!/usr/bin/python3
 aMap = {}
 aMap["Good"] = 12
@@ -27,8 +28,11 @@ print(d)
 
 d = dict(name='Gumby', age=42)
 print(d)
+d.clear()
+print(d);
 
 a = {"a":"a","b":"b","c":"c"}
 b = {"a":"a1","d":"d1"}
+
 a.update(b)
 print(a)

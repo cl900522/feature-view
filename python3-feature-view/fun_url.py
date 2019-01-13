@@ -1,3 +1,4 @@
+#!python
 #!/usr/bin/python3
 
 import urllib.request
@@ -10,4 +11,4 @@ data=file.read()    #读取全部
 
 tfile.write(data)
 tfile.close()
-print(1)
+# os.remove("./baidu.com.html")

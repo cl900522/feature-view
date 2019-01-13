@@ -10,10 +10,8 @@ import org.apache.logging.log4j.Logger;
  */
 public class Log4j2View {
     private static Logger logger = LogManager.getLogger(Log4j2View.class);
-    private static Logger logger2 = LogManager.getLogger();
 
     public static void main(String[] args) {
-        System.out.println(logger == logger2);
-        logger.info("You go to check the work flow",1,2,2,2,2,2,2,2,2,2,2);
+        logger.info("You go to check the work flow");
     }
 }
