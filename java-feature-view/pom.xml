@@ -15,6 +15,7 @@
         <module>spark-view</module>
         <module>dubbo-view</module>
         <module>logging</module>
+        <module>spring-boot</module>
     </modules>
     <packaging>pom</packaging>
 
