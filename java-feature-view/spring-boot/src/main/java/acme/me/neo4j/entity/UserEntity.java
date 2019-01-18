@@ -1,19 +1,15 @@
 package acme.me.neo4j.entity;
 
-import org.neo4j.ogm.annotation.GeneratedValue;
-import org.neo4j.ogm.annotation.Id;
 import org.neo4j.ogm.annotation.NodeEntity;
 
 import java.util.Date;
 
 @NodeEntity(label = "User")
-public class UserEntity {
-    private @Id
-    @GeneratedValue
-    Long id;
+public class UserEntity extends  Neo4jEntity{
 
+    private Long id;
     private String name;
-    private Date birthData;
+    private Date birthDate;
 
     public Long getId() {
         return id;
@@ -31,11 +27,11 @@ public class UserEntity {
         this.name = name;
     }
 
-    public Date getBirthData() {
-        return birthData;
+    public Date getBirthDate() {
+        return birthDate;
     }
 
-    public void setBirthData(Date birthData) {
-        this.birthData = birthData;
+    public void setBirthDate(Date birthDate) {
+        this.birthDate = birthDate;
     }
 }
