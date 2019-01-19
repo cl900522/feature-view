@@ -16,10 +16,19 @@ public interface UserRepository extends Neo4jRepository<UserEntity, Long> {
             "RETURN b")
     public List<SkuPoolEntity> queryPools(String userName);
 
+    @Query("MATCH (:User {uId:{0}})-[:USER_OWN]->(b:SkuPool) " +
+            "RETURN b")
+    public List<SkuPoolEntity>  queryPoolsByUid(String userName);
+
     @Query("MATCH (:User {name:{0}})-[:USER_OWN]->(p:SkuPool) " +
             "MATCH((b) -[:POOL_CONTAINS]->(s:Sku)) " +
             "RETURN s")
     public List<SkuEntity> querySkus(String userName);
+
+    @Query("MATCH (:User {uId:{0}})-[:USER_OWN]->(p:SkuPool) " +
+            "MATCH((p) -[:POOL_CONTAINS]->(s:Sku)) " +
+            "RETURN COUNT(s)")
+    public Long querySkusSize(String userName);
 
     @Query("MATCH (:User {name:{0}})-[:USER_OWN]->(p:SkuPool) " +
             "MATCH((b) -[:POOL_CONTAINS]->(s:Sku)) " +
@@ -31,4 +40,5 @@ public interface UserRepository extends Neo4jRepository<UserEntity, Long> {
             "MATCH( (b) -[:POOL_CONTAINS]->(s:Sku)) " +
             "RETURN distinct s.cat1Id as cat1Id,s.cat2Id as cat2Id,s.cat3Id as cat3Id,s.brandId as brandId ")
     public List<CatBrandInfo> querySkusOfCats(String userName);
+
 }

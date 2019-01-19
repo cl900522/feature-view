@@ -1,19 +1,20 @@
 #!python
 
 import os, sys, random, io
+import codecs
 
 sys.stdout = io.TextIOWrapper(sys.stdout.buffer, encoding='utf8')
 
 skuPrefix = "sku-"
-skuSize = 10000
+skuSize = 1000000
 
 poolPrefix="pool-"
-poolSize = 500
-skuInPoolSize = 100
+poolSize = 100000
+skuInPoolSize = 200
 
 userPrefix = "user-"
 userSize = 5000
-userOwnPoolSize = 50
+userOwnPoolSize = 200
 
 def getRandomSkus(size, totalRange):
     ar = set()
@@ -21,10 +22,9 @@ def getRandomSkus(size, totalRange):
         ar.add(random.randrange(1, totalRange));
     return ar
 
-
 # gen skus
 skuDataFilePath = "./skuData.csv"
-skuDataFile = open(skuDataFilePath, "w+")
+skuDataFile = open(skuDataFilePath, "w+", encoding="utf-8")
 
 skuDataFile.writelines("\"uId:ID\",\"skuId\",\"name\",\":LABEL\"\n")
 for i in range(skuSize):
@@ -36,7 +36,7 @@ skuDataFile.close()
 # gen pool
 
 poolDataFilePath = "./skuPool.csv"
-poolDataFile = open(poolDataFilePath, "w+")
+poolDataFile = open(poolDataFilePath, "w+", encoding="utf-8")
 
 poolDataFile.writelines("\"uId:ID\",\"id\",\"name\",\"type\",\":LABEL\"\n")
 for i in range(poolSize):
@@ -47,7 +47,7 @@ poolDataFile.close()
 
 # gen pool to Sku
 poolRelationPath = "./skuPoolRelation.csv"
-poolRelationFile = open(poolRelationPath, "w+")
+poolRelationFile = open(poolRelationPath, "w+", encoding="utf-8")
 
 poolRelationFile.writelines("\":START_ID\",\":END_ID\",\":TYPE\"\n")
 for i in range(poolSize):
@@ -61,7 +61,7 @@ poolRelationFile.close()
 # gen user
 
 userDataFilePath = "./user.csv"
-userDataFile = open(userDataFilePath, "w+")
+userDataFile = open(userDataFilePath, "w+", encoding="utf-8")
 
 userDataFile.writelines("\"uId:ID\",\"pin\",\"type\",\":LABEL\"\n")
 for i in range(userSize):
@@ -72,10 +72,10 @@ userDataFile.close()
 
 # gen users to pool
 userRelationPath = "./userPoolRelation.csv"
-userRelationFile = open(userRelationPath, "w+")
+userRelationFile = open(userRelationPath, "w+", encoding="utf-8")
 
 userRelationFile.writelines("\":START_ID\",\":END_ID\",\":TYPE\"\n")
-for i in range(poolSize):
+for i in range(userSize):
     for v in getRandomSkus(userOwnPoolSize, poolSize):
         fm = "\"user-{0}\",\"pool-{1}\",\"USER_OWN\"\n"
         userRelationFile.writelines(fm.format(i, v, i%2))

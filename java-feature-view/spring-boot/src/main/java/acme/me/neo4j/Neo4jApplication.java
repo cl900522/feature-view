@@ -3,6 +3,7 @@ package acme.me.neo4j;
 
 import acme.me.neo4j.entity.*;
 import acme.me.neo4j.repository.*;
+import org.junit.Assert;
 import org.junit.BeforeClass;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -28,7 +29,7 @@ public class Neo4jApplication {
     private SkuRepository skuRepository;
 
     @Autowired
-    private UserOwnRelationRepository relationRepository;
+    private UserOwnRelationRepository userOwnRelationRepository;
 
     @Autowired
     private PoolContainsRelationRepository poolContainsRelationRepository;
@@ -43,6 +44,7 @@ public class Neo4jApplication {
     private static List<Long> cat2Ids = new ArrayList<>();
     private static List<Long> cat3Ids = new ArrayList<>();
     private static List<Long> brandIds = new ArrayList<>();
+
 
     @BeforeClass
     public static void init() {
@@ -67,7 +69,7 @@ public class Neo4jApplication {
         userEntity.setName("测试用户1");
 
         poolEntity = new SkuPoolEntity();
-        poolEntity.setId(67890L);
+        //poolEntity.setId(67890L);
         //poolEntity.setName("普通商品池1");
         poolEntity.setName("属性商品池1");
 
@@ -123,7 +125,7 @@ public class Neo4jApplication {
         System.out.println(poolEntity);
 
         /*绑定商品池与用户关系*/
-        relationRepository.save(userOwnRelation);
+        userOwnRelationRepository.save(userOwnRelation);
         System.out.println(userOwnRelation);
 
         /*保存sku以及池子与sku的关系*/
@@ -156,6 +158,93 @@ public class Neo4jApplication {
     public void testSku() {
         List<UserEntity> userEntities = skuRepository.queryUsers(2L);
         System.out.println(userEntities);
+    }
+
+
+    @Test
+    /*
+    * 重复绑定两个entiry，relation还是同一个
+    * */
+    public void testDuplicateBindRelation() {
+        UserEntity userEntity = new UserEntity();
+        userEntity.setId(1L);
+        userEntity.setName("A");
+        userRepository.save(userEntity);
+
+
+        SkuPoolEntity skuPoolEntity = new SkuPoolEntity();
+        poolRepository.save(skuPoolEntity);
+
+        UserOwnRelation userOwnRelation1 = new UserOwnRelation(userEntity,skuPoolEntity);
+        userOwnRelationRepository.save(userOwnRelation1);
+
+        UserOwnRelation userOwnRelation2 = new UserOwnRelation(userEntity,skuPoolEntity);
+        userOwnRelationRepository.save(userOwnRelation2);
+        Assert.assertEquals(userOwnRelation1.getId(),userOwnRelation2.getId());
+
+        UserOwnRelation userOwnRelation3 = new UserOwnRelation(userEntity,skuPoolEntity);
+        userOwnRelationRepository.save(userOwnRelation3);
+
+        Assert.assertEquals(userOwnRelation3.getId(),userOwnRelation2.getId());
+    }
+
+
+    @Test
+    public void testPerform() {
+        Integer size = 1000;
+        Long cost = 0L;
+        System.out.println("读取测试中.....");
+        Long totalSize = 0L;
+        for (int i = 0; i < size; i++) {
+            Double v = Math.random() * 1000;
+            Integer uid = v.intValue();
+            Long s = System.currentTimeMillis();
+            List<SkuPoolEntity> poolEntities = userRepository.queryPoolsByUid("user-" + uid);
+            totalSize += poolEntities.size();
+            Long e = System.currentTimeMillis();
+            cost += (e - s);
+        }
+        System.out.println("查询用户下上池数：" + size + "次");
+        System.out.println("总共耗时：" + cost + "ms");
+        System.out.println("平均每次查询耗时：" + cost / size + "ms");
+        System.out.println("总数据size：" + totalSize);
+        System.out.println("平均每次查询size：" + totalSize / size);
+
+        size = 10;
+        totalSize = 0L;
+        for (int i = 0; i < size; i++) {
+            Double v = Math.random() * 1000;
+            Integer uid = v.intValue();
+            Long s = System.currentTimeMillis();
+            Long count = userRepository.querySkusSize("user-" + uid);
+            totalSize += count;
+            Long e = System.currentTimeMillis();
+            cost += (e - s);
+        }
+        System.out.println("===========================");
+        System.out.println("查询用户下商品数：" + size + "次");
+        System.out.println("总共耗时：" + cost + "ms");
+        System.out.println("平均每次查询耗时：" + cost / size + "ms");
+        System.out.println("总数据size：" + totalSize);
+        System.out.println("平均每次查询size：" + totalSize / size);
+
+        size = 10;
+        totalSize = 0L;
+        for (int i = 0; i < size; i++) {
+            Double v = Math.random() * 50000;
+            Integer uid = v.intValue();
+            Long s = System.currentTimeMillis();
+            Long count = skuRepository.queryUsersSize("" + uid);
+            totalSize += count;
+            Long e = System.currentTimeMillis();
+            cost += (e - s);
+        }
+        System.out.println("===========================");
+        System.out.println("查询商品关联用户数：" + size + "次");
+        System.out.println("总共耗时：" + cost + "ms");
+        System.out.println("平均每次查询耗时：" + cost / size + "ms");
+        System.out.println("总数据size：" + totalSize);
+        System.out.println("平均每次查询size：" + totalSize / size);
     }
 
     @Test

@@ -2,12 +2,14 @@ package acme.me.neo4j;
 
 import org.neo4j.ogm.session.SessionFactory;
 import org.springframework.context.annotation.Bean;
+import org.springframework.context.annotation.ComponentScan;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.data.neo4j.repository.config.EnableNeo4jRepositories;
 import org.springframework.data.neo4j.transaction.Neo4jTransactionManager;
 import org.springframework.transaction.annotation.EnableTransactionManagement;
 
 @Configuration
+@ComponentScan({"acme.me.neo4j"})
 @EnableNeo4jRepositories(basePackages = "acme.me.neo4j.repository")
 @EnableTransactionManagement
 public class Neo4jConfig {

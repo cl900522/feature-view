@@ -13,11 +13,21 @@ public abstract class Neo4jEntity {
     @GeneratedValue
     private Long neo4jId;
 
+    private String uId;
+
     public Long getNeo4jId() {
         return neo4jId;
     }
 
     public void setNeo4jId(Long neo4jId) {
         this.neo4jId = neo4jId;
+    }
+
+    public String getuId() {
+        return uId;
+    }
+
+    public void setuId(String uId) {
+        this.uId = uId;
     }
 }
