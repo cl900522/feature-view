@@ -8,6 +8,7 @@ import java.util.Date;
 public class UserEntity extends  Neo4jEntity{
 
     private Long id;
+    private Integer type;
     private String name;
     private Date birthDate;
 
@@ -33,5 +34,13 @@ public class UserEntity extends  Neo4jEntity{
 
     public void setBirthDate(Date birthDate) {
         this.birthDate = birthDate;
+    }
+
+    public Integer getType() {
+        return type;
+    }
+
+    public void setType(Integer type) {
+        this.type = type;
     }
 }

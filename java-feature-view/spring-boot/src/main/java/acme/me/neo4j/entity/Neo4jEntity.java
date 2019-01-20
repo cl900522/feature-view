@@ -2,6 +2,7 @@ package acme.me.neo4j.entity;
 
 import org.neo4j.ogm.annotation.GeneratedValue;
 import org.neo4j.ogm.annotation.Id;
+import org.neo4j.ogm.id.UuidStrategy;
 
 /**
  * @Auther: cdchenmingxuan
@@ -10,24 +11,14 @@ import org.neo4j.ogm.annotation.Id;
  */
 public abstract class Neo4jEntity {
     @Id
-    @GeneratedValue
-    private Long neo4jId;
+    @GeneratedValue(strategy = UuidStrategy.class)
+    private String neo4jId;
 
-    private String uId;
-
-    public Long getNeo4jId() {
+    public String getNeo4jId() {
         return neo4jId;
     }
 
-    public void setNeo4jId(Long neo4jId) {
+    public void setNeo4jId(String neo4jId) {
         this.neo4jId = neo4jId;
-    }
-
-    public String getuId() {
-        return uId;
-    }
-
-    public void setuId(String uId) {
-        this.uId = uId;
     }
 }

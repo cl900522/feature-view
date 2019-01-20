@@ -23,8 +23,8 @@ public class Neo4jConfig {
     @Bean
     public org.neo4j.ogm.config.Configuration configuration() {
         org.neo4j.ogm.config.Configuration configuration = new org.neo4j.ogm.config.Configuration.Builder()
-                .uri("bolt://127.0.0.1:7687")
-                .credentials("neo4j", "chen900827")
+                .uri("http://neo4j:chen900827@localhost:7474")
+                //.credentials("neo4j", "chen900827")
                 .build();
         return configuration;
     }

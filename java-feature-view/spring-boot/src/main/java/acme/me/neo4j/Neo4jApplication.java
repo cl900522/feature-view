@@ -14,6 +14,11 @@ import org.springframework.test.context.junit4.SpringRunner;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
+import java.util.concurrent.ExecutorService;
+import java.util.concurrent.Executors;
+import java.util.concurrent.TimeUnit;
+import java.util.concurrent.atomic.AtomicInteger;
+import java.util.concurrent.atomic.AtomicLong;
 
 @RunWith(SpringRunner.class)
 @ContextConfiguration(classes = {Neo4jConfig.class})
@@ -199,8 +204,9 @@ public class Neo4jApplication {
             Double v = Math.random() * 1000;
             Integer uid = v.intValue();
             Long s = System.currentTimeMillis();
-            List<SkuPoolEntity> poolEntities = userRepository.queryPoolsByUid("user-" + uid);
-            totalSize += poolEntities.size();
+            Long count = userRepository.queryPoolsCount("用户-" + uid);
+            List<SkuPoolEntity> skuPoolEntities = userRepository.queryPools("用户-" + uid);
+            totalSize += count;
             Long e = System.currentTimeMillis();
             cost += (e - s);
         }
@@ -210,41 +216,73 @@ public class Neo4jApplication {
         System.out.println("总数据size：" + totalSize);
         System.out.println("平均每次查询size：" + totalSize / size);
 
-        size = 10;
-        totalSize = 0L;
+    }
+
+    @Test
+    public void testUserToSku() {
+        Integer size = 1000;
+        AtomicInteger exeCount = new AtomicInteger();
+        AtomicLong totalSize = new AtomicLong();
+        AtomicLong cost = new AtomicLong();
+
+        ExecutorService executorService = Executors.newFixedThreadPool(10);
+
         for (int i = 0; i < size; i++) {
             Double v = Math.random() * 1000;
             Integer uid = v.intValue();
-            Long s = System.currentTimeMillis();
-            Long count = userRepository.querySkusSize("user-" + uid);
-            totalSize += count;
-            Long e = System.currentTimeMillis();
-            cost += (e - s);
+            executorService.submit(() -> {
+                Long s = System.currentTimeMillis();
+                Long count = userRepository.querySkusSize("用户-" + uid);
+                //List<CatBrandInfo> catBrandInfos = userRepository.querySkusOfCats("用户-" + uid);
+                Long e = System.currentTimeMillis();
+                totalSize.addAndGet(count);
+                exeCount.addAndGet(1);
+                cost.addAndGet(e - s);
+            });
         }
+        try {
+            executorService.awaitTermination(10, TimeUnit.SECONDS);
+        } catch (InterruptedException e) {
+        }
+        size = exeCount.get();
         System.out.println("===========================");
         System.out.println("查询用户下商品数：" + size + "次");
-        System.out.println("总共耗时：" + cost + "ms");
-        System.out.println("平均每次查询耗时：" + cost / size + "ms");
-        System.out.println("总数据size：" + totalSize);
-        System.out.println("平均每次查询size：" + totalSize / size);
+        System.out.println("总共耗时：" + cost.get() + "ms");
+        System.out.println("平均每次查询耗时：" + cost.get() / size + "ms");
+        System.out.println("总数据size：" + totalSize.get());
+        System.out.println("平均每次查询size：" + totalSize.get() / size);
+    }
 
-        size = 10;
-        totalSize = 0L;
+    @Test
+    public void testSkuToUser() {
+        Integer size = 10000;
+        AtomicInteger exeCount = new AtomicInteger();
+        ExecutorService executorService = Executors.newFixedThreadPool(100);
+        AtomicLong totalSize = new AtomicLong();
+        AtomicLong cost = new AtomicLong();
         for (int i = 0; i < size; i++) {
-            Double v = Math.random() * 50000;
-            Integer uid = v.intValue();
-            Long s = System.currentTimeMillis();
-            Long count = skuRepository.queryUsersSize("" + uid);
-            totalSize += count;
-            Long e = System.currentTimeMillis();
-            cost += (e - s);
+            Double v = Math.random() * 200;
+            executorService.submit(() -> {
+                Long randomSku = v.longValue();
+                Long s = System.currentTimeMillis();
+                Long count = skuRepository.queryUsersSize(randomSku);
+                exeCount.addAndGet(1);
+                Long e = System.currentTimeMillis();
+                totalSize.addAndGet(count);
+                cost.addAndGet(e - s);
+            });
         }
+        try {
+            executorService.awaitTermination(10, TimeUnit.SECONDS);
+        } catch (InterruptedException e) {
+        }
+        size = exeCount.get();
         System.out.println("===========================");
         System.out.println("查询商品关联用户数：" + size + "次");
-        System.out.println("总共耗时：" + cost + "ms");
-        System.out.println("平均每次查询耗时：" + cost / size + "ms");
-        System.out.println("总数据size：" + totalSize);
-        System.out.println("平均每次查询size：" + totalSize / size);
+        System.out.println("总共耗时：" + cost.get() + "ms");
+        System.out.println("平均每次查询耗时：" + cost.get() / size + "ms");
+        System.out.println("总数据size：" + totalSize.get());
+        System.out.println("平均每次查询size：" + totalSize.get() / size);
     }
 
     @Test
