@@ -6,15 +6,15 @@ import codecs
 sys.stdout = io.TextIOWrapper(sys.stdout.buffer, encoding='utf8')
 
 skuPrefix = "sku-"
-skuSize = 1000000
+skuSize = 200000
 
 poolPrefix="pool-"
-poolSize = 50000
-skuInPoolSize = 2000
+poolSize = 10000
+skuInPoolSize = 500
 
 userPrefix = "user-"
-userSize = 20000
-userOwnPoolSize = 150
+userSize = 10000
+userOwnPoolSize = 200
 
 def getRandomSkus(size, totalRange):
     ar = set()

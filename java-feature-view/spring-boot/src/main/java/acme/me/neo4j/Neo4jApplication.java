@@ -225,7 +225,7 @@ public class Neo4jApplication {
         AtomicLong totalSize = new AtomicLong();
         AtomicLong cost = new AtomicLong();
 
-        ExecutorService executorService = Executors.newFixedThreadPool(10);
+        ExecutorService executorService = Executors.newFixedThreadPool(50);
 
         for (int i = 0; i < size; i++) {
             Double v = Math.random() * 1000;
@@ -241,7 +241,7 @@ public class Neo4jApplication {
             });
         }
         try {
-            executorService.awaitTermination(10, TimeUnit.SECONDS);
+            executorService.awaitTermination(20, TimeUnit.SECONDS);
         } catch (InterruptedException e) {
         }
         size = exeCount.get();

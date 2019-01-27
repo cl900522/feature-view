@@ -11,8 +11,8 @@ class Vector:
         self.y = y
         print(self.__class__)
 
-    def __add__(me, other):
-        return Vector(me.x+other.x, me.y+other.y)
+    def __add__(self, other):
+        return Vector(self.x+other.x, self.y+other.y)
 
     def __str__(self):
         return 'Vector (%d,%d)' % (self.x, self.y)
