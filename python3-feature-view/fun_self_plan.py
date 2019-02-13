@@ -15,9 +15,9 @@ def atexit_2():
 
 register(atexit_1)
 
-lock = _thread.allocate_lock();
+lock = _thread.allocate_lock()
 
-lock.acquire();
+lock.acquire()
 
 print(lock.locked())
 

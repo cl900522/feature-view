@@ -3,8 +3,8 @@
 
 import os, sys, math
 
-tempFilePath = "./temp.py";
-tempFile = open(tempFilePath, "w+");
+tempFilePath = "./temp.py"
+tempFile = open(tempFilePath, "w+")
 
 os.dup2(1, 1000)
 

@@ -10,15 +10,18 @@ while True:
         print("Exit, bye!")
         break
 
+
 class MyError(Exception):
     def __init__(self, value):
         self.value = value
+
     def __str__(self):
         return repr(self.value)
+
 
 try:
     raise MyError("Throw an Error")
 except MyError as e:
-    print(e);
+    print(e)
 finally:
     print('Cleaning it')

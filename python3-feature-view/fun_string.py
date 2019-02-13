@@ -9,7 +9,7 @@ se = "-"
 line = se.join(names)
 print(line)
 print(line.split(se))
-print(line.find(se,5))
+print(line.find(se, 5))
 print("Smile".lower().islower())
 print(string.capwords("hello i am john"))
 print(("\t   HasEmptyStr $").strip("$\t "))
