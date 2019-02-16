@@ -1,6 +1,5 @@
 
 # pip install openpyxl
-import os
 import openpyxl
 from openpyxl.styles import Font
 

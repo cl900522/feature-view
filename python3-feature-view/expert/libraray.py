@@ -1,6 +1,4 @@
 
-import builtins
-
 
 class BaseMeta(type):
     def __new__(cls, name, bases, body):
@@ -14,6 +12,8 @@ class Basic(metaclass=BaseMeta):
 
 
 '''
+import builtins
+
 old_bc = __build_class__
 
 def my_bc(fun, name, base=None, **kw):
