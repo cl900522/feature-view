@@ -23,6 +23,9 @@ class Vector:
         else:
             return -1
 
+    def __call__(self):
+        print("Not executable!")
+
 v1 = Vector(2,2)
 v2 = Vector(1,5)
 v3 = v1+v2
@@ -31,3 +34,5 @@ print(v3)
 L = [v1, v2, v3]
 print(v1>v2)
 print(id(v3))
+
+v3()

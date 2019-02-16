@@ -5,7 +5,7 @@ import re
 from string import ascii_lowercase as lc
 from random import randrange
 
-#正则表达式
+# 正则表达式
 numRe = "[0-9]*"
 m = re.match(numRe, "1212123")
 
@@ -30,3 +30,9 @@ for i in range(10):
 
 for row in open("./fun_dict.py"):
     print(row, end="")
+
+
+s1 = (1, 2, 3, 4, 6)
+s2 = (9, 9, 9, 9, 9)
+ss = (x+y for x, y in zip(s1, s2))
+print(*ss)
