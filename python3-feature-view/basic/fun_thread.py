@@ -35,10 +35,10 @@ class MyThread(threading.Thread):
 
 
 if __name__ == "__main__":
-    _thread.start_new_thread(output, ("Nice",));
-    _thread.start_new_thread(output, ("Join",));
-    _thread.start_new_thread(output, ("Liwei",));
-    _thread.start_new_thread(output, ("Good",));
+    _thread.start_new_thread(output, ("Nice",))
+    _thread.start_new_thread(output, ("Join",))
+    _thread.start_new_thread(output, ("Liwei",))
+    _thread.start_new_thread(output, ("Good",))
 
     time.sleep(1)
     input("##Press Enter to go on run Mythread $:...")

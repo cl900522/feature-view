@@ -23,13 +23,13 @@ aMap.setdefault("empty","No value")
 print(aMap)
 
 items = [('name', 'Gumby'), ('age', 42)]
-d = dict(items);
+d = dict(items)
 print(d)
 
 d = dict(name='Gumby', age=42)
 print(d)
 d.clear()
-print(d);
+print(d)
 
 a = {"a":"a","b":"b","c":"c"}
 b = {"a":"a1","d":"d1"}

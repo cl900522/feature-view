@@ -18,7 +18,7 @@ userOwnPoolSize = 200
 
 def getRandomSkus(size, totalRange):
     ar = set()
-    for i in range(size):
+    for _ in range(size):
         ar.add(random.randrange(1, totalRange))
     return ar
 
