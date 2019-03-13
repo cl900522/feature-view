@@ -25,9 +25,11 @@ public interface UserRepository extends Neo4jRepository<UserEntity, Long> {
             "RETURN s")
     public List<SkuEntity> querySkus(String userName);
 
-    @Query("MATCH (:User {name:{0}})-[:USER_OWN]->(p:SkuPool) " +
-            "MATCH((p) -[:POOL_CONTAINS]-> (s:Sku)) " +
+    @Query("MATCH ((:User {name:{0}})-[:USER_OWN]->(p) " +
+            "-[:POOL_CONTAINS]-> (s)) " +
             "RETURN COUNT(s)")
+    /*@Query("MATCH ((:User {name:{0}})-[*2..2]-> (s:Sku)) " +
+            " RETURN COUNT(s)")*/
     public Long querySkusSize(String userName);
 
     @Query("MATCH (:User {name:{0}})-[:USER_OWN]->(p:SkuPool) " +

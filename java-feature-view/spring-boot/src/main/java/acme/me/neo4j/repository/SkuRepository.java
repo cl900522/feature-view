@@ -13,8 +13,7 @@ public interface SkuRepository extends Neo4jRepository<SkuEntity, Long> {
             "RETURN u")
     public List<UserEntity> queryUsers(Long skuId);
 
-    @Query("MATCH (:Sku{skuId:{0}})<-[:POOL_CONTAINS]-(p:SkuPool)" +
-            "MATCH ((p) <-[:USER_OWN]- (u:User)) " +
+    @Query("MATCH ((:Sku{skuId:{0}})<-[:POOL_CONTAINS]-(p:SkuPool)<-[:USER_OWN]- (u:User)) " +
             "RETURN COUNT(u)")
     public Long queryUsersSize(Long skuId);
 
