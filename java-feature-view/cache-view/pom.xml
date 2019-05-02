@@ -9,7 +9,7 @@
     </parent>
     <modelVersion>4.0.0</modelVersion>
 
-    <artifactId>java.feature.redis</artifactId>
+    <artifactId>cache-view</artifactId>
     <dependencies>
         <dependency>
             <groupId>acme</groupId>
@@ -39,7 +39,13 @@
         <dependency>
             <groupId>org.elasticsearch.client</groupId>
             <artifactId>transport</artifactId>
-            <version>5.6.8</version>
+            <version>6.7.0</version>
+        </dependency>
+        <dependency>
+            <groupId>org.projectlombok</groupId>
+            <artifactId>lombok</artifactId>
+            <version>1.16.22</version>
+            <scope>provided</scope>
         </dependency>
     </dependencies>
 

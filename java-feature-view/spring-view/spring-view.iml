@@ -97,5 +97,8 @@
     <orderEntry type="library" name="Maven: com.google.code.maven-play-plugin.spy:spymemcached:2.6" level="project" />
     <orderEntry type="library" name="Maven: org.apache.felix:org.apache.felix.framework:4.2.1" level="project" />
     <orderEntry type="library" name="Maven: javax.servlet:servlet-api:2.5" level="project" />
+    <orderEntry type="library" name="Maven: org.apache.logging.log4j:log4j-api:2.8.2" level="project" />
+    <orderEntry type="library" name="Maven: org.apache.logging.log4j:log4j-core:2.8.2" level="project" />
+    <orderEntry type="library" name="Maven: com.lmax:disruptor:3.3.2" level="project" />
   </component>
 </module>
