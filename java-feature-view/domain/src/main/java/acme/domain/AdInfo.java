@@ -1,4 +1,4 @@
-package acme.me.pojo;
+package acme.domain;
 
 import lombok.Getter;
 import lombok.Setter;

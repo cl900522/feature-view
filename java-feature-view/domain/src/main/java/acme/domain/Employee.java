@@ -1,7 +1,8 @@
-package acme.me.pojo;
+package acme.domain;
 
 import java.util.Date;
 
+@Deprecated
 public class Employee {
     private String name;
     private int workAge;

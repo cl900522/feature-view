@@ -1,6 +1,6 @@
 package acme.me.cache.lucene;
 
-import acme.me.pojo.AdInfo;
+import acme.domain.AdInfo;
 import com.alibaba.fastjson.JSON;
 import lombok.extern.log4j.Log4j2;
 import org.elasticsearch.action.ActionListener;

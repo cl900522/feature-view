@@ -1,5 +1,6 @@
 package acme.me.cache.memcache;
 
+import acme.domain.User;
 import net.spy.memcached.MemcachedClient;
 
 import java.io.Serializable;

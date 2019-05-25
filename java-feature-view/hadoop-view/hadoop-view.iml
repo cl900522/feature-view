@@ -163,5 +163,6 @@
     <orderEntry type="library" name="Maven: xerces:xercesImpl:2.9.1" level="project" />
     <orderEntry type="library" name="Maven: org.apache.zookeeper:zookeeper:3.4.9" level="project" />
     <orderEntry type="library" name="Maven: jline:jline:0.9.94" level="project" />
+    <orderEntry type="module" module-name="domain" />
   </component>
 </module>

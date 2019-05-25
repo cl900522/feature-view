@@ -1,4 +1,4 @@
-package acme.me.cache.memcache;
+package acme.domain;
 
 import java.io.Serializable;
 import java.util.Date;
