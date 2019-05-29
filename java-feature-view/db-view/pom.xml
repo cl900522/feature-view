@@ -10,7 +10,10 @@
     <modelVersion>4.0.0</modelVersion>
 
     <artifactId>db-view</artifactId>
-
+    <properties>
+        <neo4j.version>3.5.3</neo4j.version>
+        <neo4j.driver.version>1.7.3</neo4j.driver.version>
+    </properties>
     <dependencies>
         <dependency>
             <groupId>acme</groupId>
@@ -73,5 +76,16 @@
             <artifactId>canal.server</artifactId>
             <version>1.1.2</version>
         </dependency>
+        <dependency>
+            <groupId>org.neo4j</groupId>
+            <artifactId>neo4j</artifactId>
+            <version>${neo4j.version}</version>
+        </dependency>
+        <dependency>
+            <groupId>org.neo4j.driver</groupId>
+            <artifactId>neo4j-java-driver</artifactId>
+            <version>${neo4j.driver.version}</version>
+        </dependency>
+
     </dependencies>
 </project>
