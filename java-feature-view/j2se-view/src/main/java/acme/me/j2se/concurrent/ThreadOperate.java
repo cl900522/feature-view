@@ -4,6 +4,12 @@ import org.junit.Test;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+import java.util.Iterator;
+import java.util.LinkedList;
+import java.util.List;
+import java.util.concurrent.ExecutorService;
+import java.util.concurrent.Executors;
+
 /**
  * 休眠 sleep：在指定的毫秒数内让当前正在执行的线程休眠（暂停执行），此操作受到系统计时器和调度程序精度和准确性的影响。该线程不丢失任何监视器的所属权。
  * 通过调用sleep使任务进入休眠状态，在这种情况下，任务在指定的时间内不会运行。 调用sleep的时候锁并没有被释放。 Java
@@ -145,7 +151,7 @@ public class ThreadOperate {
             Thread thread = new Thread(new Run4());
             thread.start();
 
-            logger.info("Let thread run 1000ms");
+            logger.info("Let thread listen 1000ms");
             thread.join(1000);
             logger.info("Thread not finished");
             thread.join();
@@ -163,6 +169,103 @@ public class ThreadOperate {
                 System.out.println("Sleeped 5000");
             } catch (InterruptedException e) {
             }
+        }
+    }
+
+    @Test
+    public void waitTest() throws InterruptedException {
+        TaskRunner taskList = new TaskRunner();
+        taskList.addTask(new TimeTask(20000L));
+        taskList.addTask(new TimeTask(9000L));
+        taskList.addTask(new TimeTask(5000L));
+        taskList.addTask(new TimeTask(7000L));
+        taskList.addTask(new TimeTask(3000L));
+        taskList.addTask(new TimeTask(11000L));
+        taskList.addTask(new TimeTask(7000L));
+        taskList.addTask(new TimeTask(1000L));
+
+        Thread.sleep(22000L);
+    }
+    static  class TaskRunner {
+        private static Object object = new Object();
+        private static List<TimeTask> taskList = new LinkedList<TimeTask>();
+
+        private static ExecutorService executorService = Executors.newFixedThreadPool(5);
+
+        static {
+            executorService.submit(new Runnable() {
+                @Override
+                public void run() {
+                    listen();
+                }
+            });
+        }
+
+        private int insertTask(TimeTask task) {
+            synchronized (taskList) {
+                int j = 0;
+                for (int i = 0; i < taskList.size(); i++) {
+                    if (taskList.get(i).startTime > task.startTime) {
+                        j = i;
+                        break;
+                    }
+                }
+                taskList.add(j, task);
+                return j;
+            }
+        }
+
+        public void addTask(TimeTask task) {
+            int i = insertTask(task);
+            if (i == 0) {
+                synchronized (object) {
+                    object.notify();
+                }
+            }
+        }
+
+        private static void listen() {
+            while (true) {
+                synchronized (object) {
+                    Long span = null;
+                    synchronized(taskList) {
+                        Iterator<TimeTask> iterator = taskList.iterator();
+                        while (iterator.hasNext()) {
+                            TimeTask next = iterator.next();
+                            span = next.startTime - System.currentTimeMillis();
+                            if (span <= 0) {
+                                executorService.submit(next);
+                                iterator.remove();
+                            } else {
+                                break;
+                            }
+                        }
+                    }
+                    try {
+                        if (span == null || span == 0) {
+                            object.wait();
+                        } else {
+                            object.wait(span);
+                        }
+                    } catch (InterruptedException e1) {
+                    }
+                }
+            }
+        }
+    }
+
+    static class TimeTask  implements Runnable{
+        public Long delayTime;
+        public Long startTime;
+
+        TimeTask(Long delayTime) {
+            this.delayTime = delayTime;
+            this.startTime = System.currentTimeMillis() + delayTime ;
+        }
+
+        @Override
+        public void run() {
+            logger.info(delayTime + " task runs...");
         }
     }
 }
