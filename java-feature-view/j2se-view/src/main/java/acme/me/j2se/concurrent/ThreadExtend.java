@@ -55,4 +55,28 @@ public class ThreadExtend extends Thread {
         }
         System.out.println("All Finish");
     }
+
+    public static void main(String[] args) {
+        Thread t1 = new Thread(new Runnable() {
+            @Override
+            public void run() {
+                try {
+                    Thread.sleep(10000);
+                    System.out.println("Finish sub");
+                } catch (InterruptedException e) {
+                    e.printStackTrace();
+                }
+            }
+        });
+        t1.setDaemon(true);
+        //t1.setDaemon(false);
+
+        t1.start();
+        try {
+            Thread.sleep(5000);
+            System.out.println("Finish main");
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+        }
+    }
 }

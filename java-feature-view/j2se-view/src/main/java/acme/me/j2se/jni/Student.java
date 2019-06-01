@@ -65,4 +65,9 @@ public class Student {
     public String toString() {
         return this.name + "#" + this.id + "#" + this.address + "#" + this.birthday + "#" + this.email;
     }
+
+    /**@Override
+    protected void finalize() throws Throwable {
+        System.out.println("Delete self");
+    }*/
 }
