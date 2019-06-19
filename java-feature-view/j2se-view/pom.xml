@@ -13,11 +13,6 @@
 
     <dependencies>
         <dependency>
-            <artifactId>domain</artifactId>
-            <groupId>acme</groupId>
-            <version>1.0.0</version>
-        </dependency>
-        <dependency>
             <groupId>acme</groupId>
             <artifactId>common</artifactId>
             <version>1.0.0</version>
@@ -33,5 +28,24 @@
             <version>3.18.2-GA</version>
         </dependency>
     </dependencies>
+
+    <build>
+        <plugins>
+            <plugin>
+                <artifactId>maven-jar-plugin</artifactId>
+                <version>2.6</version>
+                <configuration>
+                    <archive>
+                        <manifestEntries>
+                            <!--Premain-Class为key，这个<Premain-Class>中的值为value -->
+                            <Premain-Class>acme.me.j2se.classloader.JavaAgent</Premain-Class>
+                            <Can-Redefine-Classes>true</Can-Redefine-Classes>
+                            <Can-Retransform-Classes>true</Can-Retransform-Classes>
+                        </manifestEntries>
+                    </archive>
+                </configuration>
+            </plugin>
+        </plugins>
+    </build>
 
 </project>
