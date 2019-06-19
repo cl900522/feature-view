@@ -46,7 +46,7 @@ public class ZookeeperView {
 		
 		System.out.println("删除节点/test1");
 		zk.delete("/test1", -1);
-		
+
 	}
 	
 	@After

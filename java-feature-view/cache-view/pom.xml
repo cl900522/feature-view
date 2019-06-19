@@ -12,6 +12,11 @@
     <artifactId>cache-view</artifactId>
     <dependencies>
         <dependency>
+            <artifactId>domain</artifactId>
+            <groupId>acme</groupId>
+            <version>1.0.0</version>
+        </dependency>
+        <dependency>
             <groupId>acme</groupId>
             <artifactId>common</artifactId>
             <version>1.0.0</version>

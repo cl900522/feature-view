@@ -24,7 +24,12 @@ public class SpringFeatureTest {
     public void test03Inherite() {
         ApplicationContext apc = new ClassPathXmlApplicationContext("spring-view.xml");
 
-        Human child = (Human) apc.getBean("human-child");
+        Human child = (Human) apc.getBean("child");
         child.listRelatives();
+
+        SpelUtil bean = apc.getBean(SpelUtil.class);
+        Object o = bean.resolveExpression("#{child.relatives[0]}");
+        String resolve = (String) o;
+        System.out.println(resolve);
     }
 }
