@@ -21,6 +21,18 @@ import java.util.List;
  * @description: java-feature-view
  */
 public class JavaAgent {
+    public static void premain(String agentArgs, Instrumentation inst) {
+        inst.addTransformer(new ClassFileTransformer() {
+            @Override
+            public byte[] transform(ClassLoader loader, String className, Class<?> classBeingRedefined,
+                                    ProtectionDomain protectionDomain, byte[] classfileBuffer)
+                    throws IllegalClassFormatException {
+                System.out.println("Load class: " + className);
+                return null;
+            }
+        }, false);
+    }
+
     public static void agentmain(String agentArgs, Instrumentation inst)
             throws UnmodifiableClassException {
         System.out.println("Agent Main called");
