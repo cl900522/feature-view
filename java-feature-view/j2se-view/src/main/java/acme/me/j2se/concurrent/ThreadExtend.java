@@ -4,8 +4,11 @@ import org.junit.Test;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+import java.lang.ref.WeakReference;
+
 /**
  * 不建议使用此方法定义线程，因为采用继承Thread的方式定义线程后，你不能在继承其他的类了，导致程序的可扩展性大大降低。
+ *
  * @author 明轩
  */
 public class ThreadExtend extends Thread {
@@ -78,5 +81,20 @@ public class ThreadExtend extends Thread {
         } catch (InterruptedException e) {
             e.printStackTrace();
         }
+    }
+
+    @Test
+    public void threadLocalView() {
+        WeakReference<String> sr = new WeakReference<String>(new String("hello"));
+        System.out.println(sr.get());
+        System.gc();                //通知JVM的gc进行垃圾回收
+        System.out.println(sr.get());
+
+        ThreadLocal<String> threadLocal = new ThreadLocal();
+        threadLocal.set("Great");
+        System.out.println(threadLocal.get());
+        System.gc();
+        System.out.println(threadLocal.get()); //threadLocal不会被gc回收，也就一直能获取到
+
     }
 }
