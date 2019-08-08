@@ -109,8 +109,8 @@ var HtmlWebpackPlugin = require('html-webpack-plugin')
 var PAGE_PATH = path.resolve(__dirname, '../src/pages')
 // 用于做相应的merge处理
 var merge = require('webpack-merge')
- 
- 
+
+
 var getModelName = function(filePath) {
   var modelName = filePath.substring(0, filePath.lastIndexOf('\/'));
   modelName = modelName.substring(modelName.lastIndexOf('\/')+1);
@@ -133,6 +133,9 @@ exports.entries = function() {
   return map
 }
 
+let commonPlugin = [
+  ]
+
 //多页面输出配置
 // 与上面的多页面入口配置相同，读取pages文件夹下的对应的html后缀文件，然后放入数组中
 exports.htmlPlugin = function() {
@@ -147,8 +150,6 @@ exports.htmlPlugin = function() {
       filename: filename + '.html',
       // 页面模板需要加对应的js脚本，如果不加这行则每个页面都会引入所有的js脚本
       chunks: ['manifest', 'vendor', "common", filename],
-      css: [ "src/assert/css/common.css" ], 
-      js: [ "src/assert/js/common.js"], 
       inject: true
     }
     if (process.env.NODE_ENV === 'production') {
@@ -163,5 +164,6 @@ exports.htmlPlugin = function() {
     }
     arr.push(new HtmlWebpackPlugin(conf))
   })
+  arr.concat(commonPlugin)
   return arr
 }
