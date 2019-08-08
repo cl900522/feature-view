@@ -1,0 +1,70 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+</head>
+
+<body>
+    <div id="app">
+    </div>
+</body>
+<script src="./js/vue.js"></script>
+<script src="https://unpkg.com/vuex@3.1.1/dist/vuex.js"></script>
+
+<script type="text/x-template" id="amt-grid-tpl">
+    <div>
+        <span>当前值： {{ $store.state.count }}</span>
+        <br/>
+        <span>操作次数： {{ opc }}</span>
+        <div>
+            <button @click=plus>Plus</button>
+            <button @click=minus>Minus</button>
+        </div>
+    </div>
+</script>
+
+<script>
+    var gc = Vue.component('amt-grid', {
+        template: "#amt-grid-tpl",
+        methods: {
+            plus: function() {
+                this.$store.dispatch("addAsyc", 1)
+            },
+            minus: function(row) {
+                this.$store.dispatch("addAsyc", -1)
+            }
+        },
+        computed: {
+            opc : {
+                get(){return this.$store.state.opc}
+            }
+        }
+    });
+
+    var store = new Vuex.Store({
+        state: {
+            count: 0,
+            opc: 0
+        },
+        mutations: {
+            add (state, size) {
+                state.count += size;
+                state.opc += 1
+            }
+        },
+        actions: {
+            addAsyc(context, size) {
+                context.commit("add", size)
+            }
+        }
+    });
+
+    var grid = new Vue({
+        el: "#app",
+        store: store,
+        components: { gc },
+        template: '<amt-grid />'
+    });
+
+</script>
+</html>
