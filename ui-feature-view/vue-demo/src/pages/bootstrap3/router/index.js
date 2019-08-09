@@ -1,6 +1,6 @@
 import Vue from 'vue'
 import Router from 'vue-router'
-import Foot from '@/components/Foot'
+import Bootstrap3 from '@/components/Bootstrap3'
 
 Vue.use(Router)
 
@@ -8,8 +8,8 @@ export default new Router({
   routes: [
     {
       path: '/',
-      name: 'Foot',
-      component: Foot
+      name: 'Bootstrap3',
+      component: Bootstrap3
     }
   ]
 })

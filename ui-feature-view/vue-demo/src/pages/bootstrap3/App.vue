@@ -1,8 +1,7 @@
 <template>
   <div id="app">
     <router-view/>
-    <router-link :to="{name: 'Foot'}">Jump</router-link>
-    <a href="/user.html">To Foot</a>
+    <a href="/">Go back</a>
   </div>
 </template>
 

@@ -1,13 +1,8 @@
 <template>
   <div id="app">
-    <div class="btn-group" role="group" aria-label="...">
-      <button type="button" class="btn btn-default">Left</button>
-      <button type="button" class="btn btn-default">Middle</button>
-      <button type="button" class="btn btn-default">Right</button>
-    </div>
-    <br/>
-    <a href="/ware.html">To Ware</a>
-    <a href="/user.html">To Foot</a>
+    <a href="/bootstrap3.html">To Bootstrap3</a>
+    <a href="/bootstrapvue.html">To BootstrapVue</a>
+    <a href="/iview.html">To iView</a>
   </div>
 </template>
 
@@ -23,7 +18,11 @@ export default {
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
   text-align: center;
-  color: #2c3e50;
+  color: #0ebdbd;
   margin-top: 60px;
+
+}
+body {
+  background-color: #0ebdbd;
 }
 </style>

@@ -10,11 +10,6 @@ export default new Router({
       path: '/',
       name: 'BootStrapVue',
       component: BootStrapVue
-    },
-    {
-      path: '/bootstrap',
-      name: 'BootStrapVue',
-      component: BootStrapVue
     }
   ]
 })
