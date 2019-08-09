@@ -36,6 +36,15 @@ module.exports = {
       '@': resolve('src'),
     }
   },
+  externals: {
+    'vue': 'Vue',
+    'vuex' : 'Vuex',
+    'vue-router': 'VueRouter',
+    'iview': 'iview',
+    'bootstrap-vue': 'BootstrapVue',
+    'portal-vue': 'PortalVue',
+    'jquery' : 'jQuery'
+ },
   module: {
     rules: [
       ...(config.dev.useEslint ? [createLintingRule()] : []),
@@ -45,7 +54,6 @@ module.exports = {
               {
                   loader: 'vue-loader',
                   options: {
-
                   }
               },
               {
