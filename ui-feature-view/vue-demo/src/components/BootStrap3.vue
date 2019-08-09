@@ -13,7 +13,7 @@
 
 <script>
 export default {
-  name: 'Bootstrap3',
+  name: 'BootStrap3',
   data () {
     return {
       msg: 'Welcome to Your Vue.js App'
