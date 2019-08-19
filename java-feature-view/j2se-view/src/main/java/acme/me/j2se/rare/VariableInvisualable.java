@@ -1,5 +1,10 @@
 package acme.me.j2se.rare;
 
+import org.junit.Test;
+
+import java.util.concurrent.ExecutorService;
+import java.util.concurrent.Executors;
+
 /**
  * @author: cdchenmingxuan
  * @date: 2019/8/15 09:30
@@ -34,5 +39,47 @@ public class VariableInvisualable {
             v++;
             System.out.println(Thread.currentThread().getName() + " : v is " + v);
         }
+    }
+
+    @Test
+    public void test1() {
+
+        for (; ; ) {
+            final State state = new State();
+
+            new Thread(new Runnable() {
+                @Override
+                public void run() {
+                    long ct = state.c;
+                    boolean at = state.a;
+                    if (ct == 2L) {
+                        if(!at) {
+                            System.out.println(at);
+                        }
+
+                        /*state.b += 1;
+                        if (state.b != 2) {
+                            System.out.println(state.b);
+                        }*/
+                    }
+                }
+            }).start();
+
+            new Thread(new Runnable() {
+                @Override
+                public void run() {
+                    state.b = 1L;
+                    state.a = true;
+                    state.c = state.b + 1L;
+                }
+            }).start();
+        }
+    }
+
+
+    static class State {
+        private boolean a = false;
+        private long b = 0L;
+        private long c = 0L;
     }
 }
