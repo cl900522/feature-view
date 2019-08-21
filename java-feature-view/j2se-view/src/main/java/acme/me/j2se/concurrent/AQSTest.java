@@ -89,15 +89,44 @@ public class AQSTest {
     }
 
 
+    /**
+     * 多个线程的读锁获取可以连续进入，但是如果中间调用过一次写锁获取，之后的读锁获都要等到写锁执行完之后才能
+     * @throws InterruptedException
+     */
     @Test
     public void test3() throws InterruptedException {
         ReentrantReadWriteLock lock = new ReentrantReadWriteLock();
         List<String> users = new ArrayList<>();
+        users.add("user0");
 
         new Thread(() -> {
+            ReentrantReadWriteLock.ReadLock readLock = lock.readLock();
+            readLock.lock();
+            System.out.println("read lock1 in");
+            try {
+                Thread.sleep(2000);
+            } catch (InterruptedException e) {
+            }
+            System.out.println(users);
+            readLock.unlock();
+            System.out.println("read lock1 out");
+        }).start();
+
+        Thread.sleep(100);
+
+        new Thread(() -> {
+            //第一个线程已经抢占了读锁，此处可以共享进入
+            ReentrantReadWriteLock.ReadLock readLock = lock.readLock();
+            readLock.lock();
+            System.out.println("read lock2 in");
+            System.out.println(users);
+            readLock.unlock();
+            System.out.println("read lock2 out");
+
+            //写锁无法和读锁抢占
             ReentrantReadWriteLock.WriteLock writeLock = lock.writeLock();
             writeLock.lock();
-            System.out.println("write lock in");
+            System.out.println("write lock1 in");
             users.add("u1");
             users.add("u2");
             users.add("u3");
@@ -106,20 +135,23 @@ public class AQSTest {
                 Thread.sleep(1000);
             } catch (InterruptedException e) {
             }
-            System.out.println("write lock out");
+            System.out.println("write lock1 out");
             writeLock.unlock();
         }).start();
 
+        Thread.sleep(100);
+
         new Thread(() -> {
+            //在读锁之后进入
             ReentrantReadWriteLock.ReadLock readLock = lock.readLock();
             readLock.lock();
-            System.out.println("read lock in");
+            System.out.println("read lock3 in");
             System.out.println(users);
             readLock.unlock();
-            System.out.println("read lock out");
+            System.out.println("read lock3 out");
         }).start();
 
-        Thread.sleep(2000);
+        Thread.sleep(22000);
     }
 
     @Test
