@@ -97,4 +97,15 @@ public class ThreadExtend extends Thread {
         System.out.println(threadLocal.get()); //threadLocal不会被gc回收，也就一直能获取到
 
     }
+
+    @Test
+    public void testn() throws InterruptedException {
+        Thread hello = new Thread(() -> {
+            this.interrupt();
+            System.out.println("Hello");
+        });
+        hello.start();
+        hello.join();
+
+    }
 }
