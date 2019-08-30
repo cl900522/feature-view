@@ -2,12 +2,7 @@ package acme.me.j2se.socket.netty;
 
 public class NettyDemo {
     public static void main(String[] args) {
-        Thread thread = new Thread(() -> {
-            NettyServerSide server = new NettyServerSide(80);
-            server.start();
-        });
-        thread.setDaemon(false);
-        thread.start();
+        startServer();
 
         try {
             Thread.sleep(3000);
@@ -15,7 +10,11 @@ public class NettyDemo {
             e.printStackTrace();
         }
 
-        thread = new Thread(()-> {
+        // sendClientRequest();
+    }
+
+    private static void sendClientRequest() {
+        Thread thread = new Thread(() -> {
             NettyClientSide client = new NettyClientSide("127.0.0.1", 80);
             client.send("");
         });
@@ -27,5 +26,14 @@ public class NettyDemo {
         } catch (InterruptedException e) {
             e.printStackTrace();
         }
+    }
+
+    private static void startServer() {
+        Thread thread = new Thread(() -> {
+            NettyServerSide server = new NettyServerSide(80);
+            server.start();
+        });
+        thread.setDaemon(false);
+        thread.start();
     }
 }

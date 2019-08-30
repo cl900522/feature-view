@@ -11,6 +11,7 @@ import io.netty.handler.codec.LineBasedFrameDecoder;
 import io.netty.handler.codec.string.StringDecoder;
 import org.apache.log4j.Logger;
 
+import java.io.File;
 import java.io.UnsupportedEncodingException;
 import java.util.Date;
 
@@ -39,7 +40,8 @@ public class NettyServerSide {
                     }); // (6)
 
             // Bind and start to accept incoming connections.
-            ChannelFuture f = bootstrap.bind(port).sync(); // (7)
+            ChannelFuture bindFuture = bootstrap.bind(port);
+            ChannelFuture f = bindFuture.sync(); // (7)
             logger.info("Success started server at port: " + port);
             // Wait until the server socket is closed.
             // In this example, this does not happen, but you can do that to gracefully
@@ -81,7 +83,6 @@ public class NettyServerSide {
             } catch (Exception e) {
                 e.printStackTrace();
             }
-
         }
 
         private void writeBack(ChannelHandlerContext ctx, String response) {

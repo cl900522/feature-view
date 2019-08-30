@@ -5,6 +5,8 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import java.lang.ref.WeakReference;
+import java.text.SimpleDateFormat;
+import java.util.Date;
 
 /**
  * 不建议使用此方法定义线程，因为采用继承Thread的方式定义线程后，你不能在继承其他的类了，导致程序的可扩展性大大降低。
@@ -48,7 +50,7 @@ public class ThreadExtend extends Thread {
             public void run() {
                 logger.error(Thread.currentThread().getName() + " is running!");
             }
-        });
+        }, "Init thread name is here");
         thread.setName("$New Thread instance of Runnable");
         thread.start();
         try {
@@ -96,6 +98,25 @@ public class ThreadExtend extends Thread {
         System.gc();
         System.out.println(threadLocal.get()); //threadLocal不会被gc回收，也就一直能获取到
 
+    }
+
+    @Test
+    public void threadLocal2() throws InterruptedException {
+        //自带初始化能力
+        ThreadLocal<SimpleDateFormat> threadLocal = new ThreadLocal<SimpleDateFormat>() {
+            @Override
+            public SimpleDateFormat initialValue() {
+                return new SimpleDateFormat("yyyy-MM-dd");
+            }
+        };
+
+        for (int i = 0; i < 10; i++) {
+            new Thread(() -> {
+                String format = threadLocal.get().format(new Date());
+                System.out.println(format);
+            }).start();
+        }
+        Thread.sleep(1000);
     }
 
     @Test
