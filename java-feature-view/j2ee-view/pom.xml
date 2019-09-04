@@ -14,7 +14,7 @@
         <rabbitmq-client.version>3.3.4</rabbitmq-client.version>
     </properties>
 
-    <artifactId>javamq</artifactId>
+    <artifactId>j2ee-view</artifactId>
 
     <dependencies>
         <dependency>
