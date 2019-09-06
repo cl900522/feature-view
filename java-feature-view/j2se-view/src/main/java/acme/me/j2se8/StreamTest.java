@@ -4,10 +4,8 @@ import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;
 
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.List;
-import java.util.Random;
+import java.util.*;
+import java.util.stream.Collector;
 import java.util.stream.Collectors;
 import java.util.stream.IntStream;
 import java.util.stream.Stream;
@@ -104,4 +102,25 @@ public class StreamTest {
          */
     }
 
+
+    @Test
+    public void test3() {
+        List<String[]> list = new ArrayList<>();
+        list.add(new String[]{"A", "Apple"});
+        list.add(new String[]{"B", "Banana"});
+        list.add(new String[]{"C", "Cat"});
+        list.add(new String[]{"D", "Dog"});
+
+        Collector<String[], ?, Map<String, String[]>> d = Collectors.toMap((a) -> a[0], (a) -> a);
+
+        Map<String, String[]> collect = list.stream().collect(d);
+        System.out.println(collect);
+    }
+
+    @Test
+    public void test4() {
+        String array[] = {"a", "b", "c"};
+        String joinStr = Stream.of(array).collect(Collectors.joining(","));
+        Assert.assertEquals(joinStr, "a,b,c");
+    }
 }
