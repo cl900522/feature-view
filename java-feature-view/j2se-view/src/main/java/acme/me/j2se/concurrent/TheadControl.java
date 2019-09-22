@@ -2,6 +2,11 @@ package acme.me.j2se.concurrent;
 
 import org.junit.Test;
 
+import java.lang.management.ManagementFactory;
+import java.lang.management.ThreadInfo;
+import java.lang.management.ThreadMXBean;
+import java.util.concurrent.TimeUnit;
+
 public class TheadControl {
     public class PrintRunable implements Runnable {
         Object lock;
@@ -63,4 +68,27 @@ public class TheadControl {
         t1.join();
         t2.join();
     }
+
+    /**
+     * [5] Monitor Ctrl-Break // IDE 自带的
+     * [4] Signal Dispatcher // 分发处理发送给JVM信号的线程
+     * [3] Finalizer // 调用对象finalize方法的线程
+     * [2] Reference Handler // 清除Reference的线程
+     * [1] main // main线程，用户程序入口
+     *
+     * @param args
+     */
+    @Test
+    public static void main(String[] args) throws InterruptedException {
+        ThreadMXBean threadMXBean = ManagementFactory.getThreadMXBean();
+        ThreadInfo[] threadInfos = threadMXBean.dumpAllThreads(false, false);
+        for (ThreadInfo threadInfo : threadInfos) {
+            System.out.println("[" + threadInfo.getThreadId() + "]" + threadInfo.getThreadName() + "->" + threadInfo.getThreadState());
+
+        }
+
+        TimeUnit.SECONDS.wait(1);
+    }
+
+
 }
