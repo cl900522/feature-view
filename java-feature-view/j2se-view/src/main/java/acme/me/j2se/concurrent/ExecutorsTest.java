@@ -77,4 +77,72 @@ public class ExecutorsTest {
         Thread.sleep(60000);
         System.out.println(threadFactory.toString());
     }
+
+    @Test
+    public void test3() throws InterruptedException {
+        ExecutorService executorService = Executors.newFixedThreadPool(4);
+        for (int i = 0; i < 10; i++) {
+            final Integer index = i;
+            executorService.submit(() -> {
+                Long start = System.currentTimeMillis();
+                while (System.currentTimeMillis() - start < 1000L) {
+                }
+                System.out.println("Finish runnable: " + index);
+            });
+        }
+        executorService.shutdown();
+        executorService.awaitTermination(20L,TimeUnit.SECONDS);
+    }
+
+    @Test
+    public void test4() throws InterruptedException {
+        ExecutorService executorService = Executors.newFixedThreadPool(4);
+        for (int i = 0; i < 10; i++) {
+            final Integer index = i;
+            executorService.submit(() -> {
+                try {
+                    Thread.sleep(1000L);
+                } catch (InterruptedException e) {
+                    System.out.println("Runnable interrupt: " + index);
+                }
+                System.out.println("Finish runnable: " + index);
+            });
+        }
+        executorService.shutdown();
+        executorService.awaitTermination(20L, TimeUnit.SECONDS);
+    }
+
+    @Test
+    public void test5() throws InterruptedException {
+        ExecutorService executorService = Executors.newFixedThreadPool(4);
+        for (int i = 0; i < 10; i++) {
+            final Integer index = i;
+            executorService.submit(() -> {
+                Long start = System.currentTimeMillis();
+                while (System.currentTimeMillis() - start < 1000L) {
+                }
+                System.out.println("Finish runnable: " + index);
+            });
+        }
+        executorService.shutdownNow();
+        executorService.awaitTermination(20L,TimeUnit.SECONDS);
+    }
+
+    @Test
+    public void test6() throws InterruptedException {
+        ExecutorService executorService = Executors.newFixedThreadPool(4);
+        for (int i = 0; i < 10; i++) {
+            final Integer index = i;
+            executorService.submit(() -> {
+                try {
+                    Thread.sleep(1000L);
+                } catch (InterruptedException e) {
+                    System.out.println("Runnable interrupt: " + index);
+                }
+                System.out.println("Finish runnable: " + index);
+            });
+        }
+        executorService.shutdownNow();
+        executorService.awaitTermination(20L, TimeUnit.SECONDS);
+    }
 }
