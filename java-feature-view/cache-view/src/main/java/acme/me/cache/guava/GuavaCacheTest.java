@@ -100,4 +100,20 @@ public class GuavaCacheTest {
             System.out.println(smile);
         }
     }
+
+    @Test
+    public void test4() {
+        CacheBuilder<Object, Object> cacheBuilder = CacheBuilder.newBuilder();
+        Cache<Object, Object> build = cacheBuilder.build();
+        build.stats().averageLoadPenalty();
+        build.stats().evictionCount();
+        build.stats().hitCount();
+        build.stats().hitRate();
+        build.stats().missRate();
+        build.stats().requestCount();
+        build.stats().loadExceptionRate();
+        build.stats().loadSuccessCount();
+    }
+
+
 }
