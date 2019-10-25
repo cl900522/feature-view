@@ -14,7 +14,16 @@
         </property>
     </bean>
 
-    <bean name="child" class="acme.me.spring.Human" parent="parent">
+    <bean name="child" class="acme.me.spring.Human" parent="parent" scope="prototype">
+        <property name="relatives">
+            <list merge="true">
+                <value>Father</value>
+                <value>Mother</value>
+            </list>
+        </property>
+    </bean>
+
+    <bean name="childOnly" class="acme.me.spring.Human" parent="parent">
         <property name="relatives">
             <list merge="true">
                 <value>Father</value>

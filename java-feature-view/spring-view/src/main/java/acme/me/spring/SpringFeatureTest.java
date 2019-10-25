@@ -1,5 +1,6 @@
 package acme.me.spring;
 
+import org.junit.Assert;
 import org.junit.Test;
 import org.springframework.context.ApplicationContext;
 import org.springframework.context.support.AbstractApplicationContext;
@@ -24,8 +25,12 @@ public class SpringFeatureTest {
     public void test03Inherite() {
         ApplicationContext apc = new ClassPathXmlApplicationContext("spring-view.xml");
 
-        Human child = (Human) apc.getBean("child");
+        Human child = (Human) apc.getBean("childOnly");
         child.listRelatives();
+
+        Human child1 = (Human) apc.getBean("child");
+        Human child2 = (Human) apc.getBean("child");
+        Assert.assertNotEquals(child1,child2);
 
         SpelUtil bean = apc.getBean(SpelUtil.class);
         Object o = bean.resolveExpression("#{child.relatives[0]}");
