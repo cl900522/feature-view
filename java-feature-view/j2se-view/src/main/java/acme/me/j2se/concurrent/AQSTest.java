@@ -195,8 +195,8 @@ public class AQSTest {
 
         double distanceFromOrigin() {
             long stamp = sl.tryOptimisticRead();
-            double currentX = x, currentY = y;
-            if (!sl.validate(stamp)) {
+            double currentX = x, currentY = y; //
+            if (!sl.validate(stamp)) {//如果返回true，则表示数据没有发生变化，也就是没有其他线程获取过写锁；否则表示数据已经变化
                 stamp = sl.readLock();
                 try {
                     currentX = x;

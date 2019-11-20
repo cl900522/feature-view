@@ -109,6 +109,8 @@ public class JedisClientView {
         Assert.assertTrue(set1.contains("v3"));
         Assert.assertTrue(set1.contains("v100"));
 
+        Boolean isMember = jedis.sismember("set1", "v100");
+
         jedis.srem("set1", "v100");
         set1 = jedis.srandmember("set1", 4);
         Assert.assertTrue(set1.contains("v1"));
