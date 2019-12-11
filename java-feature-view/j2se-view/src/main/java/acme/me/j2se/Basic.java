@@ -1,5 +1,6 @@
 package acme.me.j2se;
 
+import org.junit.Assert;
 import org.junit.Test;
 
 import java.util.concurrent.ExecutorService;
@@ -13,7 +14,8 @@ public class Basic {
         int a = 20;
         int b = 30;
         boolean c = false && true || false;
-        System.out.println(c);
+        System.out.println(c); //false
+        Assert.assertFalse(c);
     }
 
     public static void main(String[] args) throws InterruptedException {
@@ -32,5 +34,25 @@ public class Basic {
         }
 
         Thread.sleep(5000);
+    }
+
+    /**
+     *  关于intern方法作用：当调用 intern 方法时，如果池已经包含一个等于此 String 对象的字符串 （该对象由 equals(Object) 方法确定），则返回池中的字符串。
+     *  否则，将此 String 对象添加到池中， 并且返回此 String 对象的引用。
+     */
+    @Test
+    public void test2(){
+        String s = new String("1");
+        s = s.intern();
+        String s2 = "1";
+        System.out.println(s == s2); //true
+        Assert.assertTrue(s == s2);
+
+        String s3 = new String("1") + new String("1");
+        s3 = s3.intern();
+        String s4 = "11";
+        System.out.println(s3 == s4); //true
+        Assert.assertTrue(s3 == s3);
+
     }
 }
