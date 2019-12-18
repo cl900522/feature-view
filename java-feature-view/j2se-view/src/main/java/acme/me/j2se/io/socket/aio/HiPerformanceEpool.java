@@ -1,4 +1,4 @@
-package acme.me.j2se.socket.aio;
+package acme.me.j2se.io.socket.aio;
 
 // java.nio.channels.AsynchronousChannelGroup
 //sun.nio.ch.EPollPort
