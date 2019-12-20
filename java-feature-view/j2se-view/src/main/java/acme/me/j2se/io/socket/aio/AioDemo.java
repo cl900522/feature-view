@@ -1,4 +1,4 @@
-package acme.me.j2se.socket.aio;
+package acme.me.j2se.io.socket.aio;
 
 public class AioDemo {
     public static void main(String[] args) {

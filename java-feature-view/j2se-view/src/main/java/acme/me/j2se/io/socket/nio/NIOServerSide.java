@@ -1,4 +1,4 @@
-package acme.me.j2se.socket.nio;
+package acme.me.j2se.io.socket.nio;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
