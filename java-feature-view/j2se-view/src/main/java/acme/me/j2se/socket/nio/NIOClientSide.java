@@ -70,7 +70,7 @@ public class NIOClientSide {
                 };
                 request.start();
             }
-            Thread.sleep(2000);
         }
+        Thread.sleep(2000);
     }
 }
