@@ -20,7 +20,7 @@ public class DBExechange {
     public static void main(String[] args) throws SQLException, IOException {
         ApplicationContext apc = null;
         try {
-            apc = new ClassPathXmlApplicationContext("spring-beans.xml");
+            apc = new ClassPathXmlApplicationContext("spring-beans-hibernate.xml");
         } catch (BeansException e) {
             e.printStackTrace();
             System.out.println("构建业务模型出错");

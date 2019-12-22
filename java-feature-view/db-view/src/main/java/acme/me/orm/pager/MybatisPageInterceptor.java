@@ -27,8 +27,10 @@ import org.apache.ibatis.session.RowBounds;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-@Intercepts({ @Signature(method = "prepare", type = StatementHandler.class, args = { Connection.class }),
-@Signature(method = "query", type = Executor.class, args = { MappedStatement.class, Object.class, RowBounds.class, ResultHandler.class }) })
+@Intercepts({
+    @Signature(method = "prepare", type = StatementHandler.class, args = { Connection.class }),
+    @Signature(method = "query", type = Executor.class, args = { MappedStatement.class, Object.class, RowBounds.class, ResultHandler.class })
+})
 public class MybatisPageInterceptor implements Interceptor {
     private static final Logger log = LoggerFactory.getLogger(MybatisPageInterceptor.class);
 
