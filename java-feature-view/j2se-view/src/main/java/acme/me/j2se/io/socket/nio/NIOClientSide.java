@@ -1,4 +1,4 @@
-package acme.me.j2se.io.socket.nio;
+package acme.me.j2se.socket.nio;
 
 import java.io.IOException;
 import java.net.InetSocketAddress;
@@ -70,7 +70,7 @@ public class NIOClientSide {
                 };
                 request.start();
             }
-            Thread.sleep(2000);
         }
+        Thread.sleep(2000);
     }
 }

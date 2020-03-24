@@ -4,17 +4,20 @@ import java.sql.Connection;
 import java.sql.SQLException;
 import java.sql.Statement;
 
+import javax.persistence.TableGenerator;
 import javax.sql.DataSource;
 
+import org.junit.Test;
 import org.springframework.context.ApplicationContext;
 import org.springframework.context.support.ClassPathXmlApplicationContext;
 
 public class Transaction {
-    private static ApplicationContext applicationContex = new ClassPathXmlApplicationContext("spring-beans.xml");
+    private static ApplicationContext applicationContex = new ClassPathXmlApplicationContext("spring-beans-datasource.xml");
     private static org.apache.log4j.Logger log4jLogger = org.apache.log4j.Logger.getLogger(Transaction.class);
     private static org.slf4j.Logger slf4jLogger = org.slf4j.LoggerFactory.getLogger(Transaction.class);
 
-    public static void main(String[] args) throws SQLException {
+    @Test
+    public void test1() throws SQLException {
         DataSource dbSource = (DataSource) applicationContex.getBean("dataSource");
         Connection connection = null;
         Statement preStatement = null;

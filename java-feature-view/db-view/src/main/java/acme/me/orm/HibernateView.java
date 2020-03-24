@@ -22,7 +22,7 @@ import acme.me.orm.bean.AreaNode;
 
 @RunWith(SpringJUnit4ClassRunner.class)
 @Transactional
-@ContextConfiguration(locations = "classpath:spring-beans.xml")
+@ContextConfiguration(locations = "classpath:spring-beans-hibernate.xml")
 public class HibernateView {
     private static Logger logger = Logger.getLogger(HibernateView.class);
 

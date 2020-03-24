@@ -1,0 +1,89 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xsi:schemaLocation="http://www.springframework.org/schema/beans
+        http://www.springframework.org/schema/beans/spring-beans-3.0.xsd">
+
+    <import resource="classpath*:/spring-beans-datasource.xml" />
+
+    <bean id="namingStrategy" class="acme.me.orm.helper.HibernateStrategy" />
+
+<!-- 基于注解的session工厂 -->
+<!--     <bean id="sessionFactory" class="org.springframework.orm.hibernate3.annotation.AnnotationSessionFactoryBean"> -->
+<!--         <property name="dataSource" ref="dataSource" /> -->
+<!--         <property name="namingStrategy" ref="namingStrategy" /> -->
+<!--         <property name="packagesToScnativean" value="test.package" /> -->
+<!--     </bean> -->
+
+	<bean id="hiberSessionFactory" class="org.springframework.orm.hibernate3.annotation.AnnotationSessionFactoryBean">
+		<property name="dataSource" ref="dataSource" />
+        <property name="namingStrategy" ref="namingStrategy" />
+		<property name="hibernateProperties">
+			<props>
+				<!-- <prop key="hibernate.dialect">org.hibernate.dialect.Oracle10gDialect</prop> -->
+				<prop key="hibernate.dialect">org.hibernate.dialect.MySQLDialect</prop>
+				<prop key="hibernate.show_sql">false</prop>
+				<prop key="hibernate.hbm2ddl.auto">update</prop>
+				<prop key="hibernate.autoReconnect">true</prop>
+			</props>
+		</property>
+		<property name="packagesToScan"><!-- name配置为annotatedPackages不行 -->
+			<list>
+				<value>acme.me.orm.*</value>
+			</list>
+		</property>
+	</bean>
+
+<!--     <bean id="hiberSessionFactory" class="org.springframework.orm.hibernate3.LocalSessionFactoryBean"> -->
+<!--         <property name="dataSource" ref="dataSource" /> -->
+<!--         注意：我用的是Annotation的方式配置的Hibernate，这里的property的name是annotatedClasses -->
+<!--         <property name="namingStrategy" ref="namingStrategy" /> -->
+<!--         <property name="hibernateProperties"> -->
+<!--             <props> -->
+<!--                 设置Hibernate方言 -->
+<!--                 <prop key="hibernate.dialect">org.hibernate.dialect.MySQL5InnoDBDialect</prop> -->
+<!--                 是否打印sql -->
+<!--                 <prop key="hibernate.show_sql">true</prop> -->
+<!--                 格式化sql -->
+<!--                 <prop key="hibernate.format_sql">true</prop> -->
+<!--                 是否自动更新表 -->
+<!--                 <prop key="hibernate.hbm2ddl.auto">update</prop> -->
+<!--                 <prop key="hibernate.current_session_context_class">thread</prop> -->
+<!--                 最大抓取深度，如果为0，则关闭默认的外连接抓取。建议值为0-3 -->
+<!--                 <prop key="hibernate.max_fetch_depth">1</prop> -->
+<!--                 用于生成有助于调试的注释信息，默认为关闭 -->
+<!--                 <prop key="hibernate.use_sql_comments">true</prop> -->
+<!--             </props> -->
+<!--         </property> -->
+<!--         <property name="mappingResources"> -->
+<!--             <list> -->
+<!--                 <value>acme/me/orm/mapper/hiber-Account.xml</value> -->
+<!--             </list> -->
+<!--         </property> -->
+<!--     </bean> -->
+
+    <bean id="hibernateTemplate" class="org.springframework.orm.hibernate3.HibernateTemplate">
+        <property name="sessionFactory" ref="hiberSessionFactory" />
+    </bean>
+
+    <!--transactionManager -->
+    <bean id="transactionManager" class="org.springframework.orm.hibernate3.HibernateTransactionManager">
+        <property name="sessionFactory" ref="hiberSessionFactory" />
+    </bean>
+
+
+    <bean id="dataSourceImp" class="org.apache.commons.dbcp.BasicDataSource" destroy-method="close">
+        <property name="driverClassName" value="com.sap.db.jdbc.Driver" />
+        <property name="url" value="jdbc:sap://192.168.1.99:30015/MEDICAL?reconnect=true" />
+        <property name="username" value="MEDICAL" />
+        <property name="password" value="Tianfud6402" />
+        <property name="defaultAutoCommit" value="false" />
+        <property name="poolPreparedStatements" value="true" />
+    </bean>
+
+    <bean id="sqlFile" class="java.io.File">
+        <constructor-arg>
+            <value>./target/classes/will.sql</value>
+        </constructor-arg>
+    </bean>
+
+</beans>

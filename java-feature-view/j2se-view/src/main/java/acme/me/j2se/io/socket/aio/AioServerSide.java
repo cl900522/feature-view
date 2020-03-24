@@ -19,6 +19,13 @@ public class AioServerSide {
         this.port = port;
 
         try {
+            /** 使用线程组
+             * service = Executors.newFixedThreadPool(4);
+             * AsynchronousChannelGroup group = AsynchronousChannelGroup.withThreadPool(service);
+             *
+             * AsynchronousChannelGroup group = AsynchronousChannelGroup.withCachedThreadPool(Executors.newCachedThreadPool(), 10);
+             * serverChannel = AsynchronousServerSocketChannel.open(group);
+             */
             serverSocketChannel = AsynchronousServerSocketChannel.open();
             serverSocketChannel.bind(new InetSocketAddress(this.port));
             logger.info("Success open aio server at port->" + port);
@@ -28,6 +35,7 @@ public class AioServerSide {
         }
 
     }
+
 
     public void start() {
         serverSocketChannel.accept(serverSocketChannel, new AcceptCompletionHandler());
@@ -39,14 +47,13 @@ public class AioServerSide {
     private class AcceptCompletionHandler implements CompletionHandler<AsynchronousSocketChannel, AsynchronousServerSocketChannel> {
 
         @Override
-        public void completed(AsynchronousSocketChannel result, AsynchronousServerSocketChannel attachment) {
+        public void completed(AsynchronousSocketChannel clientChannel, AsynchronousServerSocketChannel attachment) {
             attachment.accept(attachment, this);
             logger.info("thread [" + Thread.currentThread().getName() + "] accepted.->"+ this.toString());
 
 
             ByteBuffer byteBuffer = ByteBuffer.allocate(1024);
-            result.read(byteBuffer, byteBuffer, new ReactCompletionHandler(result));
-
+            clientChannel.read(byteBuffer, byteBuffer, new ReactCompletionHandler(clientChannel));
         }
 
         @Override
@@ -73,7 +80,8 @@ public class AioServerSide {
                 byte[] body = new byte[byteBuffer.remaining()];
                 byteBuffer.get(body);
                 String order = new String(body, "UTF-8");
-                System.out.println("Got command: " + order);
+                logger.info("thread [" + Thread.currentThread().getName() + "] accepted.->Got command: " + order);
+                Thread.sleep(4000L);
                 if ("GET_TIME".equalsIgnoreCase(order)) {
                     doWrite(new Date().toString());
                 } else {

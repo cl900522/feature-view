@@ -5,12 +5,11 @@ import org.slf4j.LoggerFactory;
 
 import java.io.IOException;
 import java.net.InetSocketAddress;
+import java.net.ServerSocket;
+import java.net.Socket;
 import java.nio.ByteBuffer;
 import java.nio.IntBuffer;
-import java.nio.channels.SelectionKey;
-import java.nio.channels.Selector;
-import java.nio.channels.ServerSocketChannel;
-import java.nio.channels.SocketChannel;
+import java.nio.channels.*;
 import java.util.Iterator;
 import java.util.Set;
 
@@ -19,7 +18,11 @@ public class NIOServerSide {
     public static final int LISTEN_PORT = 10000;
 
     private ServerSocketChannel serverChannel = null;
-    private Selector selector = null;
+
+    private Selector selector;
+    private Selector serverSelector;
+
+    private Boolean blocking = false;
 
     public void start() {
         try {
@@ -34,8 +37,19 @@ public class NIOServerSide {
     private void openChannel() throws IOException {
         serverChannel = ServerSocketChannel.open();
         serverChannel.socket().bind(new InetSocketAddress(LISTEN_PORT));
-        serverChannel.configureBlocking(true);
+
         selector = Selector.open();
+        serverSelector = Selector.open();
+
+
+        // 如果阻塞模式，则不可以使用select来注册关注的事件
+        if (blocking) {
+            serverChannel.configureBlocking(true);
+        } else {
+            serverChannel.configureBlocking(false);
+            serverChannel.register(serverSelector, SelectionKey.OP_ACCEPT);
+        }
+
         System.out.println("服务器通道已经打开……");
     }
 
@@ -50,7 +64,7 @@ public class NIOServerSide {
                 }
             }
         };
-        handler.setDaemon(true);
+        handler.setDaemon(false);
         handler.start();
         System.out.println("处理器准备就绪……");
     }
@@ -61,7 +75,7 @@ public class NIOServerSide {
                 try {
                     waitForConnection();
                 } catch (Exception e) {
-                    logger.error(e.getMessage());
+                    e.printStackTrace();
                 }
             }
         };
@@ -70,18 +84,43 @@ public class NIOServerSide {
     }
 
     private void waitForConnection() throws IOException {
-        while (true) {
-            SocketChannel clientChannel = serverChannel.accept();
-            if (clientChannel == null) {
-                continue;
-            } else {
-                System.out.println("新的请求到来……");
-                clientChannel.configureBlocking(false);
-                Handler handler = wrapSocket(clientChannel);
-                clientChannel.register(selector, SelectionKey.OP_READ, handler);
-                selector.wakeup();
+        if (blocking) {
+            while (true) {
+                SocketChannel clientChannel = serverChannel.accept();
+                if (clientChannel == null) {
+                    continue;
+                } else {
+                    System.out.println("新的请求到来……");
+                    clientChannel.configureBlocking(false);
+                    Handler handler = wrapSocket(clientChannel);
+                    clientChannel.register(selector, SelectionKey.OP_READ, handler);
+                    selector.wakeup();
+                }
+            }
+        } else {
+            while (true) {
+                serverSelector.select(100);
+                Set<SelectionKey> keys = serverSelector.selectedKeys();
+                Iterator<SelectionKey> it = keys.iterator();
+
+                while (it.hasNext()) {
+                    SelectionKey key = it.next();
+                    if (key.isAcceptable()) {
+                        SelectableChannel channel = key.channel();
+                        ServerSocketChannel serverChannel = (ServerSocketChannel) channel;
+                        SocketChannel clientChannel = serverChannel.accept();
+                        if (clientChannel != null) {
+                            clientChannel.configureBlocking(false);
+                            Handler handler = wrapSocket(clientChannel);
+                            clientChannel.register(selector, SelectionKey.OP_READ, handler);
+                            System.out.println("新的请求到来……");
+                        }
+                        it.remove();
+                    }
+                }
             }
         }
+
     }
 
     private void handleRequest() throws IOException, InterruptedException {
@@ -92,6 +131,7 @@ public class NIOServerSide {
 
             while (it.hasNext()) {
                 SelectionKey key = it.next();
+
                 if (key.isReadable()) {
                     Handler handler = (Handler) key.attachment();
                     handler.parseRequest();
