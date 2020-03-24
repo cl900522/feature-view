@@ -1,5 +1,6 @@
 package acme.me.j2se8;
 
+import com.alibaba.fastjson.JSON;
 import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;
@@ -110,6 +111,7 @@ public class StreamTest {
         list.add(new String[]{"B", "Banana"});
         list.add(new String[]{"C", "Cat"});
         list.add(new String[]{"D", "Dog"});
+        // list.add(new String[]{"D", "Dolphine"}); 加上这一行就回产生duplicate key的异常
 
         Collector<String[], ?, Map<String, String[]>> d = Collectors.toMap((a) -> a[0], (a) -> a);
 
@@ -122,5 +124,21 @@ public class StreamTest {
         String array[] = {"a", "b", "c"};
         String joinStr = Stream.of(array).collect(Collectors.joining(","));
         Assert.assertEquals(joinStr, "a,b,c");
+    }
+
+    @Test
+    public void test5(){
+        List<String> list = new ArrayList<>();
+        list.add("Apple");
+        list.add("Ant");
+        list.add("Banana");
+        list.add("Cat");
+        list.add("Dog");
+        list.add("Dig");
+        list.add("Dolphine");
+
+        // list.parallelStream()...
+        Map<String, List<String>> group = list.stream().collect(Collectors.groupingBy(a -> a.substring(0, 1)));
+        System.out.println(JSON.toJSON(group));
     }
 }
