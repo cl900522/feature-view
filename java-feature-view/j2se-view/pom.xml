@@ -18,6 +18,16 @@
             <version>1.0.0</version>
         </dependency>
         <dependency>
+            <groupId>acme</groupId>
+            <artifactId>domain</artifactId>
+            <version>1.0.0</version>
+        </dependency>
+        <dependency>
+            <groupId>junit</groupId>
+            <artifactId>junit</artifactId>
+            <version>4.11</version>
+        </dependency>
+        <dependency>
             <groupId>io.netty</groupId>
             <artifactId>netty-all</artifactId>
             <version>4.1.32.Final</version>
@@ -35,8 +45,8 @@
         </dependency>
         <dependency>
             <groupId>org.codehaus.groovy</groupId>
-            <artifactId>groovy-all</artifactId>
-            <version>2.5.8</version>
+            <artifactId>groovy</artifactId>
+            <version>2.5.7</version>
         </dependency>
     </dependencies>
 
@@ -50,6 +60,7 @@
                         <manifestEntries>
                             <!--Premain-Class为key，这个<Premain-Class>中的值为value -->
                             <Premain-Class>acme.me.j2se.classloader.JavaAgent</Premain-Class>
+                            <Agent-Class>acme.me.j2se.classloader.JavaAgent</Agent-Class>
                             <Can-Redefine-Classes>true</Can-Redefine-Classes>
                             <Can-Retransform-Classes>true</Can-Retransform-Classes>
                         </manifestEntries>

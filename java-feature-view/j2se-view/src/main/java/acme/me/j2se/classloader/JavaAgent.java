@@ -82,7 +82,7 @@ public class JavaAgent {
         for (VirtualMachineDescriptor vmd : list) {
             if (vmd.displayName().contains(this.getClass().getSimpleName())) {
                 VirtualMachine virtualMachine = VirtualMachine.attach(vmd.id());
-                virtualMachine.loadAgent("D:\\03_git\\feature-view\\java-feature-view\\j2se-view\\target\\javase-view-1.0.0.jar", "acme.domain.User");
+                virtualMachine.loadAgent("/home/chenmx/workspace/00_git/feature-view/java-feature-view/j2se-view/target/j2se-view-1.0.0.jar", "acme.domain.User");
                 System.out.println("ok");
                 virtualMachine.detach();
             }

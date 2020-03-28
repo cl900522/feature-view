@@ -1,5 +1,6 @@
 package acme.me.cache.redis;
 
+import com.google.common.collect.Lists;
 import org.junit.*;
 import redis.clients.jedis.*;
 
@@ -317,6 +318,83 @@ public class JedisClientView {
         Assert.assertEquals(jedis.hlen(key).intValue(), 6);
         jedis.del(key);
     }
+
+    @Test
+    public void scriptTest1() {
+        String script = "local m = redis.call('set', KEYS[1], ARGV[1])";
+        jedis.eval(script, Lists.newArrayList("test_key1"), Lists.newArrayList("test_val1"));
+
+        String test_key1 = jedis.get("test_key1");
+        Assert.assertEquals(test_key1, "test_val1");
+        jedis.del("test_key1");
+
+        Boolean exist = jedis.exists("test_key1");
+        Assert.assertTrue(!exist);
+    }
+
+    @Test
+    public void scriptTest2() throws Exception {
+        jedis.del("test_key1");
+        try {
+            String script = "for i=1,#ARGV do \n" +
+                    " if redis.call('sismember', KEYS[1], ARGV[i])>0 then \n" +
+                    "    return 'false'\n" +
+                    " end\n" +
+                    "end\n" +
+                    "redis.call('sadd', KEYS[1], ARGV[1]) \n" +
+                    "redis.call('expire', KEYS[1], 1) \n" +
+                    "return 'true'";
+            String sha1 = jedis.scriptLoad(script);
+            Object o = jedis.evalsha(sha1, Lists.newArrayList("test_key1"), Lists.newArrayList("val1", "val2"));
+            Assert.assertEquals(o, "true");
+
+            Boolean sismember = jedis.sismember("test_key1", "val1");
+            Assert.assertTrue(sismember);
+
+            o = jedis.evalsha(sha1, Lists.newArrayList("test_key1"), Lists.newArrayList("val1", "val2"));
+            Assert.assertEquals(o, "false");
+
+            Thread.sleep(1500);
+
+            sismember = jedis.sismember("test_key1", "val1");
+            Assert.assertTrue(!sismember);
+        } catch (Exception e) {
+            throw e;
+        }
+
+    }
+
+    @Test
+    public void scriptTest3() throws Exception {
+        jedis.del("test_key1");
+        try {
+            String script =
+                    "if redis.call('scard', KEYS[1])>0 then \n" +
+                    "  return 'false'\n" +
+                    "end\n" +
+                    "redis.call('sadd', KEYS[1], ARGV[1]) \n" +
+                    "redis.call('expire', KEYS[1], 1) \n" +
+                    "return 'true'";
+            String sha1 = jedis.scriptLoad(script);
+            Object o = jedis.evalsha(sha1, Lists.newArrayList("test_key1"), Lists.newArrayList("global"));
+            Assert.assertEquals(o, "true");
+
+            Boolean sismember = jedis.sismember("test_key1", "global");
+            Assert.assertTrue(sismember);
+
+            o = jedis.evalsha(sha1, Lists.newArrayList("test_key1"), Lists.newArrayList("global"));
+            Assert.assertEquals(o, "false");
+
+            Thread.sleep(1500);
+
+            sismember = jedis.sismember("test_key1", "global");
+            Assert.assertTrue(!sismember);
+        } catch (Exception e) {
+            throw e;
+        }
+
+    }
+
 
     @AfterClass
     public static void finishTest() {

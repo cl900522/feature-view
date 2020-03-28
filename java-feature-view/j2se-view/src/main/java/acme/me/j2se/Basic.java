@@ -28,7 +28,7 @@ public class Basic {
                 @Override
                 public void run() {
                     Matcher matcher = p.matcher("" + s);
-                    System.out.println(s+"->"+matcher.find());
+                    System.out.println(s + "->" + matcher.find());
                 }
             });
         }
@@ -37,11 +37,11 @@ public class Basic {
     }
 
     /**
-     *  关于intern方法作用：当调用 intern 方法时，如果池已经包含一个等于此 String 对象的字符串 （该对象由 equals(Object) 方法确定），则返回池中的字符串。
-     *  否则，将此 String 对象添加到池中， 并且返回此 String 对象的引用。
+     * 关于intern方法作用：当调用 intern 方法时，如果池已经包含一个等于此 String 对象的字符串 （该对象由 equals(Object) 方法确定），则返回池中的字符串。
+     * 否则，将此 String 对象添加到池中， 并且返回此 String 对象的引用。
      */
     @Test
-    public void test2(){
+    public void test2() {
         String s = new String("1");
         s = s.intern();
         String s2 = "1";
@@ -54,5 +54,23 @@ public class Basic {
         System.out.println(s3 == s4); //true
         Assert.assertTrue(s3 == s3);
 
+    }
+
+    @Test
+    /**
+     * 位运算标记
+     */
+    public void test3() {
+        Assert.assertTrue(1 << 0 == 1);
+        Assert.assertTrue(1 << 1 == 2);
+
+        int a = 1 << 2;
+        int b = 1 << 4;
+        int c = 1 << 6;
+        int res = a | b;
+
+        Assert.assertTrue((a & res) > 0);
+        Assert.assertTrue((b & res) > 0);
+        Assert.assertTrue((c & res) == 0);
     }
 }
