@@ -1,14 +1,21 @@
 package acme.me.cache.redis;
 
 import com.google.common.collect.Lists;
-import org.junit.*;
+import lombok.extern.slf4j.Slf4j;
+import org.junit.AfterClass;
+import org.junit.Assert;
+import org.junit.BeforeClass;
+import org.junit.Test;
 import redis.clients.jedis.*;
 
 import java.io.IOException;
 import java.util.LinkedHashSet;
 import java.util.List;
+import java.util.Random;
 import java.util.Set;
+import java.util.stream.Collectors;
 
+@Slf4j
 public class JedisClientView {
     private static Jedis jedis;// 非切片额客户端连接
     private static JedisPool jedisPool;// 非切片连接池
@@ -393,6 +400,60 @@ public class JedisClientView {
             throw e;
         }
 
+    }
+
+    @Test
+    public void pipline() throws Exception {
+        List<String> keys = new Random().ints(500).mapToObj(i->"key_"+i).collect(Collectors.toList());
+        for (String key : keys) {
+            jedis.set(key, key);
+        }
+        log.info("Finish init");
+
+        long l = System.currentTimeMillis();
+        for (String key : keys) {
+            String key1 = jedis.get(key);
+            Assert.assertEquals(key1, key);
+        }
+        long l1 = System.currentTimeMillis() - l;
+        System.out.println(l1);
+
+        log.info("With out pipline, {} equals", keys.size());
+
+
+        l = System.currentTimeMillis();
+        List<Response<String>> values = Lists.newArrayListWithCapacity(keys.size());
+        Pipeline pipelined = jedis.pipelined();
+        for (String key : keys) {
+            Response<String> stringResponse = pipelined.get(key);
+            values.add(stringResponse);
+        }
+        pipelined.syncAndReturnAll();
+        pipelined.close();
+
+        l1 = System.currentTimeMillis() - l;
+        System.out.println(l1);
+
+        for (int i = 0; i < values.size(); i++) {
+            Assert.assertEquals(values.get(i).get(), keys.get(i));
+        }
+        log.info("With pipline, {} equals", values.size());
+
+
+        for (String key : keys) {
+            jedis.del(key,key);
+        }
+        log.info("Finish clean");
+
+    }
+
+    @Test
+    public void testClean(){
+        jedis.select(10);
+        jedis.flushDB();
+
+        // 清空当前库中的所有 key：flushdb
+        // jedis.flushAll();
     }
 
 
