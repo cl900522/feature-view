@@ -1,5 +1,6 @@
 package acme.me.j2se.collection;
 
+import org.junit.Assert;
 import org.junit.Test;
 
 import java.util.*;
@@ -13,18 +14,18 @@ public class CollectionView {
 
     @Test
     public void sortView() {
-        String[] args = new String[] { "Mingxuan", "Daniel", "b", "Chenyi", "Jone", "Pook" };
+        String[] args = new String[]{"Mingxuan", "Daniel", "b", "Chenyi", "Jone", "Pook"};
         List<String> list = Arrays.asList(args);
         Collections.sort(list);
         System.out.println(list);
 
 
-        String[] args2 = new String[] { "Mingxuan", "Daniel", "b", "Chenyi", "Jone", "Pook" };
+        String[] args2 = new String[]{"Mingxuan", "Daniel", "b", "Chenyi", "Jone", "Pook"};
         Arrays.sort(args2, new StringCompator());
         System.out.println(Arrays.asList(args2));
     }
 
-    public class StringCompator implements Comparator<String>{
+    public class StringCompator implements Comparator<String> {
         @Override
         public int compare(String o1, String o2) {
             return o1.length() - o2.length();
@@ -33,7 +34,7 @@ public class CollectionView {
 
     @Test
     public void anoSortView() {
-        int minGroupSize =12;
+        int minGroupSize = 12;
         List<List<String>> winners = new ArrayList<List<String>>();
 
         for (int i = 0; i < minGroupSize; i++) {
@@ -48,22 +49,22 @@ public class CollectionView {
         });
 
         // Print anagram groups.
-        for (List<String> l : winners){
+        for (List<String> l : winners) {
             System.out.println(l.size() + ": " + l);
         }
     }
 
-    private List<String> generateRandamList(){
-        int i =(int) (Math.random() * 20);
+    private List<String> generateRandamList() {
+        int i = (int) (Math.random() * 20);
         List<String> aa = new ArrayList<String>(i);
-        for(int j = 0;j<i;j++){
+        for (int j = 0; j < i; j++) {
             aa.add("x");
         }
         return aa;
     }
 
     @Test
-    public void listOperate (){
+    public void listOperate() {
         List<String> list = new ArrayList<String>();
         list.add("wo");
         list.add("ni");
@@ -73,12 +74,36 @@ public class CollectionView {
 
         Iterator<String> ite = list.iterator();
         System.out.println(list);
-        while(ite.hasNext()){
+        while (ite.hasNext()) {
             String value = ite.next();
-            if(value.indexOf("o") != -1){
+            if (value.indexOf("o") != -1) {
                 ite.remove();
             }
         }
         System.out.println(list);
+    }
+
+    @Test
+    public void toArray() {
+        List<String> list = new ArrayList<>();
+        list.add("Hello1");
+        list.add("Hello2");
+        list.add("Hello3");
+        list.add("Hello4");
+        Object[] objects = list.toArray();
+        System.out.println(objects);
+
+
+        String[] a1 = new String[0];
+        String[] stringArr = list.toArray(a1);
+        System.out.println(stringArr);
+        Assert.assertFalse(stringArr == a1);
+
+
+        String[] a2 = new String[5];
+        stringArr = list.toArray(a2);
+        System.out.println(stringArr);
+        Assert.assertTrue(stringArr == a2);
+
     }
 }
