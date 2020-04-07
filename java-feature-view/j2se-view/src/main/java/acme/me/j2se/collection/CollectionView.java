@@ -104,6 +104,5 @@ public class CollectionView {
         stringArr = list.toArray(a2);
         System.out.println(stringArr);
         Assert.assertTrue(stringArr == a2);
-
     }
 }
