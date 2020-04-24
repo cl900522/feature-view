@@ -352,7 +352,7 @@ public class JedisClientView {
                     "redis.call('expire', KEYS[1], 1) \n" +
                     "return 'true'";
             String sha1 = jedis.scriptLoad(script);
-            Object o = jedis.evalsha(sha1, Lists.newArrayList("test_key1"), Lists.newArrayList("val1", "val2"));
+            Object o = jedis.evalsha(sha1, Lists.newArrayList("test_key1"), Lists.newArrayList("4", "1"));
             Assert.assertEquals(o, "true");
 
             Boolean sismember = jedis.sismember("test_key1", "val1");
@@ -383,7 +383,7 @@ public class JedisClientView {
                     "redis.call('expire', KEYS[1], 1) \n" +
                     "return 'true'";
             String sha1 = jedis.scriptLoad(script);
-            Object o = jedis.evalsha(sha1, Lists.newArrayList("test_key1"), Lists.newArrayList("global"));
+            Object o = jedis.evalsha(sha1, Lists.newArrayList("test_key1"), Lists.newArrayList("1"));
             Assert.assertEquals(o, "true");
 
             Boolean sismember = jedis.sismember("test_key1", "global");
