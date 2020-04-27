@@ -3,12 +3,10 @@ package main
 import (
 	"fmt"
 	"os"
-
-	"org.yayoi.test/variable"
 )
 
 func main() {
-	variable.Print()
+	pritArgs()
 }
 
 func pritArgs() {
@@ -18,4 +16,5 @@ func pritArgs() {
 		sep = " "
 	}
 	fmt.Println(s)
+	fmt.Println("Hello World")
 }

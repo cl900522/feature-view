@@ -1,8 +1,12 @@
 package main
 
 import (
+	"bytes"
 	"fmt"
+	"log"
+	"os/exec"
 	"reflect"
+	"strconv"
 )
 
 func main() {
@@ -18,6 +22,10 @@ func main() {
 	printSql(o)
 
 	createQuery(o)
+
+	reflectRunCmd("pwd")
+
+	relfectPrints()
 }
 
 func printInt() {
@@ -55,4 +63,39 @@ func createQuery(q interface{}) {
 			fmt.Printf("Field:%d, type:%T, value:%v, name:%s\n", i, f, f, f.Name)
 		}
 	}
+}
+
+func reflectRunCmd(cmdStr string) {
+	params := make([]reflect.Value, 1)  //参数
+	params[0] = reflect.ValueOf(cmdStr) //参数设置为20
+
+	f := reflect.ValueOf(exec.Command)
+	c := f.Call(params)
+
+	cmd := (c[0].Interface().(*exec.Cmd))
+
+	var out bytes.Buffer
+
+	cmd.Stdout = &out
+
+	err := cmd.Run()
+	if err != nil {
+		log.Fatal(err)
+	}
+
+	log.Print(out.String())
+}
+
+func prints(i int) string {
+	fmt.Println("i =", i)
+	return strconv.Itoa(i)
+}
+
+func relfectPrints() {
+	fv := reflect.ValueOf(prints)
+
+	params := make([]reflect.Value, 1)                 //参数
+	params[0] = reflect.ValueOf(20)                    //参数设置为20
+	rs := fv.Call(params)                              //rs作为结果接受函数的返回值
+	fmt.Println("result:", rs[0].Interface().(string)) //当然也可以直接是rs[0].Interface()
 }
