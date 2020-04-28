@@ -1,4 +1,4 @@
-package basic
+package main
 
 import "fmt"
 
@@ -43,7 +43,17 @@ const (
 	USE_HEAD = false // Constants cannot be declared using the := syntax.
 )
 
-func Print() {
-	fmt.Println("v")
-	return
+func main() {
+	var m1 map[string]string
+	m1 = make(map[string]string)
+	// 最后给已声明的map赋值
+	m1["a"] = "aa"
+	m1["b"] = "bb"
+	fmt.Printf("%s\n", m1)
+
+	m2 := make(map[string]string)
+	// 然后赋值
+	m2["a"] = "aa"
+	m2["b"] = "bb"
+	fmt.Printf("%s\n", m2)
 }
