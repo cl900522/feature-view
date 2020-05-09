@@ -1,6 +1,7 @@
 package main
 
 import (
+	"container/list"
 	"fmt"
 	"math"
 )
@@ -54,10 +55,34 @@ func main() {
 	fmt.Println("heapSort: ", arr)
 	fmt.Println("IsSorted:", isSorted(arr))
 
+	arr = makeArrOfRange(10, 1, 100)
+	countSort(arr, 2, 100)
+	fmt.Println("countSort: ", arr)
+	fmt.Println("IsSorted:", isSorted(arr))
+
+	arr = makeArrOfRange(10, 1, 100)
+	bucketSort(arr, 2)
+	fmt.Println("bucketSort: ", arr)
+	fmt.Println("IsSorted:", isSorted(arr))
+
+	arr = makeArrOfRange(10, 1, 100)
+	radixSort(arr, 2)
+	fmt.Println("radixSort: ", arr)
+	fmt.Println("IsSorted:", isSorted(arr))
+
+	arr = makeNewArr(10)
+	radixSort(arr, 6)
+	fmt.Println("radixSort: ", arr)
+	fmt.Println("IsSorted:", isSorted(arr))
 }
 
 func makeNewArr(size int) []int {
 	arr := []int{723345, 49823, 223, 872, 55, 3834, 1124, 8734, 34, 23}
+	return arr
+}
+
+func makeArrOfRange(size int, startVal, endVal int) []int {
+	arr := []int{23, 74, 44, 12, 57, 3, 57, 73, 29, 99}
 	return arr
 }
 
@@ -307,5 +332,124 @@ func heapify(arr []int, i int) { // 堆调整
 	if largest != i {
 		swap(arr, i, largest)
 		heapify(arr, largest)
+	}
+}
+
+/**
+计数排序
+*/
+func countSort(arr []int, startVal, endVal int) {
+	tempArr := make([]int, endVal-startVal+1)
+	for i := 0; i < len(arr); i++ {
+		if arr[i] < startVal || arr[i] > endVal {
+			continue
+		}
+
+		tempArr[arr[i]-startVal]++
+	}
+	m := 0
+	for j := 0; j < len(tempArr); j++ {
+		for {
+			if tempArr[j] <= 0 {
+				break
+			}
+			tempArr[j]--
+			arr[m] = startVal + j
+			m++
+		}
+	}
+}
+
+const DEFAULT_BUCKET_SIZE int = 5 // 设置桶的默认数量为5
+/**
+桶排序
+*/
+func bucketSort(arr []int, bucketSize int) []int {
+	if len(arr) == 0 {
+		return arr
+	}
+
+	minValue := arr[0]
+	maxValue := arr[0]
+	for i := 1; i < len(arr); i++ {
+		if arr[i] < minValue {
+			minValue = arr[i] // 输入数据的最小值
+		} else if arr[i] > maxValue {
+			maxValue = arr[i] // 输入数据的最大值
+		}
+	}
+
+	// 桶的初始化
+	if bucketSize <= 1 {
+		bucketSize = DEFAULT_BUCKET_SIZE
+	}
+	buckets := make([]*list.List, bucketSize)
+	for i := 0; i < len(buckets); i++ {
+		buckets[i] = list.New()
+	}
+
+	bucketCount := (int)(math.Floor((float64)((maxValue-minValue)/bucketSize)) + 1)
+
+	// 利用映射函数将数据分配到各个桶中
+	for i := 0; i < len(arr); i++ {
+		inx := (int)(math.Floor((float64)((arr[i] - minValue) / bucketCount)))
+		buckets[inx].PushBack(arr[i])
+	}
+
+	outInx := 0
+	for i := 0; i < len(buckets); i++ {
+		if buckets[i] == nil {
+			continue
+		}
+
+		tempArr := make([]int, buckets[i].Len())
+		idx := 0
+		//(buckets[i]) // 对每个桶进行排序，这里使用了插入排序
+		for el := buckets[i].Front(); el != nil; el = el.Next() {
+			tempArr[idx] = el.Value.(int)
+			idx++
+		}
+		selectionSort(tempArr)
+
+		for j := 0; j < len(tempArr); j++ {
+			arr[outInx] = tempArr[j]
+			outInx++
+		}
+	}
+
+	return arr
+}
+
+/**
+基数排序
+*/
+func radixSort(arr []int, digest int) {
+	mod := 1
+	for i := 0; i < digest; i++ {
+		buckets := make([]*list.List, 10)
+
+		for j := 0; j < len(arr); j++ {
+			modVal := arr[j] / mod
+			bucket := modVal % 10
+
+			if buckets[bucket] == nil {
+				buckets[bucket] = list.New()
+			}
+			buckets[bucket].PushBack(arr[j])
+		}
+
+		writeIdx := 0
+
+		for j := 0; j < len(buckets); j++ {
+			if buckets[j] == nil {
+				continue
+			}
+			for t := buckets[j].Front(); t != nil; t = t.Next() {
+				arr[writeIdx] = t.Value.(int)
+				writeIdx++
+			}
+		}
+
+		mod *= 10
 	}
 }
