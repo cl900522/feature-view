@@ -1,6 +1,9 @@
 package main
 
-import "fmt"
+import (
+	"fmt"
+	"math"
+)
 
 func main() {
 	arr := makeNewArr(10)
@@ -45,6 +48,12 @@ func main() {
 	qucikSort(arr, 0, len(arr)-1)
 	fmt.Println("qucikSort: ", arr)
 	fmt.Println("IsSorted:", isSorted(arr))
+
+	arr = makeNewArr(10)
+	heapSort(arr)
+	fmt.Println("heapSort: ", arr)
+	fmt.Println("IsSorted:", isSorted(arr))
+
 }
 
 func makeNewArr(size int) []int {
@@ -255,4 +264,48 @@ func isSorted(arr []int) bool {
 		}
 	}
 	return true
+}
+
+/**
+堆排序
+*/
+var size int = 0
+
+func heapSort(arr []int) []int {
+	buildMaxHeap(arr)
+
+	for i := len(arr) - 1; i > 0; i-- {
+		swap(arr, 0, i)
+		size--
+		heapify(arr, 0)
+	}
+	return arr
+}
+
+func buildMaxHeap(arr []int) { // 建立大顶堆
+	size = len(arr)
+
+	t := int(math.Floor(float64(size / 2)))
+	for i := t; i >= 0; i-- {
+		heapify(arr, i)
+	}
+}
+
+func heapify(arr []int, i int) { // 堆调整
+	left := 2*i + 1
+	right := 2*i + 2
+	largest := i
+
+	if left < size && arr[left] > arr[largest] {
+		largest = left
+	}
+
+	if right < size && arr[right] > arr[largest] {
+		largest = right
+	}
+
+	if largest != i {
+		swap(arr, i, largest)
+		heapify(arr, largest)
+	}
 }
