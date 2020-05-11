@@ -7,6 +7,8 @@ func main() {
 	node1.value = node1
 
 	teacherTest()
+
+	boxInteger()
 }
 
 func teacherTest() {
@@ -107,4 +109,23 @@ func getType(o interface{}) {
 	case Teacher:
 		fmt.Println("type is Teacher")
 	}
+}
+
+type integer int
+
+//类型都是基于值传递的。要想修改变量的值,只能传递指针
+//基于指针定义，可以改变i的值
+func (t *integer) compare(o integer) bool {
+	return *t-o > 0
+}
+
+func (t *integer) add(o integer) {
+	*t += o
+}
+
+func boxInteger() {
+	var i integer = 12
+	fmt.Println(i.compare(4))
+	i.add(2)
+	fmt.Println(i)
 }
