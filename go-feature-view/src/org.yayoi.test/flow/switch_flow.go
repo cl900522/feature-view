@@ -1,9 +1,15 @@
-package flow
+package main
 
 import (
 	"fmt"
 	"time"
 )
+
+func main() {
+	switch0(0)
+	switch1()
+	switch2()
+}
 
 const (
 	SUN = 0
@@ -16,20 +22,20 @@ func GetDay() int {
 	return WEN
 }
 
-func swith0(day int) {
+func switch0(day int) {
 	switch day {
 	case SUN:
-		fmt.Print("Sunday")
+		fmt.Println("Sunday")
 	case MON:
-		fmt.Print("Monday")
+		fmt.Println("Monday")
 	case TUE:
-		fmt.Print("Tuesday")
+		fmt.Println("Tuesday")
 	case GetDay():
-		fmt.Print("Wensday")
+		fmt.Println("Wensday")
 	case TUE + 2:
-		fmt.Print("Tuesday")
+		fmt.Println("Tuesday")
 	default:
-		fmt.Print("Dont know")
+		fmt.Println("Dont know")
 
 	}
 }
@@ -43,5 +49,19 @@ func switch1() {
 		fmt.Println("Good afternoon.")
 	default:
 		fmt.Println("Good evening.")
+	}
+}
+
+func switch2() {
+	m := 2
+	switch m {
+	case 0, 1:
+		fmt.Println("1")
+	case 2:
+		fallthrough
+	case 3:
+		fmt.Println("3")
+	default:
+		fmt.Println("unsupport")
 	}
 }

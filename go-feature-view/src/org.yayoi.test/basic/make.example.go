@@ -40,9 +40,11 @@ func newMap() {
 }
 
 func makeSplice() {
-	arr := make([]int, 20)
-	arr[12] = 1
+	arr := make([]int, 1, 20) // 长度为1,容量为20
+	arr[0] = 1
+	arr = append(arr, 2, 62, 365, 12, 3, 52)
 	fmt.Println(arr)
+	fmt.Println("len is", len(arr), "; cap is", cap(arr))
 }
 
 func makeMap() {
