@@ -73,4 +73,15 @@ public class Basic {
         Assert.assertTrue((b & res) > 0);
         Assert.assertTrue((c & res) == 0);
     }
+
+
+    @Test
+    public void test4(){
+        String a = "abc";
+        String b = new String("abc");
+        Assert.assertTrue(a.equals(b));
+        Assert.assertTrue(a != b);
+        Assert.assertTrue(a == b.intern());
+
+    }
 }
