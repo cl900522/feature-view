@@ -1,6 +1,6 @@
 package acme.me.spring.expression;
 
-import acme.me.spring.Human;
+import acme.me.spring.lifecycle.Human;
 import org.junit.Test;
 import org.springframework.expression.EvaluationContext;
 import org.springframework.expression.Expression;

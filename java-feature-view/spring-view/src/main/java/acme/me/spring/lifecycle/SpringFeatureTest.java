@@ -1,5 +1,6 @@
-package acme.me.spring;
+package acme.me.spring.lifecycle;
 
+import acme.me.spring.SpelUtil;
 import org.junit.Assert;
 import org.junit.Test;
 import org.springframework.context.ApplicationContext;

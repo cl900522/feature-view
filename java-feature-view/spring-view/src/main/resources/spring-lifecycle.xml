@@ -8,13 +8,13 @@
 
     <context:annotation-config />
 
-    <bean id="factoryPostProcessor" class="acme.me.spring.MyBeanFactoryPostProcessor" />
+    <bean id="factoryPostProcessor" class="acme.me.spring.lifecycle.MyBeanFactoryPostProcessor" />
 
-    <bean id="postProcessor" class="acme.me.spring.MyBeanPostProcessor" />
+    <bean id="postProcessor" class="acme.me.spring.lifecycle.MyBeanPostProcessor" />
 
-    <bean class="acme.me.spring.MyInstantiationAwareBeanPostProcessor" />
+    <bean class="acme.me.spring.lifecycle.MyInstantiationAwareBeanPostProcessor" />
 
-    <bean id="bean1" class="acme.me.spring.Bean" init-method="init" destroy-method="anoDestroy"/>
+    <bean id="bean1" class="acme.me.spring.lifecycle.Bean" init-method="init" destroy-method="anoDestroy"/>
 
     <alias name="bean1" alias="bean1-alias"/>
 
