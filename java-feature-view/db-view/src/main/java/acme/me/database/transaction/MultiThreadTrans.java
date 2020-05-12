@@ -1,7 +1,6 @@
-package acme.me.spring.transaction;
+package acme.me.database.transaction;
 
 import lombok.extern.slf4j.Slf4j;
-import org.junit.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.transaction.PlatformTransactionManager;
 import org.springframework.transaction.TransactionDefinition;
@@ -24,8 +23,6 @@ import java.util.List;
  */
 @Slf4j
 public class MultiThreadTrans {
-    @Autowired
-    private ObjectMapperDao objectMapperDao;
 
     @Autowired
     private PlatformTransactionManager transactionManager;
@@ -41,7 +38,6 @@ public class MultiThreadTrans {
             def.setPropagationBehavior(TransactionDefinition.PROPAGATION_REQUIRES_NEW); // 事物隔离级别，开启新事务，这样会比较安全些。
             TransactionStatus status = transactionManager.getTransaction(def); // 获得事务状态
             transactionStatuses.add(status);
-            objectMapperDao.addObjet(object);
         } catch (Exception e) {
             e.printStackTrace();
             TransactionAspectSupport.currentTransactionStatus().setRollbackOnly();
@@ -75,7 +71,7 @@ public class MultiThreadTrans {
                  * 1.这里如果用其他类的saveUser2方法，在这个线程内事务生效，其他线程不受影响
                  * 2.如果是用本类的方法，这个线程内的事务不生效，其他线程也不受影响
                  */
-                objectMapperDao.addObjet(object);
+
                 System.out.println("thread insert is over");
             } catch (Exception e) {
                 TransactionAspectSupport.currentTransactionStatus().setRollbackOnly();
