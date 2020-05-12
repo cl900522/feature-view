@@ -3,10 +3,10 @@
        xsi:schemaLocation="http://www.springframework.org/schema/beans
         http://www.springframework.org/schema/beans/spring-beans-3.0.xsd">
 
-    <bean id="sleepHelper" class="acme.me.spring.SleepHelper">
+    <bean id="sleepHelper" class="acme.me.spring.lifecycle.SleepHelper">
     </bean>
 
-    <bean id="human" class="acme.me.spring.Human">
+    <bean id="human" class="acme.me.spring.lifecycle.Human">
     </bean>
 
     <bean id="sleepPointcut" class="org.springframework.aop.support.JdkRegexpMethodPointcut">
@@ -21,7 +21,7 @@
     <bean id="humanProxy" class="org.springframework.aop.framework.ProxyFactoryBean">
         <property name="target" ref="human" />
         <property name="interceptorNames" value="sleepHelperAdvisor" />
-        <property name="proxyInterfaces" value="acme.me.spring.Sleepable" />
+        <property name="proxyInterfaces" value="acme.me.spring.lifecycle.Sleepable" />
     </bean>
 
 </beans>
