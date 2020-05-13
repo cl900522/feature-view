@@ -1,8 +1,0 @@
-/target
-/.settings
-/.idea/
-/.classpath
-/.project
-/*.iml
-/activemq-data/
-/spark-warehouse/
