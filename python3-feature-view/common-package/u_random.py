@@ -1,4 +1,8 @@
 import random
+from random import randrange
+
+# range
+print(randrange(50, 100))
 
 a = random.choice(range(100))
 print("choice:", a)

@@ -48,8 +48,9 @@ for top in tops:
     index = index+1
 
 print("-"*20)
-for tag in soup.find_all(re.compile("b")):
-    print(tag.string)
+# 以b 开头的所有标签
+for tag in soup.find_all(re.compile("^b")):
+    print(tag.name, tag.string, sep="->")
 
 print("-"*20)
 for tag in soup.find_all(attrs={"class", "toplist1-tr"}):

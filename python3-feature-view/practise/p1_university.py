@@ -22,6 +22,7 @@ def getUniversityPage():
             "https://www.shanghairanking.cn/rankings/bcur/2020", timeout=10)
         r.raise_for_status()
         r.encoding = r.apparent_encoding
+        print(r.encoding)
         return r.text
     except Exception as e:
         print(e)
@@ -31,7 +32,7 @@ def getUniversityPage():
 def parseUniversitys(html):
     ulist = []
     soup = BeautifulSoup(html, "html.parser")
-    # print(soup.prettify())
+    print(soup.prettify())
     table = soup.find_all("table", attrs={"class": "rk-table"})[0]
     # trs = table.find("tbody").findAll("tr")
     trs = table.tbody.children

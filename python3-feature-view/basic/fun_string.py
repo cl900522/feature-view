@@ -1,5 +1,6 @@
 #!python
 #!/usr/bin/pytyon3
+from string import ascii_lowercase as lc
 import string
 import math
 
@@ -31,3 +32,7 @@ print(format.format("Python2", 31.372512, 258))
 print(format.format("Python3", 30.8232, 58485))
 print(format.format("Oracle 11g", 22.7432, 25486))
 print("="*width)
+
+
+# lowercase 字符的集合
+print(lc)

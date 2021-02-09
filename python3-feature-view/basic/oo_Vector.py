@@ -26,6 +26,8 @@ class Vector:
     def __call__(self):
         print("Not executable!")
 
+# 定义对象的符号计算，可以支持符号的运算
+
 
 v1 = Vector(2, 2)
 v2 = Vector(1, 5)

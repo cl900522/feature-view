@@ -1,4 +1,3 @@
-import math
 
 # int(x [,base ])         将x转换为一个整数
 print("int('2',base=20)=", int("22", base=20))
