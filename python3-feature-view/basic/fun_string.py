@@ -20,6 +20,7 @@ print("Hi, I am {p.__name__}, and i am {p.pi} years old".format(p=math))
 print("{pi!s} {pi!r} {pi!a}".format(pi="π"))
 
 width = 60
+# <^> 分别表示左，中，右对齐
 titleFormat = "{0:<20}{1:^20}{2:>20}"
 format = "{0:<20}{1:^20.2f}{2:>20}"
 print("="*width)

@@ -1,13 +1,17 @@
-import  threading
+import threading
 import _thread
 import time
 
-f = lambda : print("f running",end="\n")
+
+def f(): return print("f running", end="\n")
+
 
 def b():
-    print("b running",end="\n")
+    print("b running", end="\n")
 
-_thread.start_new_thread(f,())
-_thread.start_new_thread(b,())
+
+# 开启线程运行
+_thread.start_new_thread(f, ())
+_thread.start_new_thread(b, ())
 
 time.sleep(1)

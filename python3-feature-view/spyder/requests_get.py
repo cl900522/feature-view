@@ -5,9 +5,13 @@
 import requests
 from bs4 import BeautifulSoup
 
+import sys
+import io
+
+sys.stdout = io.TextIOWrapper(sys.stdout.buffer, encoding='utf-8')
+
 
 def getUrl(url):
-
     proxies = {
         "https": "http://127.0.0.1:1081",
         "http": "http://127.0.0.1:1081"
@@ -15,7 +19,7 @@ def getUrl(url):
     hkv = {"user-agent": "Mozilla/5.0"}
     try:
         r = requests.request("GET", url, timeout=10,
-                             proxies=proxies, headers=hkv)
+                             headers=hkv, proxies=proxies)
         # r = requests.get(url, timeout=3, proxies=pxs)
         r.raise_for_status()
 
@@ -50,7 +54,6 @@ def searchBaidu(keyWord):
 pageHtml = searchBaidu("java")
 # print(pageHtml)
 soup = BeautifulSoup(pageHtml, "html.parser")
-
 tops = soup.find_all("tr", attrs={"class", "toplist1-tr"})
 for top in tops:
     a3 = top.findAll("a")

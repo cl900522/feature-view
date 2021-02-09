@@ -10,6 +10,7 @@ unittest 要求单元测试类必须继承 unittest.TestCase，该类中的测�
 测试方法应以test 开头。
 '''
 
+
 class TestFun(unittest.TestCase):
     # 测试一元一次方程的求解
     def test_one_equation(self):

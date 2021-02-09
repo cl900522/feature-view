@@ -6,12 +6,15 @@ import _thread
 from time import ctime
 from atexit import register
 
+
 def atexit_1():
     print("All Done")
 
+
 @register
 def atexit_2():
-    print("All finished",end="")
+    print("All finished", end="")
+
 
 register(atexit_1)
 

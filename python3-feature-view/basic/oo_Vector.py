@@ -3,8 +3,8 @@
 
 
 class Vector:
-    x=0
-    y=0
+    x = 0
+    y = 0
 
     def __init__(self, x, y):
         self.x = x
@@ -26,13 +26,14 @@ class Vector:
     def __call__(self):
         print("Not executable!")
 
-v1 = Vector(2,2)
-v2 = Vector(1,5)
+
+v1 = Vector(2, 2)
+v2 = Vector(1, 5)
 v3 = v1+v2
 
 print(v3)
 L = [v1, v2, v3]
-print(v1>v2)
+print(v1 > v2)
 print(id(v3))
 
 v3()

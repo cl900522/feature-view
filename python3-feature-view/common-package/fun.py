@@ -1,5 +1,5 @@
 #!/usr/bin/python
-def one_equation(a , b):
+def one_equation(a, b):
     '''
     求一元一次方程a * x + b = 0的解
     参数a - 方程中变量的系数
@@ -11,10 +11,11 @@ def one_equation(a , b):
         raise ValueError("参数错误")
     # 返回方程的解
     else:
-#        return -b / a  # ①
+        #        return -b / a  # ①
         return b / a
 
-def two_equation(a , b , c):
+
+def two_equation(a, b, c):
     '''
     求一元二次方程a * x * x + b * x + c = 0的解
     参数a - 方程中变量二次幂的系数

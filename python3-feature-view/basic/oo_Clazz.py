@@ -2,18 +2,29 @@
 class Clazz:
     objects = "started"
 
+    # 类方法
     def do():
-        print("i am doing")
+        print("clazz is doing")
 
+    # 实例的方法
     def cover(self):
-        self.objects="mine"
+        self.objects = "mine"
+
 
 Clazz.do()
 
-print(Clazz.objects)
-
 c = Clazz()
-print(c.objects)
+print("c.objects ->", c.objects)
+print("Clazz.objects ->", Clazz.objects)
+
 c.cover()
-print(c.objects)
-c.do()
+Clazz.objects = "clazz objects"
+
+print("c.objects ->", c.objects)
+print("Clazz.objects ->", Clazz.objects)
+
+# error happen 因为do方法不是对象，而是类的方法
+try:
+    c.do()
+except Exception as e:
+    print("c.do() 调用不合法")

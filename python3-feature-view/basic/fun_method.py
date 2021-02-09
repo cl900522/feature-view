@@ -25,10 +25,12 @@ speak(*param)
 def speak1(*param):
     print(param)
 
+
 def speak2(**param):
     print(param)
 
-speak1("p1","p2", "p3")
+
+speak1("p1", "p2", "p3")
 speak2(p1="p1", p2="p2", p3="p3")
 
 
@@ -38,9 +40,9 @@ def multi(a):
         return a*b
     return cal
 
+
 triple = multi(3)
 print(triple(2))
 
 multi5 = multi(5)
 print(multi5(2))
-    
