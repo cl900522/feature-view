@@ -1,6 +1,8 @@
 
 # pip install openpyxl
 import openpyxl
+import datetime
+
 from openpyxl.styles import Font, Alignment
 
 print(openpyxl.__version__)
@@ -31,6 +33,8 @@ for i in range(rows):
     sheet.cell(row=rowIndex, column=2).value = ('JOIN{0}'.format(i))
     sheet.cell(row=rowIndex, column=2).font = Font(
         sz=12, bold=False, italic=True)
+    sheet.cell(rowIndex, 3).value = datetime.datetime.now()
+    sheet.cell(rowIndex, 4).value = datetime.datetime(2010, 7, 21)
 
 sheet.column_dimensions["A"].width = 20
 sheet.column_dimensions["B"].width = 40
