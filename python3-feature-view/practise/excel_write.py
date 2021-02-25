@@ -3,7 +3,7 @@
 import openpyxl
 import datetime
 
-from openpyxl.styles import Font, Alignment
+from openpyxl.styles import Font, Alignment, numbers
 
 print(openpyxl.__version__)
 
@@ -35,9 +35,17 @@ for i in range(rows):
         sz=12, bold=False, italic=True)
     sheet.cell(rowIndex, 3).value = datetime.datetime.now()
     sheet.cell(rowIndex, 4).value = datetime.datetime(2010, 7, 21)
+    sheet.cell(rowIndex, 4).number_format = 'yyyy-mm-dd'
 
-sheet.column_dimensions["A"].width = 20
-sheet.column_dimensions["B"].width = 40
+    sheet.cell(rowIndex, 5).value = 1231.123
+    sheet.cell(rowIndex, 5).number_format = numbers.FORMAT_NUMBER
+    sheet.cell(rowIndex, 6).value = 1231.123
+    sheet.cell(rowIndex, 6).number_format = numbers.FORMAT_NUMBER_00
+
+sheet.column_dimensions["A"].width = 10
+sheet.column_dimensions["B"].width = 20
+sheet.column_dimensions["C"].width = 20
+sheet.column_dimensions["D"].width = 20
 
 rowIndex = rowIndex+1
 sheet.row_dimensions[rowIndex].height = 30
