@@ -1,10 +1,16 @@
 <template>
   <div id="app">
     <router-link to="/foo">Go to Foo</router-link>
-    <router-link to="/bar">Go to Bar</router-link>
+    <br />
+    <router-link :to="{ name: 'barRouter' }">Go to Bar</router-link>
+    <br />
     <router-link to="/user/11">Go to User 11</router-link>
-    <router-link to="/user/32">Go to User 32</router-link>
-
+    <br />
+    <router-link :to="{ name: 'userRouter', params: { userId: 22 } }"
+      >Go to User 32</router-link
+    >
+    <br />
+    <br />
     <router-view></router-view>
   </div>
 </template>

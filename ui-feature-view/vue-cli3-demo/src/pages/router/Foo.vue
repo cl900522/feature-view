@@ -1,5 +1,5 @@
 <template>
-  <div>Hello, this is bar</div>
+  <div>Hello, this is foo</div>
 </template>
 
 <script>
