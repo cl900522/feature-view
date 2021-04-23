@@ -7,6 +7,7 @@ import time
 
 print("="*27+"monte_carlo_pi"+"="*27)
 
+
 @jit
 def monte_carlo_pi(nsamples):
     acc = 0
@@ -17,6 +18,7 @@ def monte_carlo_pi(nsamples):
             acc += 1
     return 4.0 * acc / nsamples
 
+
 def monte_carlo_pi2(nsamples):
     acc = 0
     for i in range(nsamples):
@@ -26,10 +28,11 @@ def monte_carlo_pi2(nsamples):
             acc += 1
     return 4.0 * acc / nsamples
 
+
 # 没什么作用，预热
 monte_carlo_pi(1)
 
-s= time.time()
+s = time.time()
 print(s)
 monte_carlo_pi(1000)
 e1 = time.time()
@@ -40,6 +43,7 @@ print(e2)
 print("ratio:{}".format((e2-e1)/(e1-s)))
 
 print("="*27+"abc_model_numba"+"="*27)
+
 
 @jit
 def abc_model_numba(a, b, c, rain):
@@ -63,12 +67,13 @@ def abc_model_numba2(a, b, c, rain):
         state_in = state_out
     return outflow
 
+
 rain = np.arange(500)
 
 # 没什么作用，预热
 abc_model_numba(0.2, 0.6, 0.1, rain)
 
-s= time.time()
+s = time.time()
 print(s)
 abc_model_numba(0.2, 0.6, 0.1, rain)
 e1 = time.time()
