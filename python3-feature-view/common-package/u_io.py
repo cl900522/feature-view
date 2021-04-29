@@ -2,7 +2,6 @@
 #!/usr/bin/python3
 
 import os
-import sys
 
 filePath = "./temp.txt"
 
@@ -21,15 +20,8 @@ print("\n\n")
 
 os.path.exists("")
 
-os.sep
-
-os.getuid()
-
-os.geteuid()
-
-print("uid->{},euid->{}".format(os.getuid(), os.geteuid()))
+print(os.sep)
 
 print(os.name)
 
-print(sys.version_info)
-print(sys.version)
+print("uid->{},euid->{}".format(os.getuid(), os.geteuid()))

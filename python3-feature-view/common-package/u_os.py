@@ -2,8 +2,6 @@
 #!/usr/bin/python3
 
 import os
-import sys
-import math
 
 tempFilePath = "./temp.py"
 tempFile = open(tempFilePath, "w+")
