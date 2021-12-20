@@ -18,7 +18,6 @@
 <script>
 import MySlot from "./MySlot.vue";
 import NoneSlot from "./NoneSlot.vue";
-import Head from "./Head.vue";
 import NamedSlot from "./NamedSlot.vue";
 export default {
   name: "app",
@@ -26,7 +25,6 @@ export default {
     MySlot,
     NoneSlot,
     NamedSlot,
-    Head,
   },
 };
 </script>
