@@ -15,7 +15,7 @@ type User struct {
 
 func init() {
 	// set default database
-	orm.RegisterDataBase("default", "mysql", "root:root@tcp(192.168.100.200:3306)/go_sso?charset=utf8", 30)
+	orm.RegisterDataBase("default", "mysql", "root:root@tcp(127.0.0.1:3306)/test?charset=utf8", 30)
 
 	// register model
 	orm.RegisterModel(new(User))
