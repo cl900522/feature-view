@@ -5,21 +5,15 @@
     "version": "0.2.0",
     "configurations": [
         {
-            "name": "Launch",
-            "type": "go",
-            "request": "launch",
-            "mode": "auto",
-            "program": "${fileDirname}",
-            "env": {},
-            "args": []
-        },
-        {
             "name": "Launch文件",
             "type": "go",
             "request": "launch",
             "mode": "auto",
             "program": "${file}",
-            "env": {},
+            "env": {
+                "GOPATH": "${workspaceFolder}",
+                "GOROOT": "C:/Program Files/Go"
+            },
             "args": []
         }
     ]
