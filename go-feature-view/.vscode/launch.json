@@ -11,8 +11,7 @@
             "mode": "auto",
             "program": "${file}",
             "env": {
-                "GOPATH": "${workspaceFolder}",
-                "GOROOT": "C:/Program Files/Go"
+                "GOPATH": "/home/chenmx/go/:${workspaceFolder}"
             },
             "args": []
         }
