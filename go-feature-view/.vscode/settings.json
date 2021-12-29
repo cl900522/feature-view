@@ -1,6 +1,7 @@
 {
     "go.inferGopath": false,
-    "go.gopath": "/home/chenmx/workspace/00_git/feature-view/go-feature-view",
+    "go.gopath": "${workspaceFolder}",
     "go.lintOnSave": "file",
-    "go.toolsGopath": "/home/chenmx/go"
+    "go.toolsGopath": "C:/Users/jj/go"
+    // "go.toolsGopath": "/home/chenmx/go"
 }
