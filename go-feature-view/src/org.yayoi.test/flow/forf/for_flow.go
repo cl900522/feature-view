@@ -1,6 +1,10 @@
 package main
 
-import "fmt"
+import (
+	"fmt"
+
+	"org.yayoi.test/flow/deferf"
+)
 
 func main() {
 	for0()
@@ -10,6 +14,7 @@ func main() {
 	for4()
 	for5()
 	for6()
+	deferf.Defer0()
 }
 
 func for0() {
