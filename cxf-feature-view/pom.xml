@@ -8,7 +8,7 @@
     <name>cxf-feature-view</name>
     <properties>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
-        <cxf.version>2.7.1</cxf.version>
+        <cxf.version>2.7.4</cxf.version>
         <tomcat.plugin.version>2.2</tomcat.plugin.version>
         <tomcat.version>7.0.33</tomcat.version>
     </properties>
